@@ -6,7 +6,7 @@ import { Section } from './types/common'
 
 function App() {
 	useQuery(['/api/courses'], LoraApi.getCourses, {
-		onSuccess: ({ courses }) => console.log(courses),
+		onSuccess: ({ data }) => console.log(data.courses),
 	})
 
 	const [section, setSection] = useState(Section.REGISTRATION)
