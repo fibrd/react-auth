@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FieldError, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -6,8 +6,11 @@ import { useMutation } from 'react-query'
 import { LoraApi } from './api/LoraApi'
 import { RegisterRequestBody } from './types/common'
 import { AxiosError } from 'axios'
+import { Button, TextField } from '@mui/material'
+import SnackbarContext from './context/SnackbarContext'
 
 export function RegisterationForm() {
+	const { showSnackbar } = useContext(SnackbarContext)
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		username: yup.string().required().min(3).max(12),
@@ -37,20 +40,52 @@ export function RegisterationForm() {
 				console.log(data)
 				reset()
 			},
-			onError: (err: AxiosError<{ message: string }>) =>
-				console.error(err.response?.data.message),
+			onError: (err: AxiosError<{ message: string }>) => {
+				const message = err.response?.data.message
+				if (message) {
+					showSnackbar(message)
+				}
+			},
 		}
 	)
 
 	return (
 		<form onSubmit={handleSubmit(values => mutate(values))}>
-			<input {...register('email')} type="text" placeholder="EMAIL" />
-			<p>{getErrorMessage(errors.email as FieldError)}</p>
-			<input {...register('username')} type="text" placeholder="USERNAME" />
-			<p>{getErrorMessage(errors.username as FieldError)}</p>
-			<input {...register('password')} type="password" placeholder="PASSWORD" />
+			<div>
+				<TextField
+					{...register('email')}
+					variant="filled"
+					label="Email"
+					error={!!errors.email}
+					helperText={getErrorMessage(errors.email as FieldError)}
+					autoComplete="off"
+				/>
+			</div>
+			<div>
+				<TextField
+					{...register('username')}
+					variant="filled"
+					label="Username"
+					error={!!errors.username}
+					helperText={getErrorMessage(errors.username as FieldError)}
+					autoComplete="off"
+				/>
+			</div>
+			<div>
+				<TextField
+					{...register('password')}
+					type="password"
+					variant="filled"
+					label="Heslo"
+					error={!!errors.password}
+					helperText={getErrorMessage(errors.password as FieldError)}
+					autoComplete="off"
+				/>
+			</div>
 			<p>{getErrorMessage(errors.password as FieldError)}</p>
-			<button type="submit">Odeslat</button>
+			<Button variant="contained" type="submit">
+				Odeslat
+			</Button>
 		</form>
 	)
 }
