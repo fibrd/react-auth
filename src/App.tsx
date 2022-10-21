@@ -1,18 +1,17 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 import { LoraApi } from './api/LoraApi'
+import { RegisterationForm } from './RegisterationForm'
 
 function App() {
-	const { refetch } = useQuery(['/api/courses'], LoraApi.getCourses, {
+	useQuery(['/api/courses'], LoraApi.getCourses, {
 		onSuccess: ({ courses }) => console.log(courses),
 	})
 
 	return (
 		<div className="app">
 			<header className="app-header">
-				<button type="button" onClick={() => refetch()}>
-					Odeslat
-				</button>
+				<RegisterationForm />
 			</header>
 		</div>
 	)
