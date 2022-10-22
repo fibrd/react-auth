@@ -1,39 +1,16 @@
 import React from 'react'
-import { RegisterationForm } from './RegisterationForm'
-import { DialogType } from './types/common'
-import SnackbarContext from './context/SnackbarContext'
 import { AppSnackbar } from './AppSnackbar'
-import { useSnackbar } from './hooks/useSnackbar'
 import { AppMenu } from './AppMenu'
-import { LoginForm } from './LoginForm'
-import { useAuth } from './hooks/useAuth'
-import AuthContext from './context/AuthContext'
-import { useDialog } from './hooks/useDialog'
-import DialogContext from './context/DialogContext'
+import { AppDialog } from './AppDialog'
 
-function App() {
-	const auth = useAuth()
-	const snackbar = useSnackbar()
-	const dialog = useDialog()
-
+export function App() {
 	return (
-		<AuthContext.Provider value={auth}>
-			<SnackbarContext.Provider value={snackbar}>
-				<DialogContext.Provider value={dialog}>
-					<div className="app">
-						<header className="app-header">
-							<AppMenu />
-							{dialog.dialogType === DialogType.REGISTRATION && (
-								<RegisterationForm />
-							)}
-							{dialog.dialogType === DialogType.LOGIN && <LoginForm />}
-						</header>
-						<AppSnackbar />
-					</div>
-				</DialogContext.Provider>
-			</SnackbarContext.Provider>
-		</AuthContext.Provider>
+		<div className="app">
+			<header className="app-header">
+				<AppMenu />
+				<AppDialog />
+			</header>
+			<AppSnackbar />
+		</div>
 	)
 }
-
-export default App

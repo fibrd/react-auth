@@ -6,7 +6,7 @@ import AuthContext from './context/AuthContext'
 import { useDialog } from './hooks/useDialog'
 import DialogContext from './context/DialogContext'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import App from './App'
+import { App } from './App'
 
 export function AppProvider() {
 	// Create a client provider
