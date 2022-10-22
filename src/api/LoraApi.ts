@@ -15,6 +15,13 @@ export const LoraApi = {
 	},
 
 	login(body: LoginRequestBody) {
-		return axios.post<{ message: string, user:User }>(URL_ENDPOINT + '/login', body)
+		return axios.post<{ message: string; user: User }>(
+			URL_ENDPOINT + '/login',
+			body
+		)
+	},
+
+	logout() {
+		return axios.get<{ message: string }>(URL_ENDPOINT + '/logout')
 	},
 }

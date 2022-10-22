@@ -10,23 +10,36 @@ import {
 } from '@mui/material'
 import { PersonAdd, Settings, Logout } from '@mui/icons-material'
 import AuthContext from './context/AuthContext'
+import { useMutation } from 'react-query'
+import { LoraApi } from './api/LoraApi'
+import { AxiosError } from 'axios'
+import SnackbarContext from './context/SnackbarContext'
 
 export function AppMenu() {
-	const { user } = useContext(AuthContext)
+	const { showSnackbar } = useContext(SnackbarContext)
+	const { user, logout } = useContext(AuthContext)
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
-	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorEl(event.currentTarget)
-	}
-	const handleClose = () => {
-		setAnchorEl(null)
-	}
+
+	const { mutate } = useMutation(() => LoraApi.logout(), {
+		onSuccess: ({ data }) => {
+			logout()
+			showSnackbar(data.message, 'success')
+		},
+		onError: (err: AxiosError<{ message: string }>) => {
+			const message = err.response?.data.message
+			if (message) {
+				showSnackbar(message, 'error')
+			}
+		},
+	})
+
 	return (
 		<React.Fragment>
 			<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 				<Tooltip title="Account settings">
 					<IconButton
-						onClick={handleClick}
+						onClick={e => setAnchorEl(e.currentTarget)}
 						size="small"
 						sx={{ ml: 2 }}
 						aria-controls={open ? 'account-menu' : undefined}
@@ -41,8 +54,8 @@ export function AppMenu() {
 				anchorEl={anchorEl}
 				id="account-menu"
 				open={open}
-				onClose={handleClose}
-				onClick={handleClose}
+				onClose={() => setAnchorEl(null)}
+				onClick={() => setAnchorEl(null)}
 				PaperProps={{
 					elevation: 0,
 					sx: {
@@ -81,7 +94,7 @@ export function AppMenu() {
 					Settings
 				</MenuItem>
 				{user && (
-					<MenuItem onClick={() => alert('logout')}>
+					<MenuItem onClick={() => mutate()}>
 						<ListItemIcon>
 							<Logout fontSize="small" />
 						</ListItemIcon>

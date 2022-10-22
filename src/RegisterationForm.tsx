@@ -43,7 +43,7 @@ export function RegisterationForm() {
 			onError: (err: AxiosError<{ message: string }>) => {
 				const message = err.response?.data.message
 				if (message) {
-					showSnackbar(message)
+					showSnackbar(message, 'error')
 				}
 			},
 		}

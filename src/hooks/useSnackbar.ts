@@ -8,7 +8,10 @@ export function useSnackbar() {
 		setSnackbarText(text)
 		setSeverity(alertColor)
 	}
-	const hideSnackbar = () => setSnackbarText(null)
+	const hideSnackbar = () => {
+		setSnackbarText(null)
+		setSeverity('info')
+	}
 
 	return { snackbarText, severity, showSnackbar, hideSnackbar }
 }
