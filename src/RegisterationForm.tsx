@@ -1,16 +1,25 @@
 import React, { useContext } from 'react'
-import { FieldError, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
 import { LoraApi } from './api/LoraApi'
 import { RegisterRequestBody } from './types/common'
 import { AxiosError } from 'axios'
-import { Button, TextField } from '@mui/material'
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+} from '@mui/material'
 import SnackbarContext from './context/SnackbarContext'
+import { FormTextField } from './components/FormTextField'
+import DialogContext from './context/DialogContext'
 
 export function RegisterationForm() {
 	const { showSnackbar } = useContext(SnackbarContext)
+	const { hideDialog } = useContext(DialogContext)
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		username: yup.string().required().min(3).max(12),
@@ -22,15 +31,16 @@ export function RegisterationForm() {
 		password: '',
 	}
 
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-	} = useForm({ resolver: yupResolver(validationSchema), defaultValues })
+	const methods = useForm({
+		resolver: yupResolver(validationSchema),
+		mode: 'all',
+		defaultValues,
+	})
+	const { handleSubmit, reset, clearErrors } = methods
 
-	function getErrorMessage(error?: FieldError) {
-		return error?.message
+	function handleClose() {
+		hideDialog()
+		clearErrors()
 	}
 
 	const { mutate } = useMutation(
@@ -50,41 +60,39 @@ export function RegisterationForm() {
 	)
 
 	return (
-		<form onSubmit={handleSubmit(values => mutate(values))}>
-			<div>
-				<TextField
-					{...register('email')}
-					variant="filled"
-					label="Email"
-					error={!!errors.email}
-					helperText={getErrorMessage(errors.email as FieldError)}
-					autoComplete="off"
-				/>
-			</div>
-			<div>
-				<TextField
-					{...register('username')}
-					variant="filled"
-					label="Username"
-					error={!!errors.username}
-					helperText={getErrorMessage(errors.username as FieldError)}
-					autoComplete="off"
-				/>
-			</div>
-			<div>
-				<TextField
-					{...register('password')}
-					type="password"
-					variant="filled"
-					label="Heslo"
-					error={!!errors.password}
-					helperText={getErrorMessage(errors.password as FieldError)}
-					autoComplete="off"
-				/>
-			</div>
-			<Button variant="contained" type="submit">
-				Odeslat
-			</Button>
-		</form>
+		<Dialog open={true} onClose={handleClose} fullWidth={true}>
+			<FormProvider {...methods}>
+				<form onSubmit={handleSubmit(values => mutate(values))}>
+					<DialogTitle>Register</DialogTitle>
+					<DialogContent>
+						<FormTextField
+							name="email"
+							variant="standard"
+							margin="dense"
+							label="Email"
+							fullWidth
+						/>
+						<FormTextField
+							name="username"
+							variant="standard"
+							margin="dense"
+							label="Username"
+							fullWidth
+						/>
+						<FormTextField
+							name="password"
+							type="password"
+							variant="standard"
+							margin="dense"
+							label="Heslo"
+							fullWidth
+						/>
+					</DialogContent>
+					<DialogActions>
+						<Button type="submit">Registrovat</Button>
+					</DialogActions>
+				</form>
+			</FormProvider>
+		</Dialog>
 	)
 }

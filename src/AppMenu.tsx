@@ -8,16 +8,19 @@ import {
 	IconButton,
 	Tooltip,
 } from '@mui/material'
-import { PersonAdd, Settings, Logout } from '@mui/icons-material'
+import { Person, Logout, Login, AppRegistration } from '@mui/icons-material'
 import AuthContext from './context/AuthContext'
 import { useMutation } from 'react-query'
 import { LoraApi } from './api/LoraApi'
 import { AxiosError } from 'axios'
 import SnackbarContext from './context/SnackbarContext'
+import DialogContext from './context/DialogContext'
+import { DialogType } from './types/common'
 
 export function AppMenu() {
-	const { showSnackbar } = useContext(SnackbarContext)
 	const { user, logout } = useContext(AuthContext)
+	const { showSnackbar } = useContext(SnackbarContext)
+	const { showDialog } = useContext(DialogContext)
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 
@@ -79,27 +82,37 @@ export function AppMenu() {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				{user && (
-					<MenuItem>
-						<ListItemIcon>
-							<PersonAdd fontSize="small" />
-						</ListItemIcon>
-						{user.username}
-					</MenuItem>
+				{!user && (
+					<>
+						<MenuItem onClick={() => showDialog(DialogType.REGISTRATION)}>
+							<ListItemIcon>
+								<AppRegistration fontSize="small" />
+							</ListItemIcon>
+							Register
+						</MenuItem>
+						<MenuItem onClick={() => showDialog(DialogType.LOGIN)}>
+							<ListItemIcon>
+								<Login fontSize="small" />
+							</ListItemIcon>
+							Login
+						</MenuItem>
+					</>
 				)}
-				<MenuItem>
-					<ListItemIcon>
-						<Settings fontSize="small" />
-					</ListItemIcon>
-					Settings
-				</MenuItem>
 				{user && (
-					<MenuItem onClick={() => mutate()}>
-						<ListItemIcon>
-							<Logout fontSize="small" />
-						</ListItemIcon>
-						Logout
-					</MenuItem>
+					<>
+						<MenuItem>
+							<ListItemIcon>
+								<Person fontSize="small" />
+							</ListItemIcon>
+							{user.username}
+						</MenuItem>
+						<MenuItem onClick={() => mutate()}>
+							<ListItemIcon>
+								<Logout fontSize="small" />
+							</ListItemIcon>
+							Logout
+						</MenuItem>
+					</>
 				)}
 			</Menu>
 		</React.Fragment>

@@ -23,14 +23,6 @@ function App() {
 					<div className="app">
 						<header className="app-header">
 							<AppMenu />
-							<ul>
-								<li onClick={() => dialog.showDialog(DialogType.REGISTRATION)}>
-									REGISTRACE
-								</li>
-								<li onClick={() => dialog.showDialog(DialogType.LOGIN)}>
-									LOGIN
-								</li>
-							</ul>
 							{dialog.dialogType === DialogType.REGISTRATION && (
 								<RegisterationForm />
 							)}
