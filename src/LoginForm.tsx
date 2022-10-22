@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -16,12 +16,12 @@ import {
 import SnackbarContext from './context/SnackbarContext'
 import { FormTextField } from './components/FormTextField'
 import AuthContext from './context/AuthContext'
+import DialogContext from './context/DialogContext'
 
 export function LoginForm() {
-	const [isOpen, setIsOpen] = useState(false)
-
-	const { showSnackbar } = useContext(SnackbarContext)
 	const { login } = useContext(AuthContext)
+	const { showSnackbar } = useContext(SnackbarContext)
+	const { hideDialog } = useContext(DialogContext)
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		password: yup.string().required().min(6),
@@ -39,7 +39,7 @@ export function LoginForm() {
 	const { handleSubmit, reset, clearErrors } = methods
 
 	function handleClose() {
-		setIsOpen(false)
+		hideDialog()
 		clearErrors()
 	}
 
@@ -62,11 +62,8 @@ export function LoginForm() {
 	)
 
 	return (
-		<FormProvider {...methods}>
-			<Button variant="outlined" onClick={() => setIsOpen(true)}>
-				Open login dialog
-			</Button>
-			<Dialog open={isOpen} onClose={handleClose} fullWidth={true}>
+		<Dialog open={true} onClose={handleClose} fullWidth={true}>
+			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => mutate(values))}>
 					<DialogTitle>Login</DialogTitle>
 					<DialogContent>
@@ -90,7 +87,7 @@ export function LoginForm() {
 						<Button type="submit">Přihlásit</Button>
 					</DialogActions>
 				</form>
-			</Dialog>
-		</FormProvider>
+			</FormProvider>
+		</Dialog>
 	)
 }

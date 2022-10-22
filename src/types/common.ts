@@ -1,7 +1,7 @@
 import { AlertColor } from '@mui/material'
 import { User } from './users'
 
-export enum Section {
+export enum DialogType {
 	REGISTRATION = 'registration',
 	LOGIN = 'login',
 }
@@ -22,6 +22,12 @@ export interface SnackbarContextType {
 	severity: AlertColor
 	showSnackbar: (text: string, alertColor?: AlertColor) => void
 	hideSnackbar: () => void
+}
+
+export interface DialogContextType {
+	dialogType: DialogType | null
+	showDialog: (type: DialogType) => void
+	hideDialog: () => void
 }
 
 export interface AuthContextType {
