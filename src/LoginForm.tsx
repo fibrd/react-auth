@@ -9,16 +9,14 @@ import { AxiosError } from 'axios'
 import { Button, TextField } from '@mui/material'
 import SnackbarContext from './context/SnackbarContext'
 
-export function RegisterationForm() {
+export function LoginForm() {
 	const { showSnackbar } = useContext(SnackbarContext)
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
-		username: yup.string().required().min(3).max(12),
 		password: yup.string().required().min(6),
 	})
 	const defaultValues = {
 		email: '',
-		username: '',
 		password: '',
 	}
 
@@ -50,7 +48,7 @@ export function RegisterationForm() {
 	)
 
 	return (
-		<form onSubmit={handleSubmit(values => mutate(values))}>
+		<form onSubmit={handleSubmit(values => console.log(values))}>
 			<div>
 				<TextField
 					{...register('email')}
@@ -58,16 +56,6 @@ export function RegisterationForm() {
 					label="Email"
 					error={!!errors.email}
 					helperText={getErrorMessage(errors.email as FieldError)}
-					autoComplete="off"
-				/>
-			</div>
-			<div>
-				<TextField
-					{...register('username')}
-					variant="filled"
-					label="Username"
-					error={!!errors.username}
-					helperText={getErrorMessage(errors.username as FieldError)}
 					autoComplete="off"
 				/>
 			</div>
