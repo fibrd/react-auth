@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { RegisterRequestBody } from '../types/common'
+import { LoginRequestBody, RegisterRequestBody } from '../types/common'
 import { Course } from '../types/courses'
+import { User } from '../types/users'
 
 const URL_ENDPOINT = 'http://localhost:3001/api'
 
@@ -11,5 +12,9 @@ export const LoraApi = {
 
 	register(body: RegisterRequestBody) {
 		return axios.post<{ message: string }>(URL_ENDPOINT + '/register', body)
+	},
+
+	login(body: LoginRequestBody) {
+		return axios.post<{ message: string, user:User }>(URL_ENDPOINT + '/login', body)
 	},
 }

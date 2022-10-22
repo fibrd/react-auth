@@ -1,15 +1,24 @@
-import React, { useContext } from 'react'
-import { FieldError, useForm } from 'react-hook-form'
+import React, { useContext, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
 import { LoraApi } from './api/LoraApi'
-import { RegisterRequestBody } from './types/common'
+import { LoginRequestBody } from './types/common'
 import { AxiosError } from 'axios'
-import { Button, TextField } from '@mui/material'
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+} from '@mui/material'
 import SnackbarContext from './context/SnackbarContext'
+import { FormTextField } from './components/FormTextField'
 
 export function LoginForm() {
+	const [isOpen, setIsOpen] = useState(false)
+
 	const { showSnackbar } = useContext(SnackbarContext)
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
@@ -20,59 +29,65 @@ export function LoginForm() {
 		password: '',
 	}
 
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-	} = useForm({ resolver: yupResolver(validationSchema), defaultValues })
+	const methods = useForm({
+		resolver: yupResolver(validationSchema),
+		mode: 'all',
+		defaultValues,
+	})
+	const { handleSubmit, reset, clearErrors } = methods
 
-	function getErrorMessage(error?: FieldError) {
-		return error?.message
+	function handleClose() {
+		setIsOpen(false)
+		clearErrors()
 	}
 
 	const { mutate } = useMutation(
-		(formData: RegisterRequestBody) => LoraApi.register(formData),
+		(formData: LoginRequestBody) => LoraApi.login(formData),
 		{
 			onSuccess: ({ data }) => {
-				console.log(data)
+				showSnackbar(data.message, 'success')
+				handleClose()
 				reset()
 			},
 			onError: (err: AxiosError<{ message: string }>) => {
 				const message = err.response?.data.message
 				if (message) {
-					showSnackbar(message)
+					showSnackbar(message, 'error')
 				}
 			},
 		}
 	)
 
 	return (
-		<form onSubmit={handleSubmit(values => console.log(values))}>
-			<div>
-				<TextField
-					{...register('email')}
-					variant="filled"
-					label="Email"
-					error={!!errors.email}
-					helperText={getErrorMessage(errors.email as FieldError)}
-					autoComplete="off"
-				/>
-			</div>
-			<div>
-				<TextField
-					{...register('password')}
-					type="password"
-					variant="filled"
-					label="Heslo"
-					error={!!errors.password}
-					helperText={getErrorMessage(errors.password as FieldError)}
-					autoComplete="off"
-				/>
-			</div>
-			<Button variant="contained" type="submit">
-				Odeslat
+		<FormProvider {...methods}>
+			<Button variant="outlined" onClick={() => setIsOpen(true)}>
+				Open login dialog
 			</Button>
-		</form>
+			<Dialog open={isOpen} onClose={handleClose} fullWidth={true}>
+				<form onSubmit={handleSubmit(values => mutate(values))}>
+					<DialogTitle>Login</DialogTitle>
+					<DialogContent>
+						<FormTextField
+							name="email"
+							variant="standard"
+							margin="dense"
+							label="Email"
+							fullWidth
+						/>
+						<FormTextField
+							name="password"
+							variant="standard"
+							margin="dense"
+							type="password"
+							label="Heslo"
+							fullWidth
+						/>
+					</DialogContent>
+					<DialogActions>
+						<Button type="submit">Přihlásit</Button>
+					</DialogActions>
+				</form>
+			</Dialog>
+		</FormProvider>
 	)
 }
