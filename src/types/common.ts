@@ -1,4 +1,5 @@
 import { AlertColor } from '@mui/material'
+import { User } from './users'
 
 export enum Section {
 	REGISTRATION = 'registration',
@@ -21,4 +22,10 @@ export interface SnackbarContextType {
 	severity: AlertColor
 	showSnackbar: (text: string, alertColor?: AlertColor) => void
 	hideSnackbar: () => void
+}
+
+export interface AuthContextType {
+	user: User | null
+	login: (user: User) => void
+	logout: () => void
 }

@@ -15,11 +15,13 @@ import {
 } from '@mui/material'
 import SnackbarContext from './context/SnackbarContext'
 import { FormTextField } from './components/FormTextField'
+import AuthContext from './context/AuthContext'
 
 export function LoginForm() {
 	const [isOpen, setIsOpen] = useState(false)
 
 	const { showSnackbar } = useContext(SnackbarContext)
+	const { login } = useContext(AuthContext)
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		password: yup.string().required().min(6),
@@ -45,6 +47,7 @@ export function LoginForm() {
 		(formData: LoginRequestBody) => LoraApi.login(formData),
 		{
 			onSuccess: ({ data }) => {
+				login(data.user)
 				showSnackbar(data.message, 'success')
 				handleClose()
 				reset()

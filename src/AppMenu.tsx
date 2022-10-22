@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
 	Box,
 	Avatar,
@@ -9,8 +9,10 @@ import {
 	Tooltip,
 } from '@mui/material'
 import { PersonAdd, Settings, Logout } from '@mui/icons-material'
+import AuthContext from './context/AuthContext'
 
 export function AppMenu() {
+	const { user } = useContext(AuthContext)
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -64,24 +66,28 @@ export function AppMenu() {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				<MenuItem>
-					<ListItemIcon>
-						<PersonAdd fontSize="small" />
-					</ListItemIcon>
-					Add another account
-				</MenuItem>
+				{user && (
+					<MenuItem>
+						<ListItemIcon>
+							<PersonAdd fontSize="small" />
+						</ListItemIcon>
+						{user.username}
+					</MenuItem>
+				)}
 				<MenuItem>
 					<ListItemIcon>
 						<Settings fontSize="small" />
 					</ListItemIcon>
 					Settings
 				</MenuItem>
-				<MenuItem>
-					<ListItemIcon>
-						<Logout fontSize="small" />
-					</ListItemIcon>
-					Logout
-				</MenuItem>
+				{user && (
+					<MenuItem onClick={() => alert('logout')}>
+						<ListItemIcon>
+							<Logout fontSize="small" />
+						</ListItemIcon>
+						Logout
+					</MenuItem>
+				)}
 			</Menu>
 		</React.Fragment>
 	)
