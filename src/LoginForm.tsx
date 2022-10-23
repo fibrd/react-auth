@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
-import { LoraApi } from './api/LoraApi'
+import { AuthApi } from './api/AuthApi'
 import { LoginRequestBody } from './types/common'
 import { AxiosError } from 'axios'
 import {
@@ -44,9 +44,10 @@ export function LoginForm() {
 	}
 
 	const { mutate } = useMutation(
-		(formData: LoginRequestBody) => LoraApi.login(formData),
+		(formData: LoginRequestBody) => AuthApi.login(formData),
 		{
 			onSuccess: ({ data }) => {
+				localStorage.setItem('user', JSON.stringify(data.user))
 				login(data.user)
 				showSnackbar(data.message, 'success')
 				handleClose()

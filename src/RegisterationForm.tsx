@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
-import { LoraApi } from './api/LoraApi'
+import { AuthApi } from './api/AuthApi'
 import { RegisterRequestBody } from './types/common'
 import { AxiosError } from 'axios'
 import {
@@ -44,7 +44,7 @@ export function RegisterationForm() {
 	}
 
 	const { mutate } = useMutation(
-		(formData: RegisterRequestBody) => LoraApi.register(formData),
+		(formData: RegisterRequestBody) => AuthApi.register(formData),
 		{
 			onSuccess: ({ data }) => {
 				console.log(data)

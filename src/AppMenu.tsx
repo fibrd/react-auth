@@ -8,10 +8,16 @@ import {
 	IconButton,
 	Tooltip,
 } from '@mui/material'
-import { Person, Logout, Login, AppRegistration } from '@mui/icons-material'
+import {
+	Person,
+	Logout,
+	Login,
+	AppRegistration,
+	Menu as MenuIcon,
+} from '@mui/icons-material'
 import AuthContext from './context/AuthContext'
 import { useMutation } from 'react-query'
-import { LoraApi } from './api/LoraApi'
+import { AuthApi } from './api/AuthApi'
 import { AxiosError } from 'axios'
 import SnackbarContext from './context/SnackbarContext'
 import DialogContext from './context/DialogContext'
@@ -24,8 +30,9 @@ export function AppMenu() {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 
-	const { mutate } = useMutation(() => LoraApi.logout(), {
+	const { mutate } = useMutation(() => AuthApi.logout(), {
 		onSuccess: ({ data }) => {
+			localStorage.removeItem('user')
 			logout()
 			showSnackbar(data.message, 'success')
 		},
@@ -38,18 +45,23 @@ export function AppMenu() {
 	})
 
 	return (
-		<React.Fragment>
-			<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+		<>
+			<Box>
 				<Tooltip title="Account settings">
 					<IconButton
 						onClick={e => setAnchorEl(e.currentTarget)}
 						size="small"
-						sx={{ ml: 2 }}
 						aria-controls={open ? 'account-menu' : undefined}
 						aria-haspopup="true"
 						aria-expanded={open ? 'true' : undefined}
 					>
-						<Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+						<Avatar>
+							{user ? (
+								user.username[0].toUpperCase()
+							) : (
+								<MenuIcon fontSize="small" />
+							)}
+						</Avatar>
 					</IconButton>
 				</Tooltip>
 			</Box>
@@ -70,7 +82,7 @@ export function AppMenu() {
 							display: 'block',
 							position: 'absolute',
 							top: 0,
-							right: 14,
+							right: 20,
 							width: 10,
 							height: 10,
 							bgcolor: 'background.paper',
@@ -115,6 +127,6 @@ export function AppMenu() {
 					</>
 				)}
 			</Menu>
-		</React.Fragment>
+		</>
 	)
 }
