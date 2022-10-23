@@ -8,7 +8,7 @@ import DialogContext from './context/DialogContext'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { App } from './App'
 
-export function AppProvider() {
+export function AppProviders() {
 	// Create a client provider
 	const queryClient = new QueryClient()
 
