@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
-import { DialogContext } from './context/dialogContext'
+import React from 'react'
+import { useDialog } from './hooks/useDialog'
 import { LoginForm } from './LoginForm'
 import { RegisterationForm } from './RegisterationForm'
 import { DialogType } from './types/common'
 
 export function AppDialog() {
-	const { dialogType } = useContext(DialogContext)
+	const { dialogType } = useDialog()
 
 	switch (dialogType) {
 		case DialogType.REGISTRATION:

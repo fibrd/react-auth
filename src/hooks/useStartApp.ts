@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react'
-import { AuthContext } from '../context/authContext'
+import { useEffect } from 'react'
 import { User } from '../types/users'
+import { useAuth } from './useAuth'
 
 export function useStartApp() {
-	const { login } = useContext(AuthContext)
+	const { login } = useAuth()
 
 	useEffect(() => {
 		const userItem = localStorage.getItem('user')

@@ -1,17 +1,10 @@
-import { useState } from 'react'
-import { AlertColor } from '@mui/material'
+import { useContext } from 'react'
+import { SnackbarContext } from '../context/snackbarContext'
 
 export function useSnackbar() {
-	const [snackbarText, setSnackbarText] = useState<string | null>(null)
-	const [severity, setSeverity] = useState<AlertColor>('info')
-	const showSnackbar = (text: string, alertColor: AlertColor = 'info') => {
-		setSnackbarText(text)
-		setSeverity(alertColor)
+	const snackbar = useContext(SnackbarContext)
+	if (snackbar === null) {
+		throw new Error('SnackbarContext nebyl inicializován.')
 	}
-	const hideSnackbar = () => {
-		setSnackbarText(null)
-		setSeverity('info')
-	}
-
-	return { snackbarText, severity, showSnackbar, hideSnackbar }
+	return snackbar
 }

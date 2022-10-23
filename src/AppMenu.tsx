@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
 	Box,
 	Avatar,
@@ -19,14 +19,14 @@ import { useMutation } from 'react-query'
 import { AuthApi } from './api/AuthApi'
 import { AxiosError } from 'axios'
 import { DialogType } from './types/common'
-import { AuthContext } from './context/authContext'
-import { DialogContext } from './context/dialogContext'
-import { SnackbarContext } from './context/snackbarContext'
+import { useAuth } from './hooks/useAuth'
+import { useSnackbar } from './hooks/useSnackbar'
+import { useDialog } from './hooks/useDialog'
 
 export function AppMenu() {
-	const { user, logout } = useContext(AuthContext)
-	const { showSnackbar } = useContext(SnackbarContext)
-	const { showDialog } = useContext(DialogContext)
+	const { user, logout } = useAuth()
+	const { showSnackbar } = useSnackbar()
+	const { showDialog } = useDialog()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 

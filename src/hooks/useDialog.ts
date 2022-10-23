@@ -1,10 +1,10 @@
-import { DialogType } from './../types/common'
-import { useState } from 'react'
+import { useContext } from 'react'
+import { DialogContext } from '../context/dialogContext'
 
 export function useDialog() {
-	const [dialogType, setDialogType] = useState<DialogType | null>(null)
-	const showDialog = (type: DialogType) => setDialogType(type)
-	const hideDialog = () => setDialogType(null)
-
-	return { dialogType, showDialog, hideDialog }
+	const dialog = useContext(DialogContext)
+	if (dialog === null) {
+		throw new Error('DialogContext nebyl inicializován.')
+	}
+	return dialog
 }

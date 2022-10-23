@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Alert, Snackbar } from '@mui/material'
-import { SnackbarContext } from './context/snackbarContext'
+import { useSnackbar } from './hooks/useSnackbar'
 
 export function AppSnackbar() {
-	const { snackbarText, severity, hideSnackbar } = useContext(SnackbarContext)
+	const { snackbarText, severity, hideSnackbar } = useSnackbar()
 	return (
 		<Snackbar
 			open={!!snackbarText}

@@ -2,12 +2,7 @@ import { createContext, useState } from 'react'
 import { AlertColor } from '@mui/material'
 import { SnackbarContextType } from '../types/common'
 
-export const SnackbarContext = createContext<SnackbarContextType>({
-	snackbarText: null,
-	severity: 'info',
-	showSnackbar: () => {},
-	hideSnackbar: () => {},
-})
+export const SnackbarContext = createContext<SnackbarContextType | null>(null)
 
 export function useSnackbarContext() {
 	const [snackbarText, setSnackbarText] = useState<string | null>(null)

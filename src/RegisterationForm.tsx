@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -14,12 +14,12 @@ import {
 	DialogTitle,
 } from '@mui/material'
 import { FormTextField } from './components/FormTextField'
-import { SnackbarContext } from './context/snackbarContext'
-import { DialogContext } from './context/dialogContext'
+import { useSnackbar } from './hooks/useSnackbar'
+import { useDialog } from './hooks/useDialog'
 
 export function RegisterationForm() {
-	const { showSnackbar } = useContext(SnackbarContext)
-	const { hideDialog } = useContext(DialogContext)
+	const { showSnackbar } = useSnackbar()
+	const { hideDialog } = useDialog()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		username: yup.string().required().min(3).max(12),
