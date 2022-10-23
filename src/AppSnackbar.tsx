@@ -14,6 +14,7 @@ export function AppSnackbar() {
 					hideSnackbar()
 				}
 			}}
+			className="app__snackbar"
 		>
 			<Alert
 				onClose={hideSnackbar}

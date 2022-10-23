@@ -1,48 +1,13 @@
 import React from 'react'
-import {
-	Box,
-	Avatar,
-	Menu,
-	MenuItem,
-	ListItemIcon,
-	IconButton,
-	Tooltip,
-} from '@mui/material'
-import {
-	Person,
-	Logout,
-	Login,
-	AppRegistration,
-	Menu as MenuIcon,
-} from '@mui/icons-material'
-import { useMutation } from 'react-query'
-import { AuthApi } from './api/AuthApi'
-import { AxiosError } from 'axios'
-import { DialogType } from './types/common'
+import { Box, Avatar, Menu, IconButton, Tooltip } from '@mui/material'
+import { Menu as MenuIcon } from '@mui/icons-material'
 import { useAuth } from './hooks/useAuth'
-import { useSnackbar } from './hooks/useSnackbar'
-import { useDialog } from './hooks/useDialog'
+import { AppMenuContent } from './AppMenuContent'
 
 export function AppMenu() {
-	const { user, logout } = useAuth()
-	const { showSnackbar } = useSnackbar()
-	const { showDialog } = useDialog()
+	const { user } = useAuth()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
-
-	const { mutate } = useMutation(() => AuthApi.logout(), {
-		onSuccess: ({ data }) => {
-			localStorage.removeItem('user')
-			logout()
-			showSnackbar(data.message, 'success')
-		},
-		onError: (err: AxiosError<{ message: string }>) => {
-			const message = err.response?.data.message
-			if (message) {
-				showSnackbar(message, 'error')
-			}
-		},
-	})
 
 	return (
 		<>
@@ -95,38 +60,7 @@ export function AppMenu() {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				{!user && (
-					<>
-						<MenuItem onClick={() => showDialog(DialogType.REGISTRATION)}>
-							<ListItemIcon>
-								<AppRegistration fontSize="small" />
-							</ListItemIcon>
-							Register
-						</MenuItem>
-						<MenuItem onClick={() => showDialog(DialogType.LOGIN)}>
-							<ListItemIcon>
-								<Login fontSize="small" />
-							</ListItemIcon>
-							Login
-						</MenuItem>
-					</>
-				)}
-				{user && (
-					<>
-						<MenuItem>
-							<ListItemIcon>
-								<Person fontSize="small" />
-							</ListItemIcon>
-							{user.username}
-						</MenuItem>
-						<MenuItem onClick={() => mutate()}>
-							<ListItemIcon>
-								<Logout fontSize="small" />
-							</ListItemIcon>
-							Logout
-						</MenuItem>
-					</>
-				)}
+				<AppMenuContent />
 			</Menu>
 		</>
 	)
