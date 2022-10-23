@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { User } from '../types/users'
+import { User } from '../types/auth'
 import { useAuth } from './useAuth'
 
 export function useStartApp() {

@@ -1,8 +1,7 @@
 import { createContext, useState } from 'react'
-import { User } from '../types/users'
-import { AuthContextType } from '../types/common'
+import { Auth, User } from '../types/auth'
 
-export const AuthContext = createContext<AuthContextType | null>(null)
+export const AuthContext = createContext<Auth | null>(null)
 
 export function useAuthContext() {
 	const [user, setUser] = useState<User | null>(null)

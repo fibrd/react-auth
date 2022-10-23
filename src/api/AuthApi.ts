@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { BASE_URL } from '../helpers/constants'
-import { LoginRequestBody, RegisterRequestBody } from '../types/common'
-import { User } from '../types/users'
+import { LoginBody, RegisterBody, User } from '../types/auth'
 
 const instance = axios.create({
 	withCredentials: true,
@@ -9,11 +8,11 @@ const instance = axios.create({
 })
 
 export const AuthApi = {
-	register(body: RegisterRequestBody) {
+	register(body: RegisterBody) {
 		return instance.post<{ message: string }>('/register', body)
 	},
 
-	login(body: LoginRequestBody) {
+	login(body: LoginBody) {
 		return instance.post<{ message: string; user: User; token: string }>(
 			'/login',
 			body

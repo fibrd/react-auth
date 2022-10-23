@@ -4,7 +4,6 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
 import { AuthApi } from './api/AuthApi'
-import { LoginRequestBody } from './types/common'
 import { AxiosError } from 'axios'
 import {
 	Button,
@@ -17,6 +16,7 @@ import { FormTextField } from './components/FormTextField'
 import { useAuth } from './hooks/useAuth'
 import { useSnackbar } from './hooks/useSnackbar'
 import { useDialog } from './hooks/useDialog'
+import { LoginBody } from './types/auth'
 
 export function LoginForm() {
 	const { login } = useAuth()
@@ -44,7 +44,7 @@ export function LoginForm() {
 	}
 
 	const { mutate } = useMutation(
-		(formData: LoginRequestBody) => AuthApi.login(formData),
+		(formData: LoginBody) => AuthApi.login(formData),
 		{
 			onSuccess: ({ data }) => {
 				localStorage.setItem('user', JSON.stringify(data.user))

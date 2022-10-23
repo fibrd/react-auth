@@ -1,8 +1,8 @@
 import { DialogType } from '../types/common'
 import { createContext, useState } from 'react'
-import { DialogContextType } from '../types/common'
+import { Dialog } from '../types/common'
 
-export const DialogContext = createContext<DialogContextType | null>(null)
+export const DialogContext = createContext<Dialog | null>(null)
 
 export function useDialogContext() {
 	const [dialogType, setDialogType] = useState<DialogType | null>(null)

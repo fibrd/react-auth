@@ -4,7 +4,6 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
 import { AuthApi } from './api/AuthApi'
-import { RegisterRequestBody } from './types/common'
 import { AxiosError } from 'axios'
 import {
 	Button,
@@ -16,6 +15,7 @@ import {
 import { FormTextField } from './components/FormTextField'
 import { useSnackbar } from './hooks/useSnackbar'
 import { useDialog } from './hooks/useDialog'
+import { RegisterBody } from './types/auth'
 
 export function RegisterationForm() {
 	const { showSnackbar } = useSnackbar()
@@ -44,7 +44,7 @@ export function RegisterationForm() {
 	}
 
 	const { mutate } = useMutation(
-		(formData: RegisterRequestBody) => AuthApi.register(formData),
+		(formData: RegisterBody) => AuthApi.register(formData),
 		{
 			onSuccess: ({ data }) => {
 				console.log(data)

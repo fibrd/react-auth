@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react'
 import { AlertColor } from '@mui/material'
-import { SnackbarContextType } from '../types/common'
+import { Snackbar } from '../types/common'
 
-export const SnackbarContext = createContext<SnackbarContextType | null>(null)
+export const SnackbarContext = createContext<Snackbar | null>(null)
 
 export function useSnackbarContext() {
 	const [snackbarText, setSnackbarText] = useState<string | null>(null)
