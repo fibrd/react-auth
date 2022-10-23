@@ -13,9 +13,9 @@ import {
 	DialogContent,
 	DialogTitle,
 } from '@mui/material'
-import SnackbarContext from './context/SnackbarContext'
 import { FormTextField } from './components/FormTextField'
-import DialogContext from './context/DialogContext'
+import { SnackbarContext } from './context/snackbarContext'
+import { DialogContext } from './context/dialogContext'
 
 export function RegisterationForm() {
 	const { showSnackbar } = useContext(SnackbarContext)

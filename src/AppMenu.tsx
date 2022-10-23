@@ -15,13 +15,13 @@ import {
 	AppRegistration,
 	Menu as MenuIcon,
 } from '@mui/icons-material'
-import AuthContext from './context/AuthContext'
 import { useMutation } from 'react-query'
 import { AuthApi } from './api/AuthApi'
 import { AxiosError } from 'axios'
-import SnackbarContext from './context/SnackbarContext'
-import DialogContext from './context/DialogContext'
 import { DialogType } from './types/common'
+import { AuthContext } from './context/authContext'
+import { DialogContext } from './context/dialogContext'
+import { SnackbarContext } from './context/snackbarContext'
 
 export function AppMenu() {
 	const { user, logout } = useContext(AuthContext)

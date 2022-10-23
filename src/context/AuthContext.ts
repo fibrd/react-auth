@@ -1,10 +1,17 @@
-import React from 'react'
+import { createContext, useState } from 'react'
+import { User } from '../types/users'
 import { AuthContextType } from '../types/common'
 
-const AuthContext = React.createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
 	user: null,
 	login: () => {},
 	logout: () => {},
 })
 
-export default AuthContext
+export function useAuthContext() {
+	const [user, setUser] = useState<User | null>(null)
+	const login = (u: User) => setUser(u)
+	const logout = () => setUser(null)
+
+	return { user, login, logout }
+}

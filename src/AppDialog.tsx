@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import DialogContext from './context/DialogContext'
+import { DialogContext } from './context/dialogContext'
 import { LoginForm } from './LoginForm'
 import { RegisterationForm } from './RegisterationForm'
 import { DialogType } from './types/common'

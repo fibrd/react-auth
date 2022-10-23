@@ -13,10 +13,10 @@ import {
 	DialogContent,
 	DialogTitle,
 } from '@mui/material'
-import SnackbarContext from './context/SnackbarContext'
 import { FormTextField } from './components/FormTextField'
-import AuthContext from './context/AuthContext'
-import DialogContext from './context/DialogContext'
+import { AuthContext } from './context/authContext'
+import { DialogContext } from './context/dialogContext'
+import { SnackbarContext } from './context/snackbarContext'
 
 export function LoginForm() {
 	const { login } = useContext(AuthContext)

@@ -1,21 +1,18 @@
 import React from 'react'
-import SnackbarContext from './context/SnackbarContext'
-import { useSnackbar } from './hooks/useSnackbar'
-import { useAuth } from './hooks/useAuth'
-import AuthContext from './context/AuthContext'
-import { useDialog } from './hooks/useDialog'
-import DialogContext from './context/DialogContext'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { App } from './App'
+import { AuthContext, useAuthContext } from './context/authContext'
+import { SnackbarContext, useSnackbarContext } from './context/snackbarContext'
+import { DialogContext, useDialogContext } from './context/dialogContext'
 
 export function AppProviders() {
 	// Create a client provider
 	const queryClient = new QueryClient()
 
 	// Context
-	const auth = useAuth()
-	const snackbar = useSnackbar()
-	const dialog = useDialog()
+	const auth = useAuthContext()
+	const snackbar = useSnackbarContext()
+	const dialog = useDialogContext()
 
 	return (
 		<QueryClientProvider client={queryClient}>
