@@ -33,7 +33,7 @@ export function RegisterationForm() {
 
 	const methods = useForm({
 		resolver: yupResolver(validationSchema),
-		mode: 'all',
+		mode: 'onTouched',
 		defaultValues,
 	})
 	const { handleSubmit, reset, clearErrors } = methods
