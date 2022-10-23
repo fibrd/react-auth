@@ -49,13 +49,14 @@ export function AppMenu() {
 			<Box>
 				<Tooltip title="Account settings">
 					<IconButton
+						color="primary"
 						onClick={e => setAnchorEl(e.currentTarget)}
 						size="small"
 						aria-controls={open ? 'account-menu' : undefined}
 						aria-haspopup="true"
 						aria-expanded={open ? 'true' : undefined}
 					>
-						<Avatar>
+						<Avatar color="primary">
 							{user ? (
 								user.username[0].toUpperCase()
 							) : (

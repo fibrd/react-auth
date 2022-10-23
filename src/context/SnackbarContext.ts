@@ -8,12 +8,16 @@ export function useSnackbarContext() {
 	const [snackbarText, setSnackbarText] = useState<string | null>(null)
 	const [severity, setSeverity] = useState<AlertColor>('info')
 	const showSnackbar = (text: string, alertColor: AlertColor = 'info') => {
-		setSnackbarText(text)
-		setSeverity(alertColor)
+		if (snackbarText !== null) {
+			setSnackbarText(null)
+		}
+		setTimeout(() => {
+			setSnackbarText(text)
+			setSeverity(alertColor)
+		}, 0)
 	}
 	const hideSnackbar = () => {
 		setSnackbarText(null)
-		setSeverity('info')
 	}
 
 	return { snackbarText, severity, showSnackbar, hideSnackbar }

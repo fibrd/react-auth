@@ -9,9 +9,7 @@ export function App() {
 
 	return (
 		<div className="app">
-			<header className="app-header">
-				<AppMenu />
-			</header>
+			<AppMenu />
 			<AppDialog />
 			<AppSnackbar />
 		</div>

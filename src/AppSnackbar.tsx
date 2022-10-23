@@ -6,7 +6,7 @@ export function AppSnackbar() {
 	const { snackbarText, severity, hideSnackbar } = useSnackbar()
 	return (
 		<Snackbar
-			open={!!snackbarText}
+			open={snackbarText !== null}
 			autoHideDuration={6000}
 			anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
 			onClose={(_e, reason) => {
@@ -15,7 +15,12 @@ export function AppSnackbar() {
 				}
 			}}
 		>
-			<Alert onClose={hideSnackbar} severity={severity} sx={{ width: '100%' }}>
+			<Alert
+				onClose={hideSnackbar}
+				variant="filled"
+				severity={severity}
+				sx={{ width: '100%' }}
+			>
 				{snackbarText}
 			</Alert>
 		</Snackbar>

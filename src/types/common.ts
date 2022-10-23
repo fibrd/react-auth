@@ -14,6 +14,6 @@ export interface Dialog {
 export interface Snackbar {
 	snackbarText: string | null
 	severity: AlertColor
-	showSnackbar: (text: string, alertColor?: AlertColor) => void
+	showSnackbar: (text: string, alertColor: AlertColor) => void
 	hideSnackbar: () => void
 }
