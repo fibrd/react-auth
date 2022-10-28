@@ -1,4 +1,4 @@
-import { ForgottenPasswordBody, ResetPasswordBody } from './../types/auth'
+import { SendEmailBody, ResetPasswordBody } from './../types/auth'
 import axios from 'axios'
 import { BASE_URL } from '../helpers/constants'
 import { LoginBody, RegisterBody, User } from '../types/auth'
@@ -24,18 +24,15 @@ export const AuthApi = {
 		return instance.get<{ message: string }>('/logout')
 	},
 
-	forgottenPassword(body: ForgottenPasswordBody) {
-		return instance.post<{ message: string }>('/forgotten-password', body)
+	sendEmail(body: SendEmailBody) {
+		return instance.post<{ message: string }>('/email', body)
 	},
 
-	resetPassword(id: string, token: string) {
-		return instance.get<{ email: string }>(`/reset-password/${id}/${token}`)
+	validateLink(id: string, token: string) {
+		return instance.get<{ email: string }>(`/link/${id}/${token}`)
 	},
 
-	postResetPassword(id: string, token: string, body: ResetPasswordBody) {
-		return instance.post<{ message: string }>(
-			`/reset-password/${id}/${token}`,
-			body
-		)
+	resetPassword(id: string, token: string, body: ResetPasswordBody) {
+		return instance.post<{ message: string }>(`/reset/${id}/${token}`, body)
 	},
 }

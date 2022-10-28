@@ -21,7 +21,7 @@ export interface LoginBody {
 	password: string
 }
 
-export interface ForgottenPasswordBody {
+export interface SendEmailBody {
 	email: string
 }
 

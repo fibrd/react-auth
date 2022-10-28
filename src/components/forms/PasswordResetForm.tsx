@@ -46,9 +46,8 @@ export function PasswordResetForm() {
 		clearErrors()
 	}
 
-	const { mutate } = useMutation(
-		(formData: ResetPasswordBody) =>
-			AuthApi.postResetPassword(id, token, formData),
+	const { mutate: resetPassword } = useMutation(
+		(formData: ResetPasswordBody) => AuthApi.resetPassword(id, token, formData),
 		{
 			onSuccess: ({ data }) => {
 				showSnackbar(data.message, 'success')
@@ -68,7 +67,7 @@ export function PasswordResetForm() {
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			<FormProvider {...methods}>
-				<form onSubmit={handleSubmit(values => mutate(values))}>
+				<form onSubmit={handleSubmit(values => resetPassword(values))}>
 					<DialogTitle>
 						Změna hesla pro uživatele s emailem: {email}
 					</DialogTitle>

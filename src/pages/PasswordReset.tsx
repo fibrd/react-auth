@@ -15,7 +15,7 @@ export function PasswordReset() {
 
 	const { isLoading } = useQuery(
 		['/reset-password/:id/:token', id, token],
-		() => AuthApi.resetPassword(id ?? '', token ?? ''),
+		() => AuthApi.validateLink(id ?? '', token ?? ''),
 		{
 			enabled: !!id && !!token,
 			onSuccess: ({ data }) => {

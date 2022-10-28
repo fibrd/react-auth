@@ -15,7 +15,7 @@ import {
 import { FormTextField } from './FormTextField'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { useDialog } from '../../hooks/useDialog'
-import { ForgottenPasswordBody } from '../../types/auth'
+import { SendEmailBody } from '../../types/auth'
 
 export function PasswordForgottenForm() {
 	const { showSnackbar } = useSnackbar()
@@ -39,8 +39,8 @@ export function PasswordForgottenForm() {
 		clearErrors()
 	}
 
-	const { mutate } = useMutation(
-		(formData: ForgottenPasswordBody) => AuthApi.forgottenPassword(formData),
+	const { mutate: sendEmail } = useMutation(
+		(formData: SendEmailBody) => AuthApi.sendEmail(formData),
 		{
 			onSuccess: ({ data }) => {
 				showSnackbar(data.message, 'info')
@@ -59,7 +59,7 @@ export function PasswordForgottenForm() {
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			<FormProvider {...methods}>
-				<form onSubmit={handleSubmit(values => mutate(values))}>
+				<form onSubmit={handleSubmit(values => sendEmail(values))}>
 					<DialogTitle>Odeslat reset link na zadaný email</DialogTitle>
 					<DialogContent sx={{ minHeight: '100px' }}>
 						<FormTextField
