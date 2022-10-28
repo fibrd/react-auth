@@ -11,6 +11,7 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	LinearProgress,
 } from '@mui/material'
 import { FormTextField } from '../forms/FormTextField'
 import { useAuth } from '../../hooks/useAuth'
@@ -44,7 +45,7 @@ export function LoginForm() {
 		clearErrors()
 	}
 
-	const { mutate } = useMutation(
+	const { mutate, isLoading } = useMutation(
 		(formData: LoginBody) => AuthApi.login(formData),
 		{
 			onSuccess: ({ data }) => {
@@ -65,6 +66,7 @@ export function LoginForm() {
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
+			{isLoading && <LinearProgress />}
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => mutate(values))}>
 					<DialogTitle>Login</DialogTitle>
@@ -94,7 +96,7 @@ export function LoginForm() {
 						>
 							Zapomenuté heslo
 						</Button>
-						<Button variant="contained" type="submit">
+						<Button variant="contained" type="submit" disabled={isLoading}>
 							Přihlásit
 						</Button>
 					</DialogActions>

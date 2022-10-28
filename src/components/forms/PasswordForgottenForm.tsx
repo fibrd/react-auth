@@ -11,6 +11,7 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	LinearProgress,
 } from '@mui/material'
 import { FormTextField } from './FormTextField'
 import { useSnackbar } from '../../hooks/useSnackbar'
@@ -39,7 +40,7 @@ export function PasswordForgottenForm() {
 		clearErrors()
 	}
 
-	const { mutate: sendEmail } = useMutation(
+	const { mutate: sendEmail, isLoading } = useMutation(
 		(formData: SendEmailBody) => AuthApi.sendEmail(formData),
 		{
 			onSuccess: ({ data }) => {
@@ -58,6 +59,7 @@ export function PasswordForgottenForm() {
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
+			{isLoading && <LinearProgress />}
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => sendEmail(values))}>
 					<DialogTitle>Odeslat reset link na zadaný email</DialogTitle>
@@ -71,7 +73,7 @@ export function PasswordForgottenForm() {
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button variant="contained" type="submit">
+						<Button variant="contained" type="submit" disabled={isLoading}>
 							Odeslat
 						</Button>
 					</DialogActions>

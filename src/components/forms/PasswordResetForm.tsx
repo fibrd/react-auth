@@ -10,6 +10,7 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	LinearProgress,
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { AuthApi } from '../../api/AuthApi'
@@ -46,7 +47,7 @@ export function PasswordResetForm() {
 		clearErrors()
 	}
 
-	const { mutate: resetPassword } = useMutation(
+	const { mutate: resetPassword, isLoading } = useMutation(
 		(formData: ResetPasswordBody) => AuthApi.resetPassword(id, token, formData),
 		{
 			onSuccess: ({ data }) => {
@@ -66,6 +67,7 @@ export function PasswordResetForm() {
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
+			{isLoading && <LinearProgress />}
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => resetPassword(values))}>
 					<DialogTitle>
@@ -82,7 +84,7 @@ export function PasswordResetForm() {
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button variant="contained" type="submit">
+						<Button variant="contained" type="submit" disabled={isLoading}>
 							Odeslat
 						</Button>
 					</DialogActions>

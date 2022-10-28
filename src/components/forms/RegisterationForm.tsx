@@ -10,6 +10,7 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	LinearProgress,
 } from '@mui/material'
 import { AuthApi } from '../../api/AuthApi'
 import { useDialog } from '../../hooks/useDialog'
@@ -43,7 +44,7 @@ export function RegisterationForm() {
 		clearErrors()
 	}
 
-	const { mutate } = useMutation(
+	const { mutate: register, isLoading } = useMutation(
 		(formData: RegisterBody) => AuthApi.register(formData),
 		{
 			onSuccess: ({ data }) => {
@@ -61,8 +62,9 @@ export function RegisterationForm() {
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
+			{isLoading && <LinearProgress />}
 			<FormProvider {...methods}>
-				<form onSubmit={handleSubmit(values => mutate(values))}>
+				<form onSubmit={handleSubmit(values => register(values))}>
 					<DialogTitle>Register</DialogTitle>
 					<DialogContent>
 						<FormTextField
@@ -89,7 +91,9 @@ export function RegisterationForm() {
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button type="submit">Registrovat</Button>
+						<Button type="submit" disabled={isLoading}>
+							Registrovat
+						</Button>
 					</DialogActions>
 				</form>
 			</FormProvider>

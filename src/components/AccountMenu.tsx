@@ -1,16 +1,43 @@
 import React from 'react'
-import { Box, Avatar, Menu, IconButton, Tooltip } from '@mui/material'
+import {
+	Box,
+	Avatar,
+	Menu,
+	IconButton,
+	Tooltip,
+	LinearProgress,
+} from '@mui/material'
 import { Menu as MenuIcon } from '@mui/icons-material'
 import { useAuth } from '../hooks/useAuth'
 import { AccountMenuContent } from './AccountMenuContent'
+import { AxiosError } from 'axios'
+import { useMutation } from 'react-query'
+import { AuthApi } from '../api/AuthApi'
+import { useSnackbar } from '../hooks/useSnackbar'
 
 export function AccountMenu() {
-	const { user } = useAuth()
+	const { user, logout } = useAuth()
+	const { showSnackbar } = useSnackbar()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 
+	const { mutate: doLogout, isLoading } = useMutation(() => AuthApi.logout(), {
+		onSuccess: ({ data }) => {
+			localStorage.removeItem('user')
+			logout()
+			showSnackbar(data.message, 'info')
+		},
+		onError: (err: AxiosError<{ message: string }>) => {
+			const message = err.response?.data.message
+			if (message) {
+				showSnackbar(message, 'error')
+			}
+		},
+	})
+
 	return (
 		<>
+			{isLoading && <LinearProgress />}
 			<Box>
 				<Tooltip title="Account settings">
 					<IconButton
@@ -60,7 +87,7 @@ export function AccountMenu() {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				<AccountMenuContent />
+				<AccountMenuContent onLogout={doLogout} />
 			</Menu>
 		</>
 	)
