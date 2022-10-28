@@ -28,40 +28,39 @@ export function AppMenuContent() {
 		},
 	})
 
+	if (!user) {
+		return (
+			<>
+				<MenuItem onClick={() => showDialog(DialogType.REGISTRATION)}>
+					<ListItemIcon>
+						<AppRegistration fontSize="small" />
+					</ListItemIcon>
+					Register
+				</MenuItem>
+				<MenuItem onClick={() => showDialog(DialogType.LOGIN)}>
+					<ListItemIcon>
+						<Login fontSize="small" />
+					</ListItemIcon>
+					Login
+				</MenuItem>
+			</>
+		)
+	}
+
 	return (
 		<>
-			{user
-				? [
-						<MenuItem key="person">
-							<ListItemIcon>
-								<Person fontSize="small" />
-							</ListItemIcon>
-							{user.username}
-						</MenuItem>,
-						<MenuItem key="logout" onClick={() => mutate()}>
-							<ListItemIcon>
-								<Logout fontSize="small" />
-							</ListItemIcon>
-							Logout
-						</MenuItem>,
-				  ]
-				: [
-						<MenuItem
-							key="registration"
-							onClick={() => showDialog(DialogType.REGISTRATION)}
-						>
-							<ListItemIcon>
-								<AppRegistration fontSize="small" />
-							</ListItemIcon>
-							Register
-						</MenuItem>,
-						<MenuItem key="login" onClick={() => showDialog(DialogType.LOGIN)}>
-							<ListItemIcon>
-								<Login fontSize="small" />
-							</ListItemIcon>
-							Login
-						</MenuItem>,
-				  ]}
+			<MenuItem>
+				<ListItemIcon>
+					<Person fontSize="small" />
+				</ListItemIcon>
+				{user.username}
+			</MenuItem>
+			<MenuItem onClick={() => mutate()}>
+				<ListItemIcon>
+					<Logout fontSize="small" />
+				</ListItemIcon>
+				Logout
+			</MenuItem>
 		</>
 	)
 }

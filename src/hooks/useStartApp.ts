@@ -11,5 +11,6 @@ export function useStartApp() {
 		if (user) {
 			login(user)
 		}
-	}, [login])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 }
