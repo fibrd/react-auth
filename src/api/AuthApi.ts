@@ -27,4 +27,8 @@ export const AuthApi = {
 	forgottenPassword(body: ForgottenPasswordBody) {
 		return instance.post<{ message: string }>('/forgotten-password', body)
 	},
+
+	resetPassword(id: string, token: string) {
+		return instance.get<{ email: string }>(`/reset-password/${id}/${token}`)
+	},
 }
