@@ -16,8 +16,10 @@ import { FormTextField } from './components/FormTextField'
 import { useSnackbar } from './hooks/useSnackbar'
 import { useDialog } from './hooks/useDialog'
 import { ResetPasswordBody } from './types/auth'
+import { useNavigate } from 'react-router-dom'
 
 export function PasswordResetForm() {
+	const navigate = useNavigate()
 	const { showSnackbar } = useSnackbar()
 	const { dialogData, hideDialog } = useDialog()
 	const { id, token, email } = dialogData as {
@@ -49,9 +51,10 @@ export function PasswordResetForm() {
 			AuthApi.postResetPassword(id, token, formData),
 		{
 			onSuccess: ({ data }) => {
-				showSnackbar(data.message, 'info')
+				showSnackbar(data.message, 'success')
 				handleClose()
 				reset()
+				navigate('/')
 			},
 			onError: (err: AxiosError<{ message: string }>) => {
 				const message = err.response?.data.message
