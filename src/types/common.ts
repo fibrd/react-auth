@@ -3,6 +3,7 @@ import { AlertColor } from '@mui/material'
 export enum DialogType {
 	REGISTRATION = 'registration',
 	LOGIN = 'login',
+	PASSWORD_FORGOTTEN = 'passwordForgotten',
 }
 
 export interface Dialog {

@@ -1,3 +1,4 @@
+import { ForgottenPasswordBody } from './../types/auth'
 import axios from 'axios'
 import { BASE_URL } from '../helpers/constants'
 import { LoginBody, RegisterBody, User } from '../types/auth'
@@ -21,5 +22,9 @@ export const AuthApi = {
 
 	logout() {
 		return instance.get<{ message: string }>('/logout')
+	},
+
+	forgottenPassword(body: ForgottenPasswordBody) {
+		return instance.post<{ message: string }>('/forgotten-password', body)
 	},
 }

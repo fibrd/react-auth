@@ -18,7 +18,7 @@ export function AppMenuContent() {
 		onSuccess: ({ data }) => {
 			localStorage.removeItem('user')
 			logout()
-			showSnackbar(data.message, 'success')
+			showSnackbar(data.message, 'info')
 		},
 		onError: (err: AxiosError<{ message: string }>) => {
 			const message = err.response?.data.message
