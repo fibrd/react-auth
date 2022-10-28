@@ -1,6 +1,6 @@
 import { SendEmailBody, ResetPasswordBody } from './../types/auth'
 import axios from 'axios'
-import { BASE_URL } from '../helpers/constants'
+import { BASE_URL } from '../utils/global'
 import { LoginBody, RegisterBody, User } from '../types/auth'
 
 const instance = axios.create({

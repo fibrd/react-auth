@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { BASE_URL } from '../helpers/constants'
+import { BASE_URL } from '../utils/global'
 import { Course } from '../types/courses'
 
 const instance = axios.create({
