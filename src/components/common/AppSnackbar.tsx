@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, Snackbar } from '@mui/material'
-import { useSnackbar } from './hooks/useSnackbar'
+import { useSnackbar } from '../../hooks/useSnackbar'
 
 export function AppSnackbar() {
 	const { snackbarText, severity, hideSnackbar } = useSnackbar()

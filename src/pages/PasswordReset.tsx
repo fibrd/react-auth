@@ -2,10 +2,10 @@ import { LinearProgress } from '@mui/material'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AuthApi } from './api/AuthApi'
-import { useDialog } from './hooks/useDialog'
-import { useSnackbar } from './hooks/useSnackbar'
-import { DialogType } from './types/common'
+import { AuthApi } from '../api/AuthApi'
+import { useDialog } from '../hooks/useDialog'
+import { useSnackbar } from '../hooks/useSnackbar'
+import { DialogType } from '../types/common'
 
 export function PasswordReset() {
 	const navigate = useNavigate()

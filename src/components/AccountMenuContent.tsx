@@ -2,14 +2,14 @@ import React from 'react'
 import { MenuItem, ListItemIcon } from '@mui/material'
 import { Person, Logout, Login, AppRegistration } from '@mui/icons-material'
 import { useMutation } from 'react-query'
-import { AuthApi } from './api/AuthApi'
 import { AxiosError } from 'axios'
-import { DialogType } from './types/common'
-import { useAuth } from './hooks/useAuth'
-import { useSnackbar } from './hooks/useSnackbar'
-import { useDialog } from './hooks/useDialog'
+import { AuthApi } from '../api/AuthApi'
+import { useAuth } from '../hooks/useAuth'
+import { useDialog } from '../hooks/useDialog'
+import { useSnackbar } from '../hooks/useSnackbar'
+import { DialogType } from '../types/common'
 
-export function AppMenuContent() {
+export function AccountMenuContent() {
 	const { user, logout } = useAuth()
 	const { showSnackbar } = useSnackbar()
 	const { showDialog } = useDialog()

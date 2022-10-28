@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
-import { AuthApi } from './api/AuthApi'
+import { AuthApi } from '../../api/AuthApi'
 import { AxiosError } from 'axios'
 import {
 	Button,
@@ -12,10 +12,10 @@ import {
 	DialogContent,
 	DialogTitle,
 } from '@mui/material'
-import { FormTextField } from './components/FormTextField'
-import { useSnackbar } from './hooks/useSnackbar'
-import { useDialog } from './hooks/useDialog'
-import { ForgottenPasswordBody } from './types/auth'
+import { FormTextField } from './FormTextField'
+import { useSnackbar } from '../../hooks/useSnackbar'
+import { useDialog } from '../../hooks/useDialog'
+import { ForgottenPasswordBody } from '../../types/auth'
 
 export function PasswordForgottenForm() {
 	const { showSnackbar } = useSnackbar()

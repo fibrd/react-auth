@@ -1,8 +1,8 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { Home } from './Home'
+import { Home } from './pages/Home'
 import { useStartApp } from './hooks/useStartApp'
-import { PasswordReset } from './PasswordReset'
+import { PasswordReset } from './pages/PasswordReset'
 
 export function AppRouter() {
 	useStartApp()

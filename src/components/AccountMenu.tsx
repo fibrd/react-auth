@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, Avatar, Menu, IconButton, Tooltip } from '@mui/material'
 import { Menu as MenuIcon } from '@mui/icons-material'
-import { useAuth } from './hooks/useAuth'
-import { AppMenuContent } from './AppMenuContent'
+import { useAuth } from '../hooks/useAuth'
+import { AccountMenuContent } from './AccountMenuContent'
 
-export function AppMenu() {
+export function AccountMenu() {
 	const { user } = useAuth()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
@@ -60,7 +60,7 @@ export function AppMenu() {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				<AppMenuContent />
+				<AccountMenuContent />
 			</Menu>
 		</>
 	)

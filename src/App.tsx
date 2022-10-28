@@ -1,9 +1,9 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { AppDialog } from './AppDialog'
+import { AppDialog } from './components/common/AppDialog'
 import { AppProviders } from './AppProviders'
 import { AppRouter } from './AppRouter'
-import { AppSnackbar } from './AppSnackbar'
+import { AppSnackbar } from './components/common/AppSnackbar'
 
 export function App() {
 	return (

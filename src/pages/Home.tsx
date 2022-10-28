@@ -1,10 +1,10 @@
 import React from 'react'
-import { AppMenu } from './AppMenu'
+import { AccountMenu } from '../components/AccountMenu'
 
 export function Home() {
 	return (
 		<div className="home">
-			<AppMenu />
+			<AccountMenu />
 		</div>
 	)
 }

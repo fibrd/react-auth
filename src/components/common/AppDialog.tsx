@@ -1,10 +1,10 @@
 import React from 'react'
-import { useDialog } from './hooks/useDialog'
-import { LoginForm } from './LoginForm'
-import { PasswordForgottenForm } from './PasswordForgottenForm'
-import { PasswordResetForm } from './PasswordResetForm'
-import { RegisterationForm } from './RegisterationForm'
-import { DialogType } from './types/common'
+import { useDialog } from '../../hooks/useDialog'
+import { PasswordForgottenForm } from '../forms/PasswordForgottenForm'
+import { DialogType } from '../../types/common'
+import { LoginForm } from '../forms/LoginForm'
+import { PasswordResetForm } from '../forms/PasswordResetForm'
+import { RegisterationForm } from '../forms/RegisterationForm'
 
 export function AppDialog() {
 	const { dialogType } = useDialog()

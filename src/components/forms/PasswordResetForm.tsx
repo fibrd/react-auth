@@ -3,7 +3,6 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
-import { AuthApi } from './api/AuthApi'
 import { AxiosError } from 'axios'
 import {
 	Button,
@@ -12,22 +11,26 @@ import {
 	DialogContent,
 	DialogTitle,
 } from '@mui/material'
-import { FormTextField } from './components/FormTextField'
-import { useSnackbar } from './hooks/useSnackbar'
-import { useDialog } from './hooks/useDialog'
-import { RegisterBody } from './types/auth'
+import { useNavigate } from 'react-router-dom'
+import { AuthApi } from '../../api/AuthApi'
+import { useDialog } from '../../hooks/useDialog'
+import { useSnackbar } from '../../hooks/useSnackbar'
+import { ResetPasswordBody } from '../../types/auth'
+import { FormTextField } from './FormTextField'
 
-export function RegisterationForm() {
+export function PasswordResetForm() {
+	const navigate = useNavigate()
 	const { showSnackbar } = useSnackbar()
-	const { hideDialog } = useDialog()
+	const { dialogData, hideDialog } = useDialog()
+	const { id, token, email } = dialogData as {
+		id: string
+		token: string
+		email: string
+	}
 	const validationSchema = yup.object({
-		email: yup.string().required().email(),
-		username: yup.string().required().min(3).max(12),
 		password: yup.string().required().min(6),
 	})
 	const defaultValues = {
-		email: '',
-		username: '',
 		password: '',
 	}
 
@@ -44,11 +47,14 @@ export function RegisterationForm() {
 	}
 
 	const { mutate } = useMutation(
-		(formData: RegisterBody) => AuthApi.register(formData),
+		(formData: ResetPasswordBody) =>
+			AuthApi.postResetPassword(id, token, formData),
 		{
 			onSuccess: ({ data }) => {
-				console.log(data)
+				showSnackbar(data.message, 'success')
+				handleClose()
 				reset()
+				navigate('/')
 			},
 			onError: (err: AxiosError<{ message: string }>) => {
 				const message = err.response?.data.message
@@ -63,33 +69,23 @@ export function RegisterationForm() {
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => mutate(values))}>
-					<DialogTitle>Register</DialogTitle>
-					<DialogContent>
-						<FormTextField
-							name="email"
-							variant="standard"
-							margin="dense"
-							label="Email"
-							fullWidth
-						/>
-						<FormTextField
-							name="username"
-							variant="standard"
-							margin="dense"
-							label="Username"
-							fullWidth
-						/>
+					<DialogTitle>
+						Změna hesla pro uživatele s emailem: {email}
+					</DialogTitle>
+					<DialogContent sx={{ minHeight: '100px' }}>
 						<FormTextField
 							name="password"
-							type="password"
 							variant="standard"
 							margin="dense"
+							type="password"
 							label="Heslo"
 							fullWidth
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button type="submit">Registrovat</Button>
+						<Button variant="contained" type="submit">
+							Odeslat
+						</Button>
 					</DialogActions>
 				</form>
 			</FormProvider>

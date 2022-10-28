@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
-import { AuthApi } from './api/AuthApi'
+import { AuthApi } from '../../api/AuthApi'
 import { AxiosError } from 'axios'
 import {
 	Button,
@@ -12,12 +12,12 @@ import {
 	DialogContent,
 	DialogTitle,
 } from '@mui/material'
-import { FormTextField } from './components/FormTextField'
-import { useAuth } from './hooks/useAuth'
-import { useSnackbar } from './hooks/useSnackbar'
-import { useDialog } from './hooks/useDialog'
-import { LoginBody } from './types/auth'
-import { DialogType } from './types/common'
+import { FormTextField } from '../forms/FormTextField'
+import { useAuth } from '../../hooks/useAuth'
+import { useDialog } from '../../hooks/useDialog'
+import { useSnackbar } from '../../hooks/useSnackbar'
+import { LoginBody } from '../../types/auth'
+import { DialogType } from '../../types/common'
 
 export function LoginForm() {
 	const { login } = useAuth()
