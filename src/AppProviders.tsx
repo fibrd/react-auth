@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { App } from './App'
 import { AuthContext, useAuthContext } from './context/authContext'
 import { SnackbarContext, useSnackbarContext } from './context/snackbarContext'
 import { DialogContext, useDialogContext } from './context/dialogContext'
 
-export function AppProviders() {
+export function AppProviders({ children }: PropsWithChildren) {
 	// Create a client provider
 	const queryClient = new QueryClient()
 
@@ -19,7 +18,7 @@ export function AppProviders() {
 			<AuthContext.Provider value={auth}>
 				<SnackbarContext.Provider value={snackbar}>
 					<DialogContext.Provider value={dialog}>
-						<App />
+						{children}
 					</DialogContext.Provider>
 				</SnackbarContext.Provider>
 			</AuthContext.Provider>

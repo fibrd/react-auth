@@ -1,17 +1,11 @@
 import React from 'react'
-import { AppSnackbar } from './AppSnackbar'
-import { AppMenu } from './AppMenu'
-import { AppDialog } from './AppDialog'
-import { useStartApp } from './hooks/useStartApp'
+import { AppProviders } from './AppProviders'
+import { AppRouter } from './AppRouter'
 
 export function App() {
-	useStartApp()
-
 	return (
-		<div className="app">
-			<AppMenu />
-			<AppDialog />
-			<AppSnackbar />
-		</div>
+		<AppProviders>
+			<AppRouter />
+		</AppProviders>
 	)
 }
