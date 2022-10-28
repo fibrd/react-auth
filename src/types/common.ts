@@ -4,11 +4,13 @@ export enum DialogType {
 	REGISTRATION = 'registration',
 	LOGIN = 'login',
 	PASSWORD_FORGOTTEN = 'passwordForgotten',
+	PASSWORD_RESET = 'passwordReset',
 }
 
 export interface Dialog {
 	dialogType: DialogType | null
-	showDialog: (type: DialogType) => void
+	dialogData: unknown | null
+	showDialog: (type: DialogType, dialogData?: unknown) => void
 	hideDialog: () => void
 }
 

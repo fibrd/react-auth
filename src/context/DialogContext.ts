@@ -6,8 +6,12 @@ export const DialogContext = createContext<Dialog | null>(null)
 
 export function useDialogContext() {
 	const [dialogType, setDialogType] = useState<DialogType | null>(null)
-	const showDialog = (type: DialogType) => setDialogType(type)
+	const [dialogData, setDialogData] = useState<unknown>(null)
+	const showDialog = (type: DialogType, data?: unknown) => {
+		setDialogType(type)
+		setDialogData(data ?? null)
+	}
 	const hideDialog = () => setDialogType(null)
 
-	return { dialogType, showDialog, hideDialog }
+	return { dialogType, dialogData, showDialog, hideDialog }
 }

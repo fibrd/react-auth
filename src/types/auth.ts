@@ -24,3 +24,7 @@ export interface LoginBody {
 export interface ForgottenPasswordBody {
 	email: string
 }
+
+export interface ResetPasswordBody {
+	password: string
+}
