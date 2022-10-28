@@ -10,7 +10,7 @@ export function AppRouter() {
 	return (
 		<Routes>
 			<Route path="/" element={<Home />} />
-			<Route path="/reset-password/:id/:token" element={<PasswordReset />} />
+			<Route path="/reset/:id/:token" element={<PasswordReset />} />
 		</Routes>
 	)
 }

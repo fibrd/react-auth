@@ -4,7 +4,7 @@ import { Course } from '../types/courses'
 
 const instance = axios.create({
 	withCredentials: true,
-	baseURL: BASE_URL,
+	baseURL: BASE_URL + '/api',
 })
 
 export const CoursesApi = {

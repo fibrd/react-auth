@@ -5,7 +5,7 @@ import { LoginBody, RegisterBody, User } from '../types/auth'
 
 const instance = axios.create({
 	withCredentials: true,
-	baseURL: BASE_URL,
+	baseURL: BASE_URL + '/api',
 })
 
 export const AuthApi = {
