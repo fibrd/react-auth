@@ -6,7 +6,11 @@ import { DialogContext, useDialogContext } from './context/dialogContext'
 
 export function AppProviders({ children }: PropsWithChildren) {
 	// Create a client provider
-	const queryClient = new QueryClient()
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: { retry: 2, refetchOnWindowFocus: false },
+		},
+	})
 
 	// Context
 	const auth = useAuthContext()
