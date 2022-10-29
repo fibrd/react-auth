@@ -1,17 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MenuItem, ListItemIcon } from '@mui/material'
 import { Person, Logout, Login, AppRegistration } from '@mui/icons-material'
 import { useAuth } from '../hooks/useAuth'
 import { useDialog } from '../hooks/useDialog'
 import { DialogType } from '../types/common'
+import { AxiosError } from 'axios'
+import { useMutation } from 'react-query'
+import { AuthApi } from '../api/AuthApi'
+import { useProgress } from '../hooks/useProgress'
+import { useSnackbar } from '../hooks/useSnackbar'
 
-interface AccountMenuContentProps {
-	onLogout: () => void
-}
-
-export function AccountMenuContent({ onLogout }: AccountMenuContentProps) {
-	const { user } = useAuth()
+export function AccountMenuContent() {
+	const { logout, user } = useAuth()
+	const { showSnackbar } = useSnackbar()
+	const { showProgress, hideProgress } = useProgress()
 	const { showDialog } = useDialog()
+
+	const { mutate: submitLogout, isLoading } = useMutation(
+		() => AuthApi.logout(),
+		{
+			onSuccess: ({ data }) => {
+				localStorage.removeItem('user')
+				logout()
+				showSnackbar(data.message, 'info')
+			},
+			onError: (err: AxiosError<{ message: string }>) => {
+				const message = err.response?.data.message
+				if (message) {
+					showSnackbar(message, 'error')
+				}
+			},
+		}
+	)
+
+	useEffect(() => {
+		isLoading ? showProgress() : hideProgress()
+	}, [isLoading])
 
 	if (!user) {
 		return (
@@ -40,7 +64,7 @@ export function AccountMenuContent({ onLogout }: AccountMenuContentProps) {
 				</ListItemIcon>
 				{user.username}
 			</MenuItem>
-			<MenuItem onClick={onLogout}>
+			<MenuItem onClick={() => submitLogout()}>
 				<ListItemIcon>
 					<Logout fontSize="small" />
 				</ListItemIcon>

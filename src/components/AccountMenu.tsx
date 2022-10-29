@@ -4,11 +4,7 @@ import { Menu as MenuIcon } from '@mui/icons-material'
 import { useAuth } from '../hooks/useAuth'
 import { AccountMenuContent } from './AccountMenuContent'
 
-interface AccountMenuProps {
-	onLogout: () => void
-}
-
-export function AccountMenu({ onLogout }: AccountMenuProps) {
+export function AccountMenu() {
 	const { user } = useAuth()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
@@ -44,7 +40,7 @@ export function AccountMenu({ onLogout }: AccountMenuProps) {
 				anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
 				keepMounted
 			>
-				<AccountMenuContent onLogout={onLogout} />
+				<AccountMenuContent />
 			</Menu>
 		</Box>
 	)

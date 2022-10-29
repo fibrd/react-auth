@@ -15,11 +15,7 @@ import { AccountMenu } from './AccountMenu'
 
 const PAGES = ['Products', 'Pricing', 'Blog']
 
-interface AppMenuProps {
-	onLogout: () => void
-}
-
-export function AppMenu({ onLogout }: AppMenuProps) {
+export function AppMenu() {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
 	return (
@@ -111,7 +107,7 @@ export function AppMenu({ onLogout }: AppMenuProps) {
 							</Button>
 						))}
 					</Box>
-					<AccountMenu onLogout={onLogout} />
+					<AccountMenu />
 				</Toolbar>
 			</Container>
 		</AppBar>
