@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthApi } from '../api/AuthApi'
-import { AppProgress } from '../components/common/AppProgress'
 import { useDialog } from '../hooks/useDialog'
+import { useProgress } from '../hooks/useProgress'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { DialogType } from '../types/common'
 
@@ -12,6 +12,7 @@ export function PasswordReset() {
 	const { id, token } = useParams<{ id: string; token: string }>()
 	const { showSnackbar } = useSnackbar()
 	const { showDialog } = useDialog()
+	const { showProgress, hideProgress } = useProgress()
 
 	const { isLoading } = useQuery(
 		['/reset-password/:id/:token', id, token],
@@ -28,5 +29,9 @@ export function PasswordReset() {
 		}
 	)
 
-	return <AppProgress enabled={isLoading} />
+	useEffect(() => {
+		isLoading ? showProgress() : hideProgress()
+	}, [isLoading])
+
+	return null
 }

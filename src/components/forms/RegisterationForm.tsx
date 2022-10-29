@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -16,11 +16,12 @@ import { useDialog } from '../../hooks/useDialog'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { RegisterBody } from '../../types/auth'
 import { FormTextField } from './FormTextField'
-import { AppProgress } from '../common/AppProgress'
+import { useProgress } from '../../hooks/useProgress'
 
 export function RegisterationForm() {
 	const { showSnackbar } = useSnackbar()
 	const { hideDialog } = useDialog()
+	const { showProgress, hideProgress } = useProgress()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		username: yup.string().required().min(3).max(12),
@@ -60,9 +61,12 @@ export function RegisterationForm() {
 		}
 	)
 
+	useEffect(() => {
+		isLoading ? showProgress() : hideProgress()
+	}, [isLoading])
+
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
-			<AppProgress enabled={isLoading} />
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => submitRegister(values))}>
 					<DialogTitle>Register</DialogTitle>

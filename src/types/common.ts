@@ -20,3 +20,9 @@ export interface Snackbar {
 	showSnackbar: (text: string, alertColor: AlertColor) => void
 	hideSnackbar: () => void
 }
+
+export interface Progress {
+	isEnabled: boolean
+	showProgress: () => void
+	hideProgress: () => void
+}

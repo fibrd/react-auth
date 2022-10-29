@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { AuthApi } from '../api/AuthApi'
 import { useAuth } from '../hooks/useAuth'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { AppMenu } from '../components/AppMenu'
-import { AppProgress } from '../components/common/AppProgress'
+import { useProgress } from '../hooks/useProgress'
 
 export function Home() {
 	const { logout } = useAuth()
 	const { showSnackbar } = useSnackbar()
+	const { showProgress, hideProgress } = useProgress()
 
 	const { mutate: submitLogout, isLoading } = useMutation(
 		() => AuthApi.logout(),
@@ -28,9 +29,12 @@ export function Home() {
 		}
 	)
 
+	useEffect(() => {
+		isLoading ? showProgress() : hideProgress()
+	}, [isLoading])
+
 	return (
 		<>
-			<AppProgress enabled={isLoading} />
 			<AppMenu onLogout={submitLogout} />
 			<div className="home"></div>
 		</>

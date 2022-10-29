@@ -1,12 +1,11 @@
 import React from 'react'
 import { LinearProgress } from '@mui/material'
+import { useProgress } from '../../hooks/useProgress'
 
-interface AppProgressProps {
-	enabled: boolean
-}
+export function AppProgress() {
+	const { isEnabled } = useProgress()
 
-export function AppProgress({ enabled }: AppProgressProps) {
-	if (!enabled) {
+	if (!isEnabled) {
 		return null
 	}
 

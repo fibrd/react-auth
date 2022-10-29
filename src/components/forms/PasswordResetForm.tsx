@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -17,12 +17,13 @@ import { useDialog } from '../../hooks/useDialog'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { ResetPasswordBody } from '../../types/auth'
 import { FormTextField } from './FormTextField'
-import { AppProgress } from '../common/AppProgress'
+import { useProgress } from '../../hooks/useProgress'
 
 export function PasswordResetForm() {
 	const navigate = useNavigate()
 	const { showSnackbar } = useSnackbar()
 	const { dialogData, hideDialog } = useDialog()
+	const { showProgress, hideProgress } = useProgress()
 	const { id, token, email } = dialogData as {
 		id: string
 		token: string
@@ -65,9 +66,12 @@ export function PasswordResetForm() {
 		}
 	)
 
+	useEffect(() => {
+		isLoading ? showProgress() : hideProgress()
+	}, [isLoading])
+
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
-			<AppProgress enabled={isLoading} />
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => resetPassword(values))}>
 					<DialogTitle>
