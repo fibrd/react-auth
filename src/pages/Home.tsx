@@ -1,11 +1,11 @@
 import React from 'react'
-import { LinearProgress } from '@mui/material'
 import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { AuthApi } from '../api/AuthApi'
-import { AccountMenu } from '../components/AccountMenu'
 import { useAuth } from '../hooks/useAuth'
 import { useSnackbar } from '../hooks/useSnackbar'
+import { AppMenu } from '../components/AppMenu'
+import { AppProgress } from '../components/common/AppProgress'
 
 export function Home() {
 	const { logout } = useAuth()
@@ -30,10 +30,9 @@ export function Home() {
 
 	return (
 		<>
-			{isLoading && <LinearProgress />}
-			<div className="home">
-				<AccountMenu onLogout={submitLogout} />
-			</div>
+			<AppProgress enabled={isLoading} />
+			<AppMenu onLogout={submitLogout} />
+			<div className="home"></div>
 		</>
 	)
 }

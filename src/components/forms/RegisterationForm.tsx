@@ -10,13 +10,13 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	LinearProgress,
 } from '@mui/material'
 import { AuthApi } from '../../api/AuthApi'
 import { useDialog } from '../../hooks/useDialog'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { RegisterBody } from '../../types/auth'
 import { FormTextField } from './FormTextField'
+import { AppProgress } from '../common/AppProgress'
 
 export function RegisterationForm() {
 	const { showSnackbar } = useSnackbar()
@@ -62,7 +62,7 @@ export function RegisterationForm() {
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
-			{isLoading && <LinearProgress />}
+			<AppProgress enabled={isLoading} />
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => submitRegister(values))}>
 					<DialogTitle>Register</DialogTitle>

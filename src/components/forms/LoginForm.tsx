@@ -11,7 +11,6 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	LinearProgress,
 } from '@mui/material'
 import { FormTextField } from '../forms/FormTextField'
 import { useAuth } from '../../hooks/useAuth'
@@ -19,6 +18,7 @@ import { useDialog } from '../../hooks/useDialog'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { LoginBody } from '../../types/auth'
 import { DialogType } from '../../types/common'
+import { AppProgress } from '../common/AppProgress'
 
 export function LoginForm() {
 	const { login } = useAuth()
@@ -66,7 +66,7 @@ export function LoginForm() {
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
-			{isLoading && <LinearProgress />}
+			<AppProgress enabled={isLoading} />
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => submitLogin(values))}>
 					<DialogTitle>Login</DialogTitle>
