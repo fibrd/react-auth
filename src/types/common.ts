@@ -23,6 +23,6 @@ export interface Snackbar {
 
 export interface Progress {
 	isEnabled: boolean
-	showProgress: () => void
-	hideProgress: () => void
+	addProgress: () => void
+	removeProgress: () => void
 }

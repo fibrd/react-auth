@@ -21,7 +21,7 @@ import { useProgress } from '../../hooks/useProgress'
 export function RegisterationForm() {
 	const { showSnackbar } = useSnackbar()
 	const { hideDialog } = useDialog()
-	const { showProgress, hideProgress } = useProgress()
+	const { addProgress, removeProgress } = useProgress()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		username: yup.string().required().min(3).max(12),
@@ -62,7 +62,7 @@ export function RegisterationForm() {
 	)
 
 	useEffect(() => {
-		isLoading ? showProgress() : hideProgress()
+		isLoading ? addProgress() : removeProgress()
 	}, [isLoading])
 
 	return (

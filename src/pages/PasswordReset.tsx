@@ -12,7 +12,7 @@ export function PasswordReset() {
 	const { id, token } = useParams<{ id: string; token: string }>()
 	const { showSnackbar } = useSnackbar()
 	const { showDialog } = useDialog()
-	const { showProgress, hideProgress } = useProgress()
+	const { addProgress, removeProgress } = useProgress()
 
 	const { isLoading } = useQuery(
 		['/reset-password/:id/:token', id, token],
@@ -30,7 +30,7 @@ export function PasswordReset() {
 	)
 
 	useEffect(() => {
-		isLoading ? showProgress() : hideProgress()
+		isLoading ? addProgress() : removeProgress()
 	}, [isLoading])
 
 	return null

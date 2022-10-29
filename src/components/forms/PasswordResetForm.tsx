@@ -23,7 +23,7 @@ export function PasswordResetForm() {
 	const navigate = useNavigate()
 	const { showSnackbar } = useSnackbar()
 	const { dialogData, hideDialog } = useDialog()
-	const { showProgress, hideProgress } = useProgress()
+	const { addProgress, removeProgress } = useProgress()
 	const { id, token, email } = dialogData as {
 		id: string
 		token: string
@@ -67,7 +67,7 @@ export function PasswordResetForm() {
 	)
 
 	useEffect(() => {
-		isLoading ? showProgress() : hideProgress()
+		isLoading ? addProgress() : removeProgress()
 	}, [isLoading])
 
 	return (

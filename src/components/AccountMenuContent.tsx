@@ -13,7 +13,7 @@ import { useSnackbar } from '../hooks/useSnackbar'
 export function AccountMenuContent() {
 	const { logout, user } = useAuth()
 	const { showSnackbar } = useSnackbar()
-	const { showProgress, hideProgress } = useProgress()
+	const { addProgress, removeProgress } = useProgress()
 	const { showDialog } = useDialog()
 
 	const { mutate: submitLogout, isLoading } = useMutation(
@@ -34,7 +34,7 @@ export function AccountMenuContent() {
 	)
 
 	useEffect(() => {
-		isLoading ? showProgress() : hideProgress()
+		isLoading ? addProgress() : removeProgress()
 	}, [isLoading])
 
 	if (!user) {

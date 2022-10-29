@@ -24,7 +24,7 @@ export function LoginForm() {
 	const { login } = useAuth()
 	const { showSnackbar } = useSnackbar()
 	const { showDialog, hideDialog } = useDialog()
-	const { showProgress, hideProgress } = useProgress()
+	const { addProgress, removeProgress } = useProgress()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		password: yup.string().required().min(6),
@@ -66,7 +66,7 @@ export function LoginForm() {
 	)
 
 	useEffect(() => {
-		isLoading ? showProgress() : hideProgress()
+		isLoading ? addProgress() : removeProgress()
 	}, [isLoading])
 
 	return (

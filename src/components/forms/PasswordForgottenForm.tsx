@@ -21,7 +21,7 @@ import { useProgress } from '../../hooks/useProgress'
 export function PasswordForgottenForm() {
 	const { showSnackbar } = useSnackbar()
 	const { hideDialog } = useDialog()
-	const { showProgress, hideProgress } = useProgress()
+	const { addProgress, removeProgress } = useProgress()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 	})
@@ -59,7 +59,7 @@ export function PasswordForgottenForm() {
 	)
 
 	useEffect(() => {
-		isLoading ? showProgress() : hideProgress()
+		isLoading ? addProgress() : removeProgress()
 	}, [isLoading])
 
 	return (
