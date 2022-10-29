@@ -44,7 +44,7 @@ export function RegisterationForm() {
 		clearErrors()
 	}
 
-	const { mutate: register, isLoading } = useMutation(
+	const { mutate: submitRegister, isLoading } = useMutation(
 		(formData: RegisterBody) => AuthApi.register(formData),
 		{
 			onSuccess: ({ data }) => {
@@ -64,7 +64,7 @@ export function RegisterationForm() {
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			{isLoading && <LinearProgress />}
 			<FormProvider {...methods}>
-				<form onSubmit={handleSubmit(values => register(values))}>
+				<form onSubmit={handleSubmit(values => submitRegister(values))}>
 					<DialogTitle>Register</DialogTitle>
 					<DialogContent>
 						<FormTextField

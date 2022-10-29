@@ -8,6 +8,7 @@ import { DialogType } from '../types/common'
 interface AccountMenuContentProps {
 	onLogout: () => void
 }
+
 export function AccountMenuContent({ onLogout }: AccountMenuContentProps) {
 	const { user } = useAuth()
 	const { showDialog } = useDialog()

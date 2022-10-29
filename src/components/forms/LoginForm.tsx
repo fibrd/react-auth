@@ -45,7 +45,7 @@ export function LoginForm() {
 		clearErrors()
 	}
 
-	const { mutate, isLoading } = useMutation(
+	const { mutate: submitLogin, isLoading } = useMutation(
 		(formData: LoginBody) => AuthApi.login(formData),
 		{
 			onSuccess: ({ data }) => {
@@ -68,7 +68,7 @@ export function LoginForm() {
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			{isLoading && <LinearProgress />}
 			<FormProvider {...methods}>
-				<form onSubmit={handleSubmit(values => mutate(values))}>
+				<form onSubmit={handleSubmit(values => submitLogin(values))}>
 					<DialogTitle>Login</DialogTitle>
 					<DialogContent sx={{ minHeight: '200px' }}>
 						<FormTextField
