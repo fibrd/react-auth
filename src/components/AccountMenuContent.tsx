@@ -7,17 +7,14 @@ import { DialogType } from '../types/common'
 import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 import { AuthApi } from '../api/AuthApi'
-import { useProgress } from '../hooks/useProgress'
 import { useSnackbar } from '../hooks/useSnackbar'
 
 export function AccountMenuContent() {
 	const { logout, user } = useAuth()
 	const { showSnackbar } = useSnackbar()
-	const { addProgress, removeProgress } = useProgress()
 	const { showDialog } = useDialog()
 
 	const { mutate: submitLogout } = useMutation(() => AuthApi.logout(), {
-		onMutate: addProgress,
 		onSuccess: ({ data }) => {
 			localStorage.removeItem('user')
 			logout()
@@ -29,7 +26,6 @@ export function AccountMenuContent() {
 				showSnackbar(message, 'error')
 			}
 		},
-		onSettled: removeProgress,
 	})
 
 	if (!user) {

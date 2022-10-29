@@ -17,13 +17,11 @@ import { useDialog } from '../../hooks/useDialog'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { ResetPasswordBody } from '../../types/auth'
 import { FormTextField } from './FormTextField'
-import { useProgress } from '../../hooks/useProgress'
 
 export function PasswordResetForm() {
 	const navigate = useNavigate()
 	const { showSnackbar } = useSnackbar()
 	const { dialogData, hideDialog } = useDialog()
-	const { addProgress, removeProgress } = useProgress()
 	const { id, token, email } = dialogData as {
 		id: string
 		token: string
@@ -51,7 +49,6 @@ export function PasswordResetForm() {
 	const { mutate: resetPassword, isLoading } = useMutation(
 		(formData: ResetPasswordBody) => AuthApi.resetPassword(id, token, formData),
 		{
-			onMutate: addProgress,
 			onSuccess: ({ data }) => {
 				showSnackbar(data.message, 'success')
 				handleClose()
@@ -64,7 +61,6 @@ export function PasswordResetForm() {
 					showSnackbar(message, 'error')
 				}
 			},
-			onSettled: removeProgress,
 		}
 	)
 

@@ -1,11 +1,12 @@
 import React from 'react'
 import { LinearProgress } from '@mui/material'
-import { useProgress } from '../../hooks/useProgress'
+import { useIsFetching, useIsMutating } from 'react-query'
 
 export function AppProgress() {
-	const { isEnabled } = useProgress()
+	const isFeching = useIsFetching()
+	const isMutating = useIsMutating()
 
-	if (!isEnabled) {
+	if (!isFeching && !isMutating) {
 		return null
 	}
 

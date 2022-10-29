@@ -18,13 +18,11 @@ import { useDialog } from '../../hooks/useDialog'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { LoginBody } from '../../types/auth'
 import { DialogType } from '../../types/common'
-import { useProgress } from '../../hooks/useProgress'
 
 export function LoginForm() {
 	const { login } = useAuth()
 	const { showSnackbar } = useSnackbar()
 	const { showDialog, hideDialog } = useDialog()
-	const { addProgress, removeProgress } = useProgress()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		password: yup.string().required().min(6),
@@ -49,7 +47,6 @@ export function LoginForm() {
 	const { mutate: submitLogin, isLoading } = useMutation(
 		(formData: LoginBody) => AuthApi.login(formData),
 		{
-			onMutate: addProgress,
 			onSuccess: ({ data }) => {
 				localStorage.setItem('user', JSON.stringify(data.user))
 				login(data.user)
@@ -63,7 +60,6 @@ export function LoginForm() {
 					showSnackbar(message, 'error')
 				}
 			},
-			onSettled: removeProgress,
 		}
 	)
 

@@ -16,12 +16,10 @@ import { FormTextField } from './FormTextField'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { useDialog } from '../../hooks/useDialog'
 import { SendEmailBody } from '../../types/auth'
-import { useProgress } from '../../hooks/useProgress'
 
 export function PasswordForgottenForm() {
 	const { showSnackbar } = useSnackbar()
 	const { hideDialog } = useDialog()
-	const { addProgress, removeProgress } = useProgress()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 	})
@@ -44,7 +42,6 @@ export function PasswordForgottenForm() {
 	const { mutate: sendEmail, isLoading } = useMutation(
 		(formData: SendEmailBody) => AuthApi.sendEmail(formData),
 		{
-			onMutate: addProgress,
 			onSuccess: ({ data }) => {
 				showSnackbar(data.message, 'info')
 				handleClose()
@@ -56,7 +53,6 @@ export function PasswordForgottenForm() {
 					showSnackbar(message, 'error')
 				}
 			},
-			onSettled: removeProgress,
 		}
 	)
 

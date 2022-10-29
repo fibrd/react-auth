@@ -16,12 +16,10 @@ import { useDialog } from '../../hooks/useDialog'
 import { useSnackbar } from '../../hooks/useSnackbar'
 import { RegisterBody } from '../../types/auth'
 import { FormTextField } from './FormTextField'
-import { useProgress } from '../../hooks/useProgress'
 
 export function RegisterationForm() {
 	const { showSnackbar } = useSnackbar()
 	const { hideDialog } = useDialog()
-	const { addProgress, removeProgress } = useProgress()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
 		username: yup.string().required().min(3).max(12),
@@ -48,9 +46,8 @@ export function RegisterationForm() {
 	const { mutate: submitRegister, isLoading } = useMutation(
 		(formData: RegisterBody) => AuthApi.register(formData),
 		{
-			onMutate: addProgress,
 			onSuccess: ({ data }) => {
-				console.log(data)
+				showSnackbar(data.message, 'success')
 				reset()
 			},
 			onError: (err: AxiosError<{ message: string }>) => {
@@ -59,7 +56,6 @@ export function RegisterationForm() {
 					showSnackbar(message, 'error')
 				}
 			},
-			onSettled: removeProgress,
 		}
 	)
 

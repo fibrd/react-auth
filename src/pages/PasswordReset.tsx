@@ -1,9 +1,7 @@
-import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthApi } from '../api/AuthApi'
 import { useDialog } from '../hooks/useDialog'
-import { useProgress } from '../hooks/useProgress'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { DialogType } from '../types/common'
 
@@ -12,9 +10,8 @@ export function PasswordReset() {
 	const { id, token } = useParams<{ id: string; token: string }>()
 	const { showSnackbar } = useSnackbar()
 	const { showDialog } = useDialog()
-	const { addProgress, removeProgress } = useProgress()
 
-	const { isLoading } = useQuery(
+	useQuery(
 		['/reset-password/:id/:token', id, token],
 		() => AuthApi.validateLink(id ?? '', token ?? ''),
 		{
@@ -26,17 +23,8 @@ export function PasswordReset() {
 				showSnackbar('Nastala chyba při validaci reset linku.', 'error')
 				navigate('/')
 			},
-			onSettled: removeProgress,
 		}
 	)
-
-	useEffect(() => {
-		if (isLoading) {
-			// TODO volano 2x
-			addProgress()
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isLoading])
 
 	return null
 }
