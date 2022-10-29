@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -48,6 +48,7 @@ export function RegisterationForm() {
 	const { mutate: submitRegister, isLoading } = useMutation(
 		(formData: RegisterBody) => AuthApi.register(formData),
 		{
+			onMutate: addProgress,
 			onSuccess: ({ data }) => {
 				console.log(data)
 				reset()
@@ -58,12 +59,9 @@ export function RegisterationForm() {
 					showSnackbar(message, 'error')
 				}
 			},
+			onSettled: removeProgress,
 		}
 	)
-
-	useEffect(() => {
-		isLoading ? addProgress() : removeProgress()
-	}, [isLoading])
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>

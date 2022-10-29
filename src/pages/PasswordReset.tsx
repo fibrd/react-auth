@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthApi } from '../api/AuthApi'
@@ -26,11 +26,16 @@ export function PasswordReset() {
 				showSnackbar('Nastala chyba při validaci reset linku.', 'error')
 				navigate('/')
 			},
+			onSettled: removeProgress,
 		}
 	)
 
 	useEffect(() => {
-		isLoading ? addProgress() : removeProgress()
+		if (isLoading) {
+			// TODO volano 2x
+			addProgress()
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading])
 
 	return null

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { MenuItem, ListItemIcon } from '@mui/material'
 import { Person, Logout, Login, AppRegistration } from '@mui/icons-material'
 import { useAuth } from '../hooks/useAuth'
@@ -16,26 +16,21 @@ export function AccountMenuContent() {
 	const { addProgress, removeProgress } = useProgress()
 	const { showDialog } = useDialog()
 
-	const { mutate: submitLogout, isLoading } = useMutation(
-		() => AuthApi.logout(),
-		{
-			onSuccess: ({ data }) => {
-				localStorage.removeItem('user')
-				logout()
-				showSnackbar(data.message, 'info')
-			},
-			onError: (err: AxiosError<{ message: string }>) => {
-				const message = err.response?.data.message
-				if (message) {
-					showSnackbar(message, 'error')
-				}
-			},
-		}
-	)
-
-	useEffect(() => {
-		isLoading ? addProgress() : removeProgress()
-	}, [isLoading])
+	const { mutate: submitLogout } = useMutation(() => AuthApi.logout(), {
+		onMutate: addProgress,
+		onSuccess: ({ data }) => {
+			localStorage.removeItem('user')
+			logout()
+			showSnackbar(data.message, 'info')
+		},
+		onError: (err: AxiosError<{ message: string }>) => {
+			const message = err.response?.data.message
+			if (message) {
+				showSnackbar(message, 'error')
+			}
+		},
+		onSettled: removeProgress,
+	})
 
 	if (!user) {
 		return (

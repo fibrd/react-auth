@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -44,6 +44,7 @@ export function PasswordForgottenForm() {
 	const { mutate: sendEmail, isLoading } = useMutation(
 		(formData: SendEmailBody) => AuthApi.sendEmail(formData),
 		{
+			onMutate: addProgress,
 			onSuccess: ({ data }) => {
 				showSnackbar(data.message, 'info')
 				handleClose()
@@ -55,12 +56,9 @@ export function PasswordForgottenForm() {
 					showSnackbar(message, 'error')
 				}
 			},
+			onSettled: removeProgress,
 		}
 	)
-
-	useEffect(() => {
-		isLoading ? addProgress() : removeProgress()
-	}, [isLoading])
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>

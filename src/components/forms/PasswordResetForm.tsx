@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -51,6 +51,7 @@ export function PasswordResetForm() {
 	const { mutate: resetPassword, isLoading } = useMutation(
 		(formData: ResetPasswordBody) => AuthApi.resetPassword(id, token, formData),
 		{
+			onMutate: addProgress,
 			onSuccess: ({ data }) => {
 				showSnackbar(data.message, 'success')
 				handleClose()
@@ -63,12 +64,9 @@ export function PasswordResetForm() {
 					showSnackbar(message, 'error')
 				}
 			},
+			onSettled: removeProgress,
 		}
 	)
-
-	useEffect(() => {
-		isLoading ? addProgress() : removeProgress()
-	}, [isLoading])
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>

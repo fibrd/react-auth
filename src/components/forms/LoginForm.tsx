@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -49,6 +49,7 @@ export function LoginForm() {
 	const { mutate: submitLogin, isLoading } = useMutation(
 		(formData: LoginBody) => AuthApi.login(formData),
 		{
+			onMutate: addProgress,
 			onSuccess: ({ data }) => {
 				localStorage.setItem('user', JSON.stringify(data.user))
 				login(data.user)
@@ -62,12 +63,9 @@ export function LoginForm() {
 					showSnackbar(message, 'error')
 				}
 			},
+			onSettled: removeProgress,
 		}
 	)
-
-	useEffect(() => {
-		isLoading ? addProgress() : removeProgress()
-	}, [isLoading])
 
 	return (
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
