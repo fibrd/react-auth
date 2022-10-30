@@ -20,6 +20,7 @@ import {
 import * as React from 'react'
 import { AccountMenu } from './AccountMenu'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 
 const PAGES = [
 	{
@@ -37,6 +38,8 @@ const PAGES = [
 
 export function AppMenu() {
 	const navigate = useNavigate()
+	const { user } = useAuth()
+
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
 	return (
@@ -64,43 +67,45 @@ export function AppMenu() {
 						MS 2022
 					</Typography>
 
-					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-						<IconButton
-							size="large"
-							aria-label="account of current user"
-							aria-controls="menu-appbar"
-							aria-haspopup="true"
-							onClick={({ currentTarget }) => setAnchorElNav(currentTarget)}
-							color="inherit"
-						>
-							<MenuIcon />
-						</IconButton>
-						<Menu
-							id="menu-appbar"
-							anchorEl={anchorElNav}
-							anchorOrigin={{
-								vertical: 'bottom',
-								horizontal: 'left',
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'left',
-							}}
-							open={Boolean(anchorElNav)}
-							onClose={() => setAnchorElNav(null)}
-							sx={{
-								display: { xs: 'block', md: 'none' },
-							}}
-						>
-							{PAGES.map(({ title, path, icon }) => (
-								<MenuItem key={title} onClick={() => navigate(path)}>
-									<ListItemIcon>{icon}</ListItemIcon>
-									<Typography textAlign="center">{title}</Typography>
-								</MenuItem>
-							))}
-						</Menu>
-					</Box>
+					{user && (
+						<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+							<IconButton
+								size="large"
+								aria-label="account of current user"
+								aria-controls="menu-appbar"
+								aria-haspopup="true"
+								onClick={({ currentTarget }) => setAnchorElNav(currentTarget)}
+								color="inherit"
+							>
+								<MenuIcon />
+							</IconButton>
+							<Menu
+								id="menu-appbar"
+								anchorEl={anchorElNav}
+								anchorOrigin={{
+									vertical: 'bottom',
+									horizontal: 'left',
+								}}
+								keepMounted
+								transformOrigin={{
+									vertical: 'top',
+									horizontal: 'left',
+								}}
+								open={Boolean(anchorElNav)}
+								onClose={() => setAnchorElNav(null)}
+								sx={{
+									display: { xs: 'block', md: 'none' },
+								}}
+							>
+								{PAGES.map(({ title, path, icon }) => (
+									<MenuItem key={title} onClick={() => navigate(path)}>
+										<ListItemIcon>{icon}</ListItemIcon>
+										<Typography textAlign="center">{title}</Typography>
+									</MenuItem>
+								))}
+							</Menu>
+						</Box>
+					)}
 					<SportsSoccerTwoTone
 						sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
 					/>
@@ -123,15 +128,16 @@ export function AppMenu() {
 						MS 2022
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						{PAGES.map(({ title, path }) => (
-							<Button
-								key={title}
-								onClick={() => navigate(path)}
-								sx={{ my: 2, color: 'white', display: 'block' }}
-							>
-								{title}
-							</Button>
-						))}
+						{user &&
+							PAGES.map(({ title, path }) => (
+								<Button
+									key={title}
+									onClick={() => navigate(path)}
+									sx={{ my: 2, color: 'white', display: 'block' }}
+								>
+									{title}
+								</Button>
+							))}
 					</Box>
 					<AccountMenu />
 				</Toolbar>

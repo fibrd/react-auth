@@ -22,7 +22,7 @@ export function RegisterationForm() {
 	const { hideDialog } = useDialog()
 	const validationSchema = yup.object({
 		email: yup.string().required().email(),
-		username: yup.string().required().min(3).max(12),
+		username: yup.string().required().min(3).max(12).trim(),
 		password: yup.string().required().min(6),
 	})
 	const defaultValues = {
