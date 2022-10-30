@@ -6,8 +6,10 @@ import { PasswordReset } from './pages/PasswordReset'
 import { MyTips } from './pages/MyTips'
 import { Table } from './pages/Table'
 import { Results } from './pages/Results'
+import { useYupLocale } from './hooks/useYupLocale'
 
 export function AppRouter() {
+	useYupLocale()
 	useStartApp()
 
 	return (
