@@ -3,7 +3,7 @@ import fixtures from '../data/fixtures.json'
 import { Avatar, Divider, List, ListItem, ListItemText } from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
 
-export function MyTips() {
+export function Schedule() {
 	return (
 		<AppPageWrapper>
 			<List

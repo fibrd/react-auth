@@ -8,6 +8,7 @@ import { Table } from './pages/Table'
 import { Results } from './pages/Results'
 import { useYupLocale } from './hooks/useYupLocale'
 import { useAuth } from './hooks/useAuth'
+import { Schedule } from './pages/Schedule'
 
 export function AppRouter() {
 	useYupLocale()
@@ -20,6 +21,7 @@ export function AppRouter() {
 			<Route path="/" element={<Home />} />
 			{user && (
 				<>
+					<Route path="/program" element={<Schedule />} />
 					<Route path="/moje-tipy" element={<MyTips />} />
 					<Route path="/tabulka" element={<Table />} />
 					<Route path="/vysledky" element={<Results />} />
