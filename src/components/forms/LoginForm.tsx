@@ -67,7 +67,7 @@ export function LoginForm() {
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => submitLogin(values))}>
-					<DialogTitle>Login</DialogTitle>
+					<DialogTitle>Přihlášení</DialogTitle>
 					<DialogContent sx={{ minHeight: '200px' }}>
 						<FormTextField
 							name="email"

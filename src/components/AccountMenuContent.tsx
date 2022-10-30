@@ -1,6 +1,6 @@
 import React from 'react'
 import { MenuItem, ListItemIcon } from '@mui/material'
-import { Person, Logout, Login, AppRegistration } from '@mui/icons-material'
+import { Person, Logout, Login, PersonAdd } from '@mui/icons-material'
 import { useAuth } from '../hooks/useAuth'
 import { useDialog } from '../hooks/useDialog'
 import { DialogType } from '../types/common'
@@ -33,15 +33,15 @@ export function AccountMenuContent() {
 			<>
 				<MenuItem onClick={() => showDialog(DialogType.REGISTRATION)}>
 					<ListItemIcon>
-						<AppRegistration fontSize="small" />
+						<PersonAdd fontSize="small" />
 					</ListItemIcon>
-					Register
+					Registrace
 				</MenuItem>
 				<MenuItem onClick={() => showDialog(DialogType.LOGIN)}>
 					<ListItemIcon>
 						<Login fontSize="small" />
 					</ListItemIcon>
-					Login
+					Přihlášení
 				</MenuItem>
 			</>
 		)
@@ -59,7 +59,7 @@ export function AccountMenuContent() {
 				<ListItemIcon>
 					<Logout fontSize="small" />
 				</ListItemIcon>
-				Logout
+				Odhlásit
 			</MenuItem>
 		</>
 	)

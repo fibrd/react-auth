@@ -68,9 +68,7 @@ export function PasswordResetForm() {
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => resetPassword(values))}>
-					<DialogTitle>
-						Změna hesla pro uživatele s emailem: {email}
-					</DialogTitle>
+					<DialogTitle>Změna hesla pro: {email}</DialogTitle>
 					<DialogContent sx={{ minHeight: '100px' }}>
 						<FormTextField
 							name="password"
@@ -83,7 +81,7 @@ export function PasswordResetForm() {
 					</DialogContent>
 					<DialogActions>
 						<Button variant="contained" type="submit" disabled={isLoading}>
-							Odeslat
+							Změnit heslo
 						</Button>
 					</DialogActions>
 				</form>

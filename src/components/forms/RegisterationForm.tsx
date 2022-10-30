@@ -63,7 +63,7 @@ export function RegisterationForm() {
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => submitRegister(values))}>
-					<DialogTitle>Register</DialogTitle>
+					<DialogTitle>Registrace</DialogTitle>
 					<DialogContent>
 						<FormTextField
 							name="email"
@@ -76,7 +76,7 @@ export function RegisterationForm() {
 							name="username"
 							variant="standard"
 							margin="dense"
-							label="Username"
+							label="Uživatelské jméno"
 							fullWidth
 						/>
 						<FormTextField

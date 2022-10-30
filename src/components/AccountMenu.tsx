@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Avatar, Menu, IconButton, Tooltip } from '@mui/material'
-import { Menu as MenuIcon } from '@mui/icons-material'
+import { AppRegistration } from '@mui/icons-material'
 import { useAuth } from '../hooks/useAuth'
 import { AccountMenuContent } from './AccountMenuContent'
 
@@ -24,7 +24,7 @@ export function AccountMenu() {
 						{user ? (
 							user.username[0].toUpperCase()
 						) : (
-							<MenuIcon fontSize="small" />
+							<AppRegistration fontSize="small" />
 						)}
 					</Avatar>
 				</IconButton>

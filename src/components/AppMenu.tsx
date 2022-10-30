@@ -8,16 +8,31 @@ import {
 	Menu,
 	MenuItem,
 	Button,
+	ListItemIcon,
 } from '@mui/material'
-import { Menu as MenuIcon, SportsSoccerTwoTone } from '@mui/icons-material'
+import {
+	Menu as MenuIcon,
+	TableView,
+	Scoreboard,
+	SportsSoccerTwoTone,
+	TipsAndUpdates,
+} from '@mui/icons-material'
 import * as React from 'react'
 import { AccountMenu } from './AccountMenu'
 import { Link, useNavigate } from 'react-router-dom'
 
 const PAGES = [
-	{ title: 'Moje tipy', path: '/moje-tipy' },
-	{ title: 'Tabulka', path: '/tabulka' },
-	{ title: 'Výsledky', path: '/vysledky' },
+	{
+		title: 'Moje tipy',
+		path: '/moje-tipy',
+		icon: <TipsAndUpdates fontSize="small" />,
+	},
+	{ title: 'Tabulka', path: '/tabulka', icon: <TableView fontSize="small" /> },
+	{
+		title: 'Výsledky',
+		path: '/vysledky',
+		icon: <Scoreboard fontSize="small" />,
+	},
 ]
 
 export function AppMenu() {
@@ -78,8 +93,9 @@ export function AppMenu() {
 								display: { xs: 'block', md: 'none' },
 							}}
 						>
-							{PAGES.map(({ title, path }) => (
+							{PAGES.map(({ title, path, icon }) => (
 								<MenuItem key={title} onClick={() => navigate(path)}>
+									<ListItemIcon>{icon}</ListItemIcon>
 									<Typography textAlign="center">{title}</Typography>
 								</MenuItem>
 							))}

@@ -60,7 +60,7 @@ export function PasswordForgottenForm() {
 		<Dialog open={true} onClose={handleClose} fullWidth={true}>
 			<FormProvider {...methods}>
 				<form onSubmit={handleSubmit(values => sendEmail(values))}>
-					<DialogTitle>Odeslat reset link na zadaný email</DialogTitle>
+					<DialogTitle>Odeslání linku na reset hesla</DialogTitle>
 					<DialogContent sx={{ minHeight: '100px' }}>
 						<FormTextField
 							name="email"
