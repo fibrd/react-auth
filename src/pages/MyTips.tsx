@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import fixtures from '../data/fixtures.json'
-import { Avatar, Divider, List, ListItem, ListItemText } from '@mui/material'
+import { Divider, List } from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
-import { TipSelect } from '../components/TipSelect'
+import { MyTipsRow } from '../components/MyTipsRow'
 
 export function MyTips() {
 	return (
@@ -16,30 +16,7 @@ export function MyTips() {
 			>
 				{fixtures.response.map(({ fixture, teams }) => (
 					<Fragment key={fixture.id}>
-						<ListItem>
-							<Avatar src={teams.home.logo} />
-							<ListItemText
-								primary={`${teams.home.name} vs. ${teams.away.name}`}
-								secondary={new Date(fixture.timestamp * 1000).toLocaleString(
-									[],
-									{
-										year: 'numeric',
-										month: 'numeric',
-										day: 'numeric',
-										hour: '2-digit',
-										minute: '2-digit',
-									}
-								)}
-								sx={{ textAlign: 'center' }}
-							/>
-							<Avatar src={teams.away.logo} />
-						</ListItem>
-						<ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
-							<TipSelect
-								homeLabel={teams.home.name}
-								awayLabel={teams.away.name}
-							/>
-						</ListItem>
+						<MyTipsRow fixture={fixture} teams={teams} />
 						<Divider component="li" />
 					</Fragment>
 				))}

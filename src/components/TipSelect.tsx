@@ -65,7 +65,7 @@ export function TipSelect({ homeLabel, awayLabel }: TipSelectProps) {
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setOpen(false)}>Cancel</Button>
+					<Button onClick={() => setOpen(false)}>Zrušit</Button>
 					<Button onClick={() => setOpen(false)}>Ok</Button>
 				</DialogActions>
 			</Dialog>
