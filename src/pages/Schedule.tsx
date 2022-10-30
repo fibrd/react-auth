@@ -9,7 +9,7 @@ export function Schedule() {
 			<List
 				sx={{
 					width: '100%',
-					maxWidth: 660,
+					maxWidth: 860,
 					bgcolor: 'background.paper',
 				}}
 			>
@@ -18,7 +18,7 @@ export function Schedule() {
 						<ListItem>
 							<Avatar src={teams.home.logo} />
 							<ListItemText
-								primary={`${teams.home.name} vs. ${teams.away.name}`}
+								primary={`${fixture.id} ${teams.home.name} vs. ${teams.away.name}`}
 								secondary={new Date(fixture.timestamp * 1000).toLocaleString(
 									[],
 									{

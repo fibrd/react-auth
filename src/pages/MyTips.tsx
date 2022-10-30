@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import fixtures from '../data/fixtures.json'
 import { Avatar, Divider, List, ListItem, ListItemText } from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
+import { TipSelect } from '../components/TipSelect'
 
 export function MyTips() {
 	return (
@@ -9,7 +10,7 @@ export function MyTips() {
 			<List
 				sx={{
 					width: '100%',
-					maxWidth: 660,
+					maxWidth: 860,
 					bgcolor: 'background.paper',
 				}}
 			>
@@ -32,6 +33,12 @@ export function MyTips() {
 								sx={{ textAlign: 'center' }}
 							/>
 							<Avatar src={teams.away.logo} />
+						</ListItem>
+						<ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
+							<TipSelect
+								homeLabel={teams.home.name}
+								awayLabel={teams.away.name}
+							/>
 						</ListItem>
 						<Divider component="li" />
 					</Fragment>
