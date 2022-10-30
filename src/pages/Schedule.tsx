@@ -18,7 +18,7 @@ export function Schedule() {
 						<ListItem>
 							<Avatar src={teams.home.logo} />
 							<ListItemText
-								primary={`${teams.home.name} vs.${teams.away.name}`}
+								primary={`${teams.home.name} vs. ${teams.away.name}`}
 								secondary={new Date(fixture.timestamp * 1000).toLocaleString(
 									[],
 									{
