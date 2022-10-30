@@ -20,7 +20,7 @@ export function AccountMenu() {
 					aria-haspopup="true"
 					aria-expanded={open ? 'true' : undefined}
 				>
-					<Avatar color="primary">
+					<Avatar sx={{ backgroundColor: '#eee', color: '#1976d2' }}>
 						{user ? (
 							user.username[0].toUpperCase()
 						) : (

@@ -9,25 +9,33 @@ import {
 	MenuItem,
 	Button,
 } from '@mui/material'
-import { Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material'
+import { Menu as MenuIcon, SportsSoccerTwoTone } from '@mui/icons-material'
 import * as React from 'react'
 import { AccountMenu } from './AccountMenu'
+import { Link, useNavigate } from 'react-router-dom'
 
-const PAGES = ['Products', 'Pricing', 'Blog']
+const PAGES = [
+	{ title: 'Moje tipy', path: '/moje-tipy' },
+	{ title: 'Tabulka', path: '/tabulka' },
+	{ title: 'Výsledky', path: '/vysledky' },
+]
 
 export function AppMenu() {
+	const navigate = useNavigate()
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
 	return (
 		<AppBar position="static">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+					<SportsSoccerTwoTone
+						sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
+					/>
 					<Typography
 						variant="h6"
 						noWrap
-						component="a"
-						href="/"
+						component={Link}
+						to="/"
 						sx={{
 							mr: 2,
 							display: { xs: 'none', md: 'flex' },
@@ -38,7 +46,7 @@ export function AppMenu() {
 							textDecoration: 'none',
 						}}
 					>
-						LOGO
+						MS 2022
 					</Typography>
 
 					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -70,19 +78,21 @@ export function AppMenu() {
 								display: { xs: 'block', md: 'none' },
 							}}
 						>
-							{PAGES.map(page => (
-								<MenuItem key={page} onClick={() => setAnchorElNav(null)}>
-									<Typography textAlign="center">{page}</Typography>
+							{PAGES.map(({ title, path }) => (
+								<MenuItem key={title} onClick={() => navigate(path)}>
+									<Typography textAlign="center">{title}</Typography>
 								</MenuItem>
 							))}
 						</Menu>
 					</Box>
-					<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+					<SportsSoccerTwoTone
+						sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
+					/>
 					<Typography
 						variant="h5"
 						noWrap
-						component="a"
-						href=""
+						component={Link}
+						to="/"
 						sx={{
 							mr: 2,
 							display: { xs: 'flex', md: 'none' },
@@ -94,16 +104,16 @@ export function AppMenu() {
 							textDecoration: 'none',
 						}}
 					>
-						LOGO
+						MS 2022
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						{PAGES.map(page => (
+						{PAGES.map(({ title, path }) => (
 							<Button
-								key={page}
-								onClick={() => setAnchorElNav(null)}
+								key={title}
+								onClick={() => navigate(path)}
 								sx={{ my: 2, color: 'white', display: 'block' }}
 							>
-								{page}
+								{title}
 							</Button>
 						))}
 					</Box>
