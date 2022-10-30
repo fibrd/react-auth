@@ -12,20 +12,27 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
 interface TipSelectProps {
+	buttonLabel: string
 	homeLabel: string
 	awayLabel: string
+	onSubmit: (home: number, away: number) => void
 }
 
 const TEAM_SCORE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-export function TipSelect({ homeLabel, awayLabel }: TipSelectProps) {
+export function TipSelect({
+	buttonLabel,
+	homeLabel,
+	awayLabel,
+	onSubmit,
+}: TipSelectProps) {
 	const [open, setOpen] = React.useState(false)
 	const [home, setHome] = React.useState(0)
 	const [away, setAway] = React.useState(0)
 
 	return (
 		<div>
-			<Button onClick={() => setOpen(true)}>Zadat tip</Button>
+			<Button onClick={() => setOpen(true)}>{buttonLabel}</Button>
 			<Dialog disableEscapeKeyDown open={open} onClose={() => setOpen(false)}>
 				<DialogTitle>Tip výsledku</DialogTitle>
 				<DialogContent>
@@ -66,7 +73,14 @@ export function TipSelect({ homeLabel, awayLabel }: TipSelectProps) {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={() => setOpen(false)}>Zrušit</Button>
-					<Button onClick={() => setOpen(false)}>Ok</Button>
+					<Button
+						onClick={() => {
+							setOpen(false)
+							onSubmit(home, away)
+						}}
+					>
+						Ok
+					</Button>
 				</DialogActions>
 			</Dialog>
 		</div>

@@ -1,5 +1,5 @@
-import React from 'react'
-import { ListItem, Box, Avatar, ListItemText } from '@mui/material'
+import React, { useState } from 'react'
+import { ListItem, Box, Avatar, ListItemText, Typography } from '@mui/material'
 import { TipSelect } from './TipSelect'
 import { Fixture, Teams } from '../types/fixtures'
 
@@ -9,9 +9,21 @@ interface MyTipsRowProps {
 }
 
 export function MyTipsRow({ teams, fixture }: MyTipsRowProps) {
+	const [score, setScore] = useState<string | null>(null)
+
+	function handleSubmit(home: number, away: number) {
+		setScore(`${home}:${away}`)
+	}
+
 	return (
 		<ListItem sx={{ flexDirection: 'column' }}>
-			<TipSelect homeLabel={teams.home.name} awayLabel={teams.away.name} />
+			<Typography>{score}</Typography>
+			<TipSelect
+				buttonLabel={score ? 'Změnit tip' : 'Zadat tip'}
+				homeLabel={teams.home.name}
+				awayLabel={teams.away.name}
+				onSubmit={handleSubmit}
+			/>
 			<Box sx={{ display: 'flex', gap: '20px' }}>
 				<Avatar src={teams.home.logo} />
 				<ListItemText
