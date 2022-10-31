@@ -1,27 +1,57 @@
-import React, { useState } from 'react'
-import { ListItem, Box, Avatar, ListItemText, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { ListItem, Box, Avatar, ListItemText } from '@mui/material'
 import { TipSelect } from './TipSelect'
 import { Fixture, Teams } from '../types/fixtures'
+import { Score, Tip } from '../types/tips'
+import { useMutation } from 'react-query'
+import { TipsApi } from '../api/TipsApi'
+import { AxiosError } from 'axios'
+import { useSnackbar } from '../hooks/useSnackbar'
 
 interface MyTipsRowProps {
 	teams: Teams
 	fixture: Fixture
+	tip?: Tip
 }
 
-export function MyTipsRow({ teams, fixture }: MyTipsRowProps) {
-	const [score, setScore] = useState<string | null>(null)
+export function MyTipsRow({ teams, fixture, tip }: MyTipsRowProps) {
+	const [score, setScore] = useState<Score | null>(null)
 
-	function handleSubmit(home: number, away: number) {
-		setScore(`${home}:${away}`)
+	useEffect(() => {
+		if (tip) {
+			const { home, away } = tip
+			setScore({ home, away })
+		}
+	}, [tip])
+
+	const { showSnackbar } = useSnackbar()
+
+	const { mutate: upsertTip } = useMutation(
+		(score: Score) =>
+			TipsApi.upsertTip(fixture.id, { home: score.home, away: score.away }),
+		{
+			onError: (err: AxiosError<{ message: string }>) => {
+				const message = err.response?.data.message
+				if (message) {
+					showSnackbar(message, 'error')
+				}
+			},
+		}
+	)
+
+	function handleSubmit(scoreSubmitted: Score) {
+		setScore(scoreSubmitted)
+		upsertTip(scoreSubmitted)
 	}
 
 	return (
 		<ListItem sx={{ flexDirection: 'column' }}>
-			<Typography>{score}</Typography>
 			<TipSelect
-				buttonLabel={score ? 'Změnit tip' : 'Zadat tip'}
+				buttonLabel={score ? `${score.home}:${score.away}` : 'Zadat tip'}
 				homeLabel={teams.home.name}
 				awayLabel={teams.away.name}
+				homeValue={score?.home ?? 0}
+				awayValue={score?.away ?? 0}
 				onSubmit={handleSubmit}
 			/>
 			<Box sx={{ display: 'flex', gap: '20px' }}>

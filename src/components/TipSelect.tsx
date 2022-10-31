@@ -10,12 +10,16 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
+import { useEffect, useState } from 'react'
+import { Score } from '../types/tips'
 
 interface TipSelectProps {
 	buttonLabel: string
 	homeLabel: string
 	awayLabel: string
-	onSubmit: (home: number, away: number) => void
+	homeValue: number
+	awayValue: number
+	onSubmit: (score: Score) => void
 }
 
 const TEAM_SCORE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -24,16 +28,28 @@ export function TipSelect({
 	buttonLabel,
 	homeLabel,
 	awayLabel,
+	homeValue,
+	awayValue,
 	onSubmit,
 }: TipSelectProps) {
-	const [open, setOpen] = React.useState(false)
-	const [home, setHome] = React.useState(0)
-	const [away, setAway] = React.useState(0)
+	const [open, setOpen] = useState(false)
+	const [home, setHome] = useState(0)
+	const [away, setAway] = useState(0)
+
+	useEffect(() => {
+		setHome(homeValue)
+	}, [homeValue])
+
+	useEffect(() => {
+		setAway(awayValue)
+	}, [awayValue])
 
 	return (
 		<div>
-			<Button onClick={() => setOpen(true)}>{buttonLabel}</Button>
-			<Dialog disableEscapeKeyDown open={open} onClose={() => setOpen(false)}>
+			<Button sx={{ fontSize: '1rem' }} onClick={() => setOpen(true)}>
+				{buttonLabel}
+			</Button>
+			<Dialog open={open} onClose={() => setOpen(false)}>
 				<DialogTitle>Tip výsledku</DialogTitle>
 				<DialogContent>
 					<Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -76,10 +92,10 @@ export function TipSelect({
 					<Button
 						onClick={() => {
 							setOpen(false)
-							onSubmit(home, away)
+							onSubmit({ home: home, away: away })
 						}}
 					>
-						Ok
+						Potvrdit
 					</Button>
 				</DialogActions>
 			</Dialog>
