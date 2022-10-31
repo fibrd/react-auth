@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Tip } from '../types/tips'
+import { Tip, UpsertTipBody } from '../types/tips'
 
 const instance = axios.create({
 	withCredentials: true,
@@ -15,13 +15,7 @@ export const TipsApi = {
 		return instance.get<{ tips: Tip[] }>(`/tips/${userId}`)
 	},
 
-	upsertTip(fixtureId: number, score: { home: number; away: number }) {
-		const body = {
-			fixtureId,
-			home: score.home,
-			away: score.away,
-			userId: '6352bba34d5d9541d5dc5077',
-		}
+	upsertTip(body: UpsertTipBody) {
 		return instance.post(`/tip`, body)
 	},
 }

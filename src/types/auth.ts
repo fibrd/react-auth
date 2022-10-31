@@ -2,6 +2,7 @@ export interface User {
 	email: string
 	username: string
 	role: string
+	userId: string
 }
 
 export interface Auth {

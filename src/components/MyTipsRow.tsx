@@ -7,6 +7,7 @@ import { useMutation } from 'react-query'
 import { TipsApi } from '../api/TipsApi'
 import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
+import { useAuth } from '../hooks/useAuth'
 
 interface MyTipsRowProps {
 	teams: Teams
@@ -16,6 +17,8 @@ interface MyTipsRowProps {
 
 export function MyTipsRow({ teams, fixture, tip }: MyTipsRowProps) {
 	const [score, setScore] = useState<Score | null>(null)
+	const { user } = useAuth()
+	const userId = user?.userId ?? ''
 
 	useEffect(() => {
 		if (tip) {
@@ -28,7 +31,11 @@ export function MyTipsRow({ teams, fixture, tip }: MyTipsRowProps) {
 
 	const { mutate: upsertTip } = useMutation(
 		(score: Score) =>
-			TipsApi.upsertTip(fixture.id, { home: score.home, away: score.away }),
+			TipsApi.upsertTip({
+				userId,
+				fixtureId: fixture.id,
+				...score,
+			}),
 		{
 			onError: (err: AxiosError<{ message: string }>) => {
 				const message = err.response?.data.message

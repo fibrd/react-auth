@@ -6,13 +6,16 @@ import { MyTipsRow } from '../components/MyTipsRow'
 import { useQuery } from 'react-query'
 import { TipsApi } from '../api/TipsApi'
 import { Tip } from '../types/tips'
+import { useAuth } from '../hooks/useAuth'
 
 export function MyTips() {
 	const [tips, setTips] = useState<Tip[]>()
+	const { user } = useAuth()
 	useQuery(
-		['/tips/:userId'],
-		() => TipsApi.getTipsByUserId('6352bba34d5d9541d5dc5077'),
+		['api/tips/:userId'],
+		() => TipsApi.getTipsByUserId(user?.userId ?? ''),
 		{
+			enabled: user !== null,
 			onSuccess: ({ data }) => setTips(data.tips),
 		}
 	)
