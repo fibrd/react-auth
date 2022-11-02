@@ -2,11 +2,8 @@ export interface UpsertTipBody extends Tip {
 	userId: string
 }
 
-export interface Tip extends Score {
+export interface Tip {
 	fixtureId: number
-}
-
-export interface Score {
 	home: number
 	away: number
 }

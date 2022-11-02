@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { ListItem, Box, Avatar, ListItemText } from '@mui/material'
 import { TipSelect } from './TipSelect'
 import { Fixture, Teams } from '../types/fixtures'
-import { Score, Tip } from '../types/tips'
+import { Tip } from '../types/tips'
 import { useMutation } from 'react-query'
 import { TipsApi } from '../api/TipsApi'
 import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { useAuth } from '../hooks/useAuth'
+
+type Score = Pick<Tip, 'home' | 'away'>
 
 interface MyTipsRowProps {
 	teams: Teams

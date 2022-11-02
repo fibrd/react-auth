@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import { useEffect, useState } from 'react'
-import { Score } from '../types/tips'
+import { Tip } from '../types/tips'
 
 interface TipSelectProps {
 	buttonLabel: string
@@ -19,7 +19,7 @@ interface TipSelectProps {
 	awayLabel: string
 	homeValue: number
 	awayValue: number
-	onSubmit: (score: Score) => void
+	onSubmit: (score: Pick<Tip, 'home' | 'away'>) => void
 }
 
 const TEAM_SCORE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

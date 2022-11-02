@@ -1,25 +1,25 @@
-export interface Parameters {
+interface Parameters {
 	league: string
 	season: string
 }
 
-export interface Paging {
+interface Paging {
 	current: number
 	total: number
 }
 
-export interface Periods {
+interface Periods {
 	first?: any
 	second?: any
 }
 
-export interface Venue {
+interface Venue {
 	id?: any
 	name: string
 	city: string
 }
 
-export interface Status {
+interface Status {
 	long: string
 	short: string
 	elapsed?: any
@@ -36,7 +36,7 @@ export interface Fixture {
 	status: Status
 }
 
-export interface League {
+interface League {
 	id: number
 	name: string
 	country: string
@@ -46,14 +46,14 @@ export interface League {
 	round: string
 }
 
-export interface Home {
+interface Home {
 	id: number
 	name: string
 	logo: string
 	winner?: any
 }
 
-export interface Away {
+interface Away {
 	id: number
 	name: string
 	logo: string
@@ -65,39 +65,39 @@ export interface Teams {
 	away: Away
 }
 
-export interface Goals {
+interface Goals {
 	home?: any
 	away?: any
 }
 
-export interface Halftime {
+interface Halftime {
 	home?: any
 	away?: any
 }
 
-export interface Fulltime {
+interface Fulltime {
 	home?: any
 	away?: any
 }
 
-export interface Extratime {
+interface Extratime {
 	home?: any
 	away?: any
 }
 
-export interface Penalty {
+interface Penalty {
 	home?: any
 	away?: any
 }
 
-export interface Score {
+interface Score {
 	halftime: Halftime
 	fulltime: Fulltime
 	extratime: Extratime
 	penalty: Penalty
 }
 
-export interface Response {
+interface Response {
 	fixture: Fixture
 	league: League
 	teams: Teams
@@ -105,7 +105,7 @@ export interface Response {
 	score: Score
 }
 
-export interface RootObject {
+interface RootObject {
 	get: string
 	parameters: Parameters
 	errors: any[]
