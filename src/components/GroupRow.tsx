@@ -1,22 +1,12 @@
 import React from 'react'
-import {
-	Table,
-	TableRow,
-	TableCell,
-	TableBody,
-	Avatar,
-	Stack,
-	Paper,
-	Divider,
-	Typography,
-} from '@mui/material'
+import { Avatar, Stack, Paper, Typography } from '@mui/material'
 import { Standing } from '../types/standings'
 
-interface GroupsTableProps {
+interface GroupRowProps {
 	standings: Standing[]
 }
 
-export function GroupsTable({ standings }: GroupsTableProps) {
+export function GroupRow({ standings }: GroupRowProps) {
 	function createData(standing: Standing) {
 		return {
 			group: standing.group,
@@ -25,7 +15,7 @@ export function GroupsTable({ standings }: GroupsTableProps) {
 		}
 	}
 
-	const rows = standings.map(createData)
+	const items = standings.map(createData)
 
 	return (
 		<Stack
@@ -33,7 +23,7 @@ export function GroupsTable({ standings }: GroupsTableProps) {
 			spacing={{ xs: 1, md: 2 }}
 			margin={{ xs: 2, md: 4 }}
 		>
-			{rows.map(({ teamName, logo, group }) => (
+			{items.map(({ teamName, logo, group }) => (
 				<Paper
 					sx={{
 						display: 'flex',
@@ -62,21 +52,5 @@ export function GroupsTable({ standings }: GroupsTableProps) {
 				</Paper>
 			))}
 		</Stack>
-		// <Table size="small" sx={{ maxWidth: 650 }} aria-label="simple table">
-		// 	<TableBody>
-		// 		{rows.map(row => (
-		// 			<TableRow
-		// 				key={row.teamName}
-		// 				sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-		// 			>
-		// 				<TableCell variant="head">{row.group}</TableCell>
-		// 				<TableCell>{row.teamName}</TableCell>
-		// 				<TableCell>
-		// 					<Avatar src={row.logo} />
-		// 				</TableCell>
-		// 			</TableRow>
-		// 		))}
-		// 	</TableBody>
-		// </Table>
 	)
 }
