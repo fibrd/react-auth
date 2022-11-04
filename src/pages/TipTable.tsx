@@ -79,19 +79,21 @@ export function TipTable() {
 					autoHeight={true}
 					rows={rows}
 					columns={columns}
-					pageSize={5}
-					rowsPerPageOptions={[5]}
+					pageSize={10}
+					rowsPerPageOptions={[10]}
 				/>
 			</div>
 			<FormGroup>
 				<FormControlLabel
+					sx={{ padding: '10px 5px' }}
 					control={
 						<Switch
+							size="small"
 							value={oldTipsVisible}
 							onChange={() => setOldTipsHidden(prev => !prev)}
 						/>
 					}
-					label="Zobrazit odehrané zápasy (před více než 24 hod)"
+					label="Zobrazit odehrané zápasy (před více než 24h)"
 				/>
 			</FormGroup>
 		</AppPageWrapper>

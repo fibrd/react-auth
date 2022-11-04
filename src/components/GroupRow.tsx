@@ -20,8 +20,8 @@ export function GroupRow({ standings }: GroupRowProps) {
 	return (
 		<Stack
 			direction={{ xs: 'row', sm: 'row' }}
-			spacing={{ xs: 1, md: 2 }}
-			margin={{ xs: 2, md: 4 }}
+			spacing={{ xs: 0, md: 1 }}
+			margin={{ xs: 1, md: 2 }}
 		>
 			{items.map(({ teamName, logo, group }) => (
 				<Paper
@@ -29,13 +29,17 @@ export function GroupRow({ standings }: GroupRowProps) {
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
-						width: '20vw',
+						width: '24vw',
 						maxWidth: '200px',
 						padding: '1vw',
 					}}
 					key={teamName}
 				>
-					<Typography variant="h6" sx={{ textAlign: 'center' }}>
+					<Typography
+						variant="h6"
+						fontSize={{ xs: '1rem', md: '1.2rem' }}
+						sx={{ textAlign: 'center', whiteSpace: 'nowrap' }}
+					>
 						{group}
 					</Typography>
 					<Typography
@@ -46,7 +50,7 @@ export function GroupRow({ standings }: GroupRowProps) {
 						{teamName}
 					</Typography>
 					<Avatar
-						sx={{ width: '80px', height: '80px', margin: '5px' }}
+						sx={{ width: '70px', height: '70px', margin: '5px' }}
 						src={logo}
 					/>
 				</Paper>
