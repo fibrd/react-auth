@@ -16,6 +16,6 @@ export const TipsApi = {
 	},
 
 	upsertTip(body: UpsertTipBody) {
-		return instance.post(`/tip`, body)
+		return instance.post('/tips', body)
 	},
 }

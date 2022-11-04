@@ -19,7 +19,8 @@ interface TipSelectProps {
 	awayLabel: string
 	homeValue: number
 	awayValue: number
-	onSubmit: (score: Pick<Tip, 'home' | 'away'>) => void
+	results?: boolean
+	onSubmit: (score: Pick<Tip, 'home' | 'away'>, toDelete?: boolean) => void
 }
 
 const TEAM_SCORE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -30,6 +31,7 @@ export function TipSelect({
 	awayLabel,
 	homeValue,
 	awayValue,
+	results,
 	onSubmit,
 }: TipSelectProps) {
 	const [open, setOpen] = useState(false)
@@ -50,7 +52,9 @@ export function TipSelect({
 				{buttonLabel}
 			</Button>
 			<Dialog open={open} onClose={() => setOpen(false)}>
-				<DialogTitle>Tip výsledku</DialogTitle>
+				<DialogTitle>
+					{results ? 'Konečný výsledek' : 'Tip výsledku'}
+				</DialogTitle>
 				<DialogContent>
 					<Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
 						<FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -88,7 +92,18 @@ export function TipSelect({
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setOpen(false)}>Zrušit</Button>
+					{results ? (
+						<Button
+							onClick={() => {
+								setOpen(false)
+								onSubmit({ home: home, away: away }, true)
+							}}
+						>
+							Smazat
+						</Button>
+					) : (
+						<Button onClick={() => setOpen(false)}>Zrušit</Button>
+					)}
 					<Button
 						onClick={() => {
 							setOpen(false)

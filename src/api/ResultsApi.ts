@@ -10,4 +10,10 @@ export const ResultsApi = {
 	getResults() {
 		return instance.get<{ results: Result[] }>('/results')
 	},
+	upsertResult(body: Omit<Result, '_id'>) {
+		return instance.post('/results', body)
+	},
+	deleteResult(_id: string) {
+		return instance.delete<{ id: string }>(`/results/${_id}`)
+	},
 }
