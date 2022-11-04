@@ -15,10 +15,10 @@ export function AccountMenuContent() {
 	const { showDialog } = useDialog()
 
 	const { mutate: submitLogout } = useMutation(() => AuthApi.logout(), {
-		onSuccess: ({ data }) => {
+		onSuccess: () => {
 			localStorage.removeItem('user')
 			logout()
-			showSnackbar(data.message, 'info')
+			showSnackbar('Byl jste odhlášen.', 'info')
 		},
 		onError: (err: AxiosError<{ message: string }>) => {
 			const message = err.response?.data.message

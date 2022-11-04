@@ -50,7 +50,7 @@ export function LoginForm() {
 			onSuccess: ({ data }) => {
 				localStorage.setItem('user', JSON.stringify(data.user))
 				login(data.user)
-				showSnackbar(data.message, 'success')
+				showSnackbar('Byl jste úspěšně přihlášen.', 'success')
 				handleClose()
 				reset()
 			},

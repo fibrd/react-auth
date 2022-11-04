@@ -42,8 +42,11 @@ export function PasswordForgottenForm() {
 	const { mutate: sendEmail, isLoading } = useMutation(
 		(formData: SendEmailBody) => AuthApi.sendEmail(formData),
 		{
-			onSuccess: ({ data }) => {
-				showSnackbar(data.message, 'info')
+			onSuccess: () => {
+				showSnackbar(
+					'Na zadaný email Vám byl zaslán link pro reset hesla.',
+					'info'
+				)
 				handleClose()
 				reset()
 			},

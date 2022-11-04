@@ -110,7 +110,13 @@ export function AppMenu() {
 								}}
 							>
 								{PAGES.map(({ title, path, icon }) => (
-									<MenuItem key={title} onClick={() => navigate(path)}>
+									<MenuItem
+										key={title}
+										onClick={() => {
+											setAnchorElNav(null)
+											navigate(path)
+										}}
+									>
 										<ListItemIcon>{icon}</ListItemIcon>
 										<Typography textAlign="center">{title}</Typography>
 									</MenuItem>

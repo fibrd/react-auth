@@ -49,8 +49,8 @@ export function PasswordResetForm() {
 	const { mutate: resetPassword, isLoading } = useMutation(
 		(formData: ResetPasswordBody) => AuthApi.resetPassword(id, token, formData),
 		{
-			onSuccess: ({ data }) => {
-				showSnackbar(data.message, 'success')
+			onSuccess: () => {
+				showSnackbar('Heslo bylo úspěšně změněno.', 'success')
 				handleClose()
 				reset()
 				navigate('/')

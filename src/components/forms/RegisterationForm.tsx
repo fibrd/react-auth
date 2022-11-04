@@ -46,8 +46,12 @@ export function RegisterationForm() {
 	const { mutate: submitRegister, isLoading } = useMutation(
 		(formData: RegisterBody) => AuthApi.register(formData),
 		{
-			onSuccess: ({ data }) => {
-				showSnackbar(data.message, 'success')
+			onSuccess: () => {
+				showSnackbar(
+					'Registrace proběhla úspěšně. Nyní se prosím přihlašte.',
+					'success'
+				)
+				handleClose()
 				reset()
 			},
 			onError: (err: AxiosError<{ message: string }>) => {
