@@ -5,6 +5,7 @@ import { DialogType } from '../../types/common'
 import { LoginForm } from '../forms/LoginForm'
 import { PasswordResetForm } from '../forms/PasswordResetForm'
 import { RegisterationForm } from '../forms/RegisterationForm'
+import { LogoutForm } from '../forms/LogoutForm'
 
 export function AppDialog() {
 	const { dialogType } = useDialog()
@@ -14,6 +15,8 @@ export function AppDialog() {
 			return <RegisterationForm />
 		case DialogType.LOGIN:
 			return <LoginForm />
+		case DialogType.LOGOUT:
+			return <LogoutForm />
 		case DialogType.PASSWORD_FORGOTTEN:
 			return <PasswordForgottenForm />
 		case DialogType.PASSWORD_RESET: {
