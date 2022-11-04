@@ -34,7 +34,7 @@ const PAGES = [
 		path: '/moje-tipy',
 		icon: <TipsAndUpdates fontSize="small" />,
 	},
-	{ title: 'Tabulka', path: '/tabulka', icon: <TableView fontSize="small" /> },
+	{ title: 'Skupiny', path: '/skupiny', icon: <TableView fontSize="small" /> },
 	{
 		title: 'Výsledky',
 		path: '/vysledky',

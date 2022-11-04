@@ -1,13 +1,3 @@
-interface Parameters {
-	league: string
-	season: string
-}
-
-interface Paging {
-	current: number
-	total: number
-}
-
 interface Periods {
 	first?: any
 	second?: any
@@ -103,13 +93,4 @@ interface Response {
 	teams: Teams
 	goals: Goals
 	score: Score
-}
-
-interface RootObject {
-	get: string
-	parameters: Parameters
-	errors: any[]
-	results: number
-	paging: Paging
-	response: Response[]
 }

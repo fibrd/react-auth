@@ -4,7 +4,7 @@ import { Home } from './pages/Home'
 import { useStartApp } from './hooks/useStartApp'
 import { PasswordReset } from './pages/PasswordReset'
 import { MyTips } from './pages/MyTips'
-import { Table } from './pages/Table'
+import { Groups } from './pages/Groups'
 import { Results } from './pages/Results'
 import { useYupLocale } from './hooks/useYupLocale'
 import { useAuth } from './hooks/useAuth'
@@ -23,7 +23,7 @@ export function AppRouter() {
 				<>
 					<Route path="/program" element={<Schedule />} />
 					<Route path="/moje-tipy" element={<MyTips />} />
-					<Route path="/tabulka" element={<Table />} />
+					<Route path="/skupiny" element={<Groups />} />
 					<Route path="/vysledky" element={<Results />} />
 				</>
 			)}
