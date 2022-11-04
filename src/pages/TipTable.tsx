@@ -38,9 +38,10 @@ export function TipTable() {
 	const columns: GridColDef[] = [
 		{
 			field: 'id',
-			headerName: 'Tipující',
+			headerName: '',
 			hideable: false,
 			hideSortIcons: true,
+			cellClassName: 'mainDataGridCell',
 		},
 		...fixtureColumns,
 	]
@@ -71,6 +72,7 @@ export function TipTable() {
 					maxHeight: 800,
 					width: '100%',
 					maxWidth: 1536,
+					backgroundColor: 'white',
 				}}
 			>
 				<DataGrid
