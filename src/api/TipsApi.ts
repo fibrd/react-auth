@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Tip, UpsertTipBody } from '../types/tips'
+import { Tip, TipRow, UpsertTipBody } from '../types/tips'
 
 const instance = axios.create({
 	withCredentials: true,
@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const TipsApi = {
 	getTips() {
-		return instance.get<{ tips: unknown }>('/tips')
+		return instance.get<TipRow[]>('/tips')
 	},
 
 	getTipsByUserId(userId: string) {

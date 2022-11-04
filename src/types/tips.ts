@@ -7,3 +7,10 @@ export interface Tip {
 	home: number
 	away: number
 }
+
+export interface TipRow {
+	tips: Tip[]
+	authorized: boolean
+	userId: string
+	username: string
+}
