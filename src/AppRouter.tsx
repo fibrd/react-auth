@@ -19,16 +19,16 @@ export function AppRouter() {
 
 	return (
 		<Routes>
-			<Route path="/" element={<Home />} />
 			{user && (
 				<>
+					<Route path="/" element={<TipTable />} />
 					<Route path="/program" element={<Schedule />} />
 					<Route path="/moje-tipy" element={<MyTips />} />
-					<Route path="/tabulka" element={<TipTable />} />
 					<Route path="/skupiny" element={<Groups />} />
 					<Route path="/vysledky" element={<Results />} />
 				</>
 			)}
+			<Route path="/" element={<Home />} />
 			<Route path="/reset/:id/:token" element={<PasswordReset />} />
 			<Route path="*" element={<Navigate to="/" />} />
 		</Routes>
