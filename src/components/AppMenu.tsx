@@ -17,6 +17,7 @@ import {
 	SportsSoccerTwoTone,
 	TipsAndUpdates,
 	Schedule,
+	Groups,
 } from '@mui/icons-material'
 import * as React from 'react'
 import { AccountMenu } from './AccountMenu'
@@ -34,7 +35,12 @@ const PAGES = [
 		path: '/moje-tipy',
 		icon: <TipsAndUpdates fontSize="small" />,
 	},
-	{ title: 'Skupiny', path: '/skupiny', icon: <TableView fontSize="small" /> },
+	{ title: 'Tabulka', path: '/tabulka', icon: <TableView fontSize="small" /> },
+	{
+		title: 'Skupiny',
+		path: '/skupiny',
+		icon: <Groups fontSize="small" />,
+	},
 	{
 		title: 'Výsledky',
 		path: '/vysledky',
