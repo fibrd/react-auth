@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import { Tip } from '../types/tips'
 import { Result } from '../types/results'
 
-interface TipSelectProps {
+interface ScoreSelectProps {
 	buttonLabel: string
 	homeLabel: string
 	awayLabel: string
@@ -30,7 +30,7 @@ interface TipSelectProps {
 
 const TEAM_SCORE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-export function TipSelect({
+export function ScoreSelect({
 	buttonLabel,
 	homeLabel,
 	awayLabel,
@@ -39,7 +39,7 @@ export function TipSelect({
 	results,
 	onSubmitTip,
 	onSubmitResult,
-}: TipSelectProps) {
+}: ScoreSelectProps) {
 	const [open, setOpen] = useState(false)
 	const [home, setHome] = useState(0)
 	const [away, setAway] = useState(0)

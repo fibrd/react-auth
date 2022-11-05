@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import fixtures from '../data/fixtures.json'
 import { Divider, List } from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
-import { ResultsRow } from '../components/ResultsRow'
+import { MatchRow } from '../components/MatchRow'
 import { useQuery } from 'react-query'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
@@ -39,7 +39,7 @@ export function Schedule() {
 			>
 				{fixtures.response.map(({ fixture, teams }) => (
 					<Fragment key={fixture.id}>
-						<ResultsRow
+						<MatchRow
 							teams={teams}
 							fixture={fixture}
 							result={results?.find(

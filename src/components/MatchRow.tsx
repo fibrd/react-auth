@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ListItem, Box, Avatar, ListItemText, Typography } from '@mui/material'
-import { TipSelect } from './TipSelect'
+import { ScoreSelect } from './ScoreSelect'
 import { Fixture, Teams } from '../types/fixtures'
 import { useMutation } from 'react-query'
 import { ResultsApi } from '../api/ResultsApi'
@@ -14,14 +14,14 @@ import { TipsApi } from '../api/TipsApi'
 type ScoreTip = Pick<Tip, 'home' | 'away'>
 type ScoreResult = Pick<Result, 'home' | 'away'>
 
-interface ResultsRowProps {
+interface MatchRowProps {
 	teams: Teams
 	fixture: Fixture
 	tip?: Tip
 	result?: Result
 }
 
-export function ResultsRow({ teams, fixture, tip, result }: ResultsRowProps) {
+export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 	const { user } = useAuth()
 	const userId = user?.userId ?? ''
 
@@ -104,7 +104,8 @@ export function ResultsRow({ teams, fixture, tip, result }: ResultsRowProps) {
 
 	return (
 		<ListItem sx={{ flexDirection: 'column' }}>
-			<TipSelect
+			{/* Tip */}
+			<ScoreSelect
 				buttonLabel={
 					scoreTip ? `${scoreTip.home}:${scoreTip.away}` : 'Zadat tip'
 				}
@@ -115,8 +116,9 @@ export function ResultsRow({ teams, fixture, tip, result }: ResultsRowProps) {
 				onSubmitTip={handleSubmitTip}
 			/>
 
+			{/* Vysledek */}
 			{user?.role === 'admin' ? (
-				<TipSelect
+				<ScoreSelect
 					buttonLabel={
 						scoreResult
 							? `${scoreResult.home}:${scoreResult.away}`
