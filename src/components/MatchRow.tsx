@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
 	ListItem,
 	Box,
@@ -15,8 +15,10 @@ import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { Result } from '../types/results'
 import { useAuth } from '../hooks/useAuth'
-import { Tip } from '../types/tips'
+import { Tip, TipResult } from '../types/tips'
 import { TipsApi } from '../api/TipsApi'
+import { getTipResult } from '../utils/tipUtils'
+import { DoneOutline, Done, Close } from '@mui/icons-material'
 
 type ScoreTip = Pick<Tip, 'home' | 'away'>
 type ScoreResult = Pick<Result, 'home' | 'away'>
@@ -32,8 +34,13 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 	const { user } = useAuth()
 	const userId = user?.userId ?? ''
 
-	const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
 	const [scoreTip, setScoreTip] = useState<ScoreTip | null>(null)
+	const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
+
+	const tipResult = useMemo(
+		() => scoreTip && scoreResult && getTipResult(scoreTip, scoreResult),
+		[scoreTip, scoreResult]
+	)
 
 	useEffect(() => {
 		if (tip) {
@@ -150,10 +157,14 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 				) : (
 					scoreResult && (
 						<Typography>
-							Konečný výsledek: {`${scoreResult.home}:${scoreResult.away}`}
+							Výsledek: {`${scoreResult.home}:${scoreResult.away}`}
 						</Typography>
 					)
 				)}
+
+				{tipResult === TipResult.CORRECTED && <DoneOutline />}
+				{tipResult === TipResult.PARTIALLY_CORRECTED && <Done />}
+				{tipResult === TipResult.WRONG && <Close />}
 			</Box>
 
 			<Box sx={{ display: 'flex', gap: '20px' }}>

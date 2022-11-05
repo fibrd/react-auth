@@ -14,3 +14,9 @@ export interface TipRow {
 	userId: string
 	username: string
 }
+
+export enum TipResult {
+	CORRECTED = 'corrected',
+	PARTIALLY_CORRECTED = 'partially_corrected',
+	WRONG = 'wrong',
+}
