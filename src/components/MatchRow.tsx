@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { ListItem, Box, Avatar, ListItemText, Typography } from '@mui/material'
+import {
+	ListItem,
+	Box,
+	Avatar,
+	ListItemText,
+	Typography,
+	colors,
+} from '@mui/material'
 import { ScoreSelect } from './ScoreSelect'
 import { Fixture, Teams } from '../types/fixtures'
 import { useMutation } from 'react-query'
@@ -104,38 +111,50 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 
 	return (
 		<ListItem sx={{ flexDirection: 'column' }}>
-			{/* Tip */}
-			<ScoreSelect
-				buttonLabel={
-					scoreTip ? `${scoreTip.home}:${scoreTip.away}` : 'Zadat tip'
-				}
-				homeLabel={teams.home.name}
-				awayLabel={teams.away.name}
-				homeValue={scoreTip?.home ?? 0}
-				awayValue={scoreTip?.away ?? 0}
-				onSubmitTip={handleSubmitTip}
-			/>
-
-			{/* Vysledek */}
-			{user?.role === 'admin' ? (
+			<Box
+				sx={{
+					display: 'flex',
+					gap: '20px',
+					marginBottom: '5px',
+					alignItems: 'center',
+					color: colors.blue[700],
+				}}
+			>
+				{/* Tip */}
 				<ScoreSelect
 					buttonLabel={
-						scoreResult
-							? `${scoreResult.home}:${scoreResult.away}`
-							: 'Zadat výsledek'
+						scoreTip ? `${scoreTip.home}:${scoreTip.away}` : 'Zadat tip'
 					}
 					homeLabel={teams.home.name}
 					awayLabel={teams.away.name}
-					homeValue={scoreResult?.home ?? 0}
-					awayValue={scoreResult?.away ?? 0}
-					onSubmitResult={handleSubmitResult}
-					results={true}
+					homeValue={scoreTip?.home ?? 0}
+					awayValue={scoreTip?.away ?? 0}
+					onSubmitTip={handleSubmitTip}
 				/>
-			) : (
-				scoreResult && (
-					<Typography>{`${scoreResult.home}:${scoreResult.away}`}</Typography>
-				)
-			)}
+
+				{/* Vysledek */}
+				{user?.role === 'admin' ? (
+					<ScoreSelect
+						buttonLabel={
+							scoreResult
+								? `${scoreResult.home}:${scoreResult.away}`
+								: 'Zadat výsledek'
+						}
+						homeLabel={teams.home.name}
+						awayLabel={teams.away.name}
+						homeValue={scoreResult?.home ?? 0}
+						awayValue={scoreResult?.away ?? 0}
+						onSubmitResult={handleSubmitResult}
+						results={true}
+					/>
+				) : (
+					scoreResult && (
+						<Typography>
+							Konečný výsledek: {`${scoreResult.home}:${scoreResult.away}`}
+						</Typography>
+					)
+				)}
+			</Box>
 
 			<Box sx={{ display: 'flex', gap: '20px' }}>
 				<Avatar src={teams.home.logo} />

@@ -54,7 +54,11 @@ export function ScoreSelect({
 
 	return (
 		<div>
-			<Button sx={{ fontSize: '1rem' }} onClick={() => setOpen(true)}>
+			<Button
+				variant={results ? 'outlined' : 'text'}
+				sx={{ fontSize: '1rem' }}
+				onClick={() => setOpen(true)}
+			>
 				{buttonLabel}
 			</Button>
 			<Dialog open={open} onClose={() => setOpen(false)}>
