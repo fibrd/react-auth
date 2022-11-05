@@ -1,11 +1,13 @@
 import React from 'react'
 import { Box, Link, Typography } from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
-import { useDialog } from '../hooks/useDialog'
-import { DialogType } from '../types/common'
+import { useAuth } from '../hooks/useAuth'
+import { Rules } from '../components/Rules'
+import { AnonymousInfo } from '../components/AnonymousInfo'
 
 export function Home() {
-	const { showDialog } = useDialog()
+	const { user } = useAuth()
+
 	return (
 		<AppPageWrapper>
 			<Box sx={{ padding: '20px' }}>
@@ -17,23 +19,7 @@ export function Home() {
 			<Typography variant="h4" gutterBottom>
 				Tipovací soutěž
 			</Typography>
-			<Typography sx={{ textAlign: 'center', padding: '10px' }} variant="h6">
-				Pro více podrobností k soutěži se prosím{' '}
-				<Link
-					sx={{ cursor: 'pointer', textDecoration: 'none' }}
-					onClick={() => showDialog(DialogType.LOGIN)}
-				>
-					přihlašte
-				</Link>
-				, případně si{' '}
-				<Link
-					sx={{ cursor: 'pointer', textDecoration: 'none' }}
-					onClick={() => showDialog(DialogType.REGISTRATION)}
-				>
-					zaregistrujte
-				</Link>{' '}
-				nový účet.
-			</Typography>
+			{user ? <Rules /> : <AnonymousInfo />}
 			<Typography sx={{ textAlign: 'center', padding: '10px' }}>
 				Oficiální stránky mistrovství naleznete{' '}
 				<Link

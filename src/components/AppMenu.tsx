@@ -16,6 +16,7 @@ import {
 	TipsAndUpdates,
 	Groups,
 	TableView,
+	Schedule,
 } from '@mui/icons-material'
 import * as React from 'react'
 import { AccountMenu } from './AccountMenu'
@@ -23,6 +24,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 const PAGES = [
+	{
+		title: 'Program',
+		path: '/program',
+		icon: <Schedule fontSize="small" />,
+	},
 	{
 		title: 'Tabulka',
 		path: '/tabulka',
