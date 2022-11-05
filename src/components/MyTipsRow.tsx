@@ -9,7 +9,7 @@ import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { useAuth } from '../hooks/useAuth'
 
-type Score = Pick<Tip, 'home' | 'away'>
+type ScoreTip = Pick<Tip, 'home' | 'away'>
 
 interface MyTipsRowProps {
 	teams: Teams
@@ -18,21 +18,21 @@ interface MyTipsRowProps {
 }
 
 export function MyTipsRow({ teams, fixture, tip }: MyTipsRowProps) {
-	const [score, setScore] = useState<Score | null>(null)
+	const [scoreTip, setScoreTip] = useState<ScoreTip | null>(null)
 	const { user } = useAuth()
 	const userId = user?.userId ?? ''
 
 	useEffect(() => {
 		if (tip) {
 			const { home, away } = tip
-			setScore({ home, away })
+			setScoreTip({ home, away })
 		}
 	}, [tip])
 
 	const { showSnackbar } = useSnackbar()
 
 	const { mutate: upsertTip } = useMutation(
-		(score: Score) =>
+		(score: ScoreTip) =>
 			TipsApi.upsertTip({
 				userId,
 				fixtureId: fixture.id,
@@ -48,19 +48,21 @@ export function MyTipsRow({ teams, fixture, tip }: MyTipsRowProps) {
 		}
 	)
 
-	function handleSubmit(scoreSubmitted: Score) {
-		setScore(scoreSubmitted)
+	function handleSubmit(scoreSubmitted: ScoreTip) {
+		setScoreTip(scoreSubmitted)
 		upsertTip(scoreSubmitted)
 	}
 
 	return (
 		<ListItem sx={{ flexDirection: 'column' }}>
 			<TipSelect
-				buttonLabel={score ? `${score.home}:${score.away}` : 'Zadat tip'}
+				buttonLabel={
+					scoreTip ? `${scoreTip.home}:${scoreTip.away}` : 'Zadat tip'
+				}
 				homeLabel={teams.home.name}
 				awayLabel={teams.away.name}
-				homeValue={score?.home ?? 0}
-				awayValue={score?.away ?? 0}
+				homeValue={scoreTip?.home ?? 0}
+				awayValue={scoreTip?.away ?? 0}
 				onSubmit={handleSubmit}
 			/>
 			<Box sx={{ display: 'flex', gap: '20px' }}>
