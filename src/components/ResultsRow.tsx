@@ -8,18 +8,32 @@ import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { Result } from '../types/results'
 import { useAuth } from '../hooks/useAuth'
+import { Tip } from '../types/tips'
+import { TipsApi } from '../api/TipsApi'
 
+type ScoreTip = Pick<Tip, 'home' | 'away'>
 type ScoreResult = Pick<Result, 'home' | 'away'>
 
 interface ResultsRowProps {
 	teams: Teams
 	fixture: Fixture
+	tip?: Tip
 	result?: Result
 }
 
-export function ResultsRow({ teams, fixture, result }: ResultsRowProps) {
+export function ResultsRow({ teams, fixture, tip, result }: ResultsRowProps) {
 	const { user } = useAuth()
+	const userId = user?.userId ?? ''
+
 	const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
+	const [scoreTip, setScoreTip] = useState<ScoreTip | null>(null)
+
+	useEffect(() => {
+		if (tip) {
+			const { home, away } = tip
+			setScoreTip({ home, away })
+		}
+	}, [tip])
 
 	useEffect(() => {
 		if (result) {
@@ -29,6 +43,23 @@ export function ResultsRow({ teams, fixture, result }: ResultsRowProps) {
 	}, [result])
 
 	const { showSnackbar } = useSnackbar()
+
+	const { mutate: upsertTip } = useMutation(
+		(score: ScoreTip) =>
+			TipsApi.upsertTip({
+				userId,
+				fixtureId: fixture.id,
+				...score,
+			}),
+		{
+			onError: (err: AxiosError<{ message: string }>) => {
+				const message = err.response?.data.message
+				if (message) {
+					showSnackbar(message, 'error')
+				}
+			},
+		}
+	)
 
 	const { mutate: upsertResult } = useMutation(
 		(score: ScoreResult) =>
@@ -56,7 +87,12 @@ export function ResultsRow({ teams, fixture, result }: ResultsRowProps) {
 		}
 	)
 
-	function handleSubmit(scoreSubmitted: ScoreResult, toDelete?: boolean) {
+	function handleSubmitTip(scoreSubmitted: ScoreTip) {
+		setScoreTip(scoreSubmitted)
+		upsertTip(scoreSubmitted)
+	}
+
+	function handleSubmitResult(scoreSubmitted: ScoreResult, toDelete?: boolean) {
 		if (toDelete) {
 			result && deleteResult(result._id)
 			setScoreResult(null)
@@ -68,6 +104,17 @@ export function ResultsRow({ teams, fixture, result }: ResultsRowProps) {
 
 	return (
 		<ListItem sx={{ flexDirection: 'column' }}>
+			<TipSelect
+				buttonLabel={
+					scoreTip ? `${scoreTip.home}:${scoreTip.away}` : 'Zadat tip'
+				}
+				homeLabel={teams.home.name}
+				awayLabel={teams.away.name}
+				homeValue={scoreTip?.home ?? 0}
+				awayValue={scoreTip?.away ?? 0}
+				onSubmitTip={handleSubmitTip}
+			/>
+
 			{user?.role === 'admin' ? (
 				<TipSelect
 					buttonLabel={
@@ -79,7 +126,7 @@ export function ResultsRow({ teams, fixture, result }: ResultsRowProps) {
 					awayLabel={teams.away.name}
 					homeValue={scoreResult?.home ?? 0}
 					awayValue={scoreResult?.away ?? 0}
-					onSubmit={handleSubmit}
+					onSubmitResult={handleSubmitResult}
 					results={true}
 				/>
 			) : (

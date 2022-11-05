@@ -12,6 +12,7 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import { useEffect, useState } from 'react'
 import { Tip } from '../types/tips'
+import { Result } from '../types/results'
 
 interface TipSelectProps {
 	buttonLabel: string
@@ -20,7 +21,11 @@ interface TipSelectProps {
 	homeValue: number
 	awayValue: number
 	results?: boolean
-	onSubmit: (score: Pick<Tip, 'home' | 'away'>, toDelete?: boolean) => void
+	onSubmitTip?: (score: Pick<Tip, 'home' | 'away'>) => void
+	onSubmitResult?: (
+		score: Pick<Result, 'home' | 'away'>,
+		toDelete?: boolean
+	) => void
 }
 
 const TEAM_SCORE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -32,7 +37,8 @@ export function TipSelect({
 	homeValue,
 	awayValue,
 	results,
-	onSubmit,
+	onSubmitTip,
+	onSubmitResult,
 }: TipSelectProps) {
 	const [open, setOpen] = useState(false)
 	const [home, setHome] = useState(0)
@@ -96,7 +102,7 @@ export function TipSelect({
 						<Button
 							onClick={() => {
 								setOpen(false)
-								onSubmit({ home: home, away: away }, true)
+								onSubmitResult?.({ home: home, away: away }, true)
 							}}
 						>
 							Smazat
@@ -107,7 +113,7 @@ export function TipSelect({
 					<Button
 						onClick={() => {
 							setOpen(false)
-							onSubmit({ home: home, away: away })
+							onSubmitTip?.({ home: home, away: away })
 						}}
 					>
 						Potvrdit

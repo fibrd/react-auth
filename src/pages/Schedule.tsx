@@ -6,9 +6,23 @@ import { ResultsRow } from '../components/ResultsRow'
 import { useQuery } from 'react-query'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
+import { TipsApi } from '../api/TipsApi'
+import { useAuth } from '../hooks/useAuth'
+import { Tip } from '../types/tips'
 
 export function Schedule() {
+	const { user } = useAuth()
+	const [tips, setTips] = useState<Tip[]>()
 	const [results, setResults] = useState<Result[]>([])
+
+	useQuery(
+		['api/tips/:userId'],
+		() => TipsApi.getTipsByUserId(user?.userId ?? ''),
+		{
+			enabled: user !== null,
+			onSuccess: ({ data }) => setTips(data.tips),
+		}
+	)
 
 	useQuery(['api/results'], ResultsApi.getResults, {
 		onSuccess: ({ data }) => setResults(data.results),
@@ -31,6 +45,7 @@ export function Schedule() {
 							result={results?.find(
 								({ fixtureId }) => fixture.id === fixtureId
 							)}
+							tip={tips?.find(({ fixtureId }) => fixture.id === fixtureId)}
 						/>
 						<Divider component="li" />
 					</Fragment>

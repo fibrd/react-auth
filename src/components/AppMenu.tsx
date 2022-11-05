@@ -13,7 +13,6 @@ import {
 import {
 	Menu as MenuIcon,
 	SportsSoccerTwoTone,
-	TipsAndUpdates,
 	Groups,
 	TableView,
 	Schedule,
@@ -33,11 +32,6 @@ const PAGES = [
 		title: 'Tabulka',
 		path: '/tabulka',
 		icon: <TableView fontSize="small" />,
-	},
-	{
-		title: 'Moje tipy',
-		path: '/moje-tipy',
-		icon: <TipsAndUpdates fontSize="small" />,
 	},
 	{
 		title: 'Skupiny',
