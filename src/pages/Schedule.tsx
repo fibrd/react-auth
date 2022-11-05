@@ -1,9 +1,19 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import fixtures from '../data/fixtures.json'
-import { Avatar, Divider, List, ListItem, ListItemText } from '@mui/material'
+import { Divider, List } from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
+import { ResultsRow } from '../components/ResultsRow'
+import { useQuery } from 'react-query'
+import { ResultsApi } from '../api/ResultsApi'
+import { Result } from '../types/results'
 
 export function Schedule() {
+	const [results, setResults] = useState<Result[]>([])
+
+	useQuery(['api/results'], ResultsApi.getResults, {
+		onSuccess: ({ data }) => setResults(data.results),
+	})
+
 	return (
 		<AppPageWrapper>
 			<List
@@ -15,24 +25,13 @@ export function Schedule() {
 			>
 				{fixtures.response.map(({ fixture, teams }) => (
 					<Fragment key={fixture.id}>
-						<ListItem>
-							<Avatar src={teams.home.logo} />
-							<ListItemText
-								primary={`${teams.home.name} vs. ${teams.away.name}`}
-								secondary={new Date(fixture.timestamp * 1000).toLocaleString(
-									[],
-									{
-										year: 'numeric',
-										month: 'numeric',
-										day: 'numeric',
-										hour: '2-digit',
-										minute: '2-digit',
-									}
-								)}
-								sx={{ textAlign: 'center' }}
-							/>
-							<Avatar src={teams.away.logo} />
-						</ListItem>
+						<ResultsRow
+							teams={teams}
+							fixture={fixture}
+							result={results?.find(
+								({ fixtureId }) => fixture.id === fixtureId
+							)}
+						/>
 						<Divider component="li" />
 					</Fragment>
 				))}

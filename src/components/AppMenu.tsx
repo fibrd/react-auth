@@ -12,7 +12,6 @@ import {
 } from '@mui/material'
 import {
 	Menu as MenuIcon,
-	Scoreboard,
 	SportsSoccerTwoTone,
 	TipsAndUpdates,
 	Groups,
@@ -38,11 +37,6 @@ const PAGES = [
 		title: 'Skupiny',
 		path: '/skupiny',
 		icon: <Groups fontSize="small" />,
-	},
-	{
-		title: 'Výsledky',
-		path: '/vysledky',
-		icon: <Scoreboard fontSize="small" />,
 	},
 ]
 
