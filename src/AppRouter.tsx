@@ -19,7 +19,7 @@ export function AppRouter() {
 		<Routes>
 			{user && (
 				<>
-					<Route path="/program" element={<Schedule />} />
+					<Route path="/tipy" element={<Schedule />} />
 					<Route path="/tabulka" element={<TipTable />} />
 					<Route path="/skupiny" element={<Groups />} />
 				</>

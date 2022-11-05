@@ -15,7 +15,7 @@ import {
 	SportsSoccerTwoTone,
 	Groups,
 	TableView,
-	Schedule,
+	TipsAndUpdates,
 } from '@mui/icons-material'
 import * as React from 'react'
 import { AccountMenu } from './AccountMenu'
@@ -24,9 +24,9 @@ import { useAuth } from '../hooks/useAuth'
 
 const PAGES = [
 	{
-		title: 'Program',
-		path: '/program',
-		icon: <Schedule fontSize="small" />,
+		title: 'Tipy',
+		path: '/tipy',
+		icon: <TipsAndUpdates fontSize="small" />,
 	},
 	{
 		title: 'Tabulka',

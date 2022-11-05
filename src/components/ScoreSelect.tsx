@@ -102,7 +102,7 @@ export function ScoreSelect({
 						<Button
 							onClick={() => {
 								setOpen(false)
-								onSubmitResult?.({ home: home, away: away }, true)
+								onSubmitResult?.({ home, away }, true)
 							}}
 						>
 							Smazat
@@ -113,7 +113,11 @@ export function ScoreSelect({
 					<Button
 						onClick={() => {
 							setOpen(false)
-							onSubmitTip?.({ home: home, away: away })
+							if (results) {
+								onSubmitResult?.({ home, away })
+							} else {
+								onSubmitTip?.({ home, away })
+							}
 						}}
 					>
 						Potvrdit
