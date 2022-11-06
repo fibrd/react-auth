@@ -5,12 +5,11 @@ import { TipsApi } from '../api/TipsApi'
 import { TipRow, TipResult } from '../types/tips'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
-import { FormControlLabel, FormGroup, Switch } from '@mui/material'
+import { colors, FormControlLabel, FormGroup, Switch } from '@mui/material'
 import { useAuth } from '../hooks/useAuth'
 import { getTipResult, getTipResultPoints } from '../utils/tipUtils'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
-import { Close, Done, DoneOutline } from '@mui/icons-material'
 
 const ONE_HOUR = 1000 * 60 * 60
 const ONE_DAY = 24 * ONE_HOUR
@@ -21,6 +20,27 @@ function getShortName(name: string) {
 
 function isOldTip(tipDate: number) {
 	return tipDate < new Date().getTime() - ONE_DAY
+}
+
+function getStyleByTipResult(tipResult: TipResult) {
+	switch (tipResult) {
+		case TipResult.CORRECTED:
+			return {
+				padding: '4px 8px',
+				borderRadius: '50%',
+				border: `2px solid ${colors.green.A700}`,
+			}
+		case TipResult.PARTIALLY_CORRECTED:
+			return {
+				padding: '4px 8px',
+				borderRadius: '50%',
+				border: `2px dotted ${colors.green.A700}`,
+			}
+		case TipResult.WRONG:
+			return {
+				textDecoration: 'line-through',
+			}
+	}
 }
 
 export function TipTable() {
@@ -55,20 +75,8 @@ export function TipTable() {
 				const tip = { home: parseInt(home), away: parseInt(away) }
 				const result = results.find(({ fixtureId }) => fixture.id === fixtureId)
 				const tipResult = tip && result && getTipResult(tip, result)
-				return (
-					<>
-						<span>{value}</span>
-						{tipResult === TipResult.CORRECTED && (
-							<DoneOutline sx={{ marginLeft: '5px', fontSize: '0.8rem' }} />
-						)}
-						{tipResult === TipResult.PARTIALLY_CORRECTED && (
-							<Done sx={{ marginLeft: '5px', fontSize: '0.8rem' }} />
-						)}
-						{tipResult === TipResult.WRONG && (
-							<Close sx={{ marginLeft: '5px', fontSize: '0.8rem' }} />
-						)}
-					</>
-				)
+				const style = tipResult ? getStyleByTipResult(tipResult) : {}
+				return <span style={style}>{value}</span>
 			},
 		})
 	)
