@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
 import { useQuery } from 'react-query'
 import { TipsApi } from '../api/TipsApi'
-import { TipRow } from '../types/tips'
-import { GridColDef, DataGrid, GridAlignment } from '@mui/x-data-grid'
+import { TipRow, TipResult } from '../types/tips'
+import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
 import { FormControlLabel, FormGroup, Switch } from '@mui/material'
 import { useAuth } from '../hooks/useAuth'
-import { getTipResultPoints } from '../utils/tipUtils'
+import { getTipResult, getTipResultPoints } from '../utils/tipUtils'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
+import { Close, Done, DoneOutline } from '@mui/icons-material'
 
 const ONE_HOUR = 1000 * 60 * 60
 const ONE_DAY = 24 * ONE_HOUR
@@ -36,16 +37,39 @@ export function TipTable() {
 		onSuccess: ({ data }) => setResults(data.results),
 	})
 
-	const fixtureColumns = fixtures.response.map(({ fixture, teams }) => ({
-		field: `fixture-${fixture.id}`,
-		headerName: `${getShortName(teams.home.name)}-${getShortName(
-			teams.away.name
-		)}`,
-		align: 'center' as GridAlignment,
-		width: 85,
-		hideSortIcons: true,
-		hide: !oldTipsVisible && isOldTip(fixture.timestamp * 1000),
-	}))
+	const fixtureColumns: GridColDef[] = fixtures.response.map(
+		({ fixture, teams }) => ({
+			field: `fixture-${fixture.id}`,
+			headerName: `${getShortName(teams.home.name)}-${getShortName(
+				teams.away.name
+			)}`,
+			align: 'center',
+			width: 85,
+			hideSortIcons: true,
+			hide: !oldTipsVisible && isOldTip(fixture.timestamp * 1000),
+			renderCell({ value }) {
+				if (!value) {
+					return null
+				}
+				const result = results.find(({ fixtureId }) => fixture.id === fixtureId)
+				const tipResult = result && getTipResult(value, result)
+				return (
+					<>
+						<span>{`${value.home}:${value.away}`}</span>
+						{tipResult === TipResult.CORRECTED && (
+							<DoneOutline sx={{ marginLeft: '5px', fontSize: '0.8rem' }} />
+						)}
+						{tipResult === TipResult.PARTIALLY_CORRECTED && (
+							<Done sx={{ marginLeft: '5px', fontSize: '0.8rem' }} />
+						)}
+						{tipResult === TipResult.WRONG && (
+							<Close sx={{ marginLeft: '5px', fontSize: '0.8rem' }} />
+						)}
+					</>
+				)
+			},
+		})
+	)
 
 	const columns: GridColDef[] = [
 		{
@@ -61,32 +85,32 @@ export function TipTable() {
 		},
 		{
 			field: 'points',
-			headerName: 'Body',
-			width: 55,
+			headerName: 'Bod.',
+			align: 'right',
+			flex: 1,
 			hideable: false,
 			hideSortIcons: true,
 		},
 		...fixtureColumns,
 	]
 
-	function createData(tipRows: TipRow) {
+	function createData(tipRow: TipRow) {
 		const points = fixtures.response.reduce((acc, { fixture }) => {
-			const tip = tipRows.tips.find(({ fixtureId }) => fixtureId === fixture.id)
+			const tip = tipRow.tips.find(({ fixtureId }) => fixtureId === fixture.id)
 			const result = results.find(({ fixtureId }) => fixtureId === fixture.id)
 			return acc + (tip && result ? getTipResultPoints(tip, result) : 0)
 		}, 0)
 
 		const fixtureRowsArray = fixtures.response.map(({ fixture }) => {
-			const tip = tipRows.tips.find(({ fixtureId }) => fixtureId === fixture.id)
-			const key = `fixture-${fixture.id}`
-			return { [key]: tip ? `${tip.home}:${tip.away}` : null }
+			const tip = tipRow.tips.find(({ fixtureId }) => fixtureId === fixture.id)
+			return { [`fixture-${fixture.id}`]: tip ?? null }
 		})
 		const fixtureRowsObject = fixtureRowsArray.reduce(
 			(acc, curr) => ({ ...acc, ...curr }),
 			{}
 		)
 		const data = {
-			id: tipRows.username,
+			id: tipRow.username,
 			points,
 			...fixtureRowsObject,
 		}
