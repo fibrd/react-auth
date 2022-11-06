@@ -7,7 +7,7 @@ export function AnonymousInfo() {
 	const { showDialog } = useDialog()
 
 	return (
-		<Typography sx={{ textAlign: 'center', padding: '10px' }} variant="h6">
+		<Typography sx={{ textAlign: 'center', padding: '10px' }}>
 			Pro více podrobností k soutěži se prosím{' '}
 			<Link
 				sx={{ cursor: 'pointer', textDecoration: 'none' }}
@@ -15,7 +15,7 @@ export function AnonymousInfo() {
 			>
 				přihlašte
 			</Link>
-			, případně si{' '}
+			, nebo si{' '}
 			<Link
 				sx={{ cursor: 'pointer', textDecoration: 'none' }}
 				onClick={() => showDialog(DialogType.REGISTRATION)}

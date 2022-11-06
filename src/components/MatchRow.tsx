@@ -1,12 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import {
-	ListItem,
-	Box,
-	Avatar,
-	ListItemText,
-	Typography,
-	colors,
-} from '@mui/material'
+import { ListItem, Box, Avatar, ListItemText, Typography } from '@mui/material'
 import { ScoreSelect } from './ScoreSelect'
 import { Fixture, Teams } from '../types/fixtures'
 import { useMutation } from 'react-query'
@@ -15,10 +8,9 @@ import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { Result } from '../types/results'
 import { useAuth } from '../hooks/useAuth'
-import { Tip, TipResult } from '../types/tips'
+import { Tip } from '../types/tips'
 import { TipsApi } from '../api/TipsApi'
-import { getTipResult } from '../utils/tipUtils'
-import { DoneOutline, Done, Close } from '@mui/icons-material'
+import { getTipResultPoints } from '../utils/tipUtils'
 
 type ScoreTip = Pick<Tip, 'home' | 'away'>
 type ScoreResult = Pick<Result, 'home' | 'away'>
@@ -37,8 +29,8 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 	const [scoreTip, setScoreTip] = useState<ScoreTip | null>(null)
 	const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
 
-	const tipResult = useMemo(
-		() => scoreTip && scoreResult && getTipResult(scoreTip, scoreResult),
+	const points = useMemo(
+		() => scoreTip && scoreResult && getTipResultPoints(scoreTip, scoreResult),
 		[scoreTip, scoreResult]
 	)
 
@@ -121,10 +113,9 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 			<Box
 				sx={{
 					display: 'flex',
-					gap: '20px',
+					gap: '5px',
 					marginBottom: '5px',
 					alignItems: 'center',
-					color: colors.blue[700],
 				}}
 			>
 				{/* Tip */}
@@ -157,14 +148,11 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 				) : (
 					scoreResult && (
 						<Typography>
-							Výsledek: {`${scoreResult.home}:${scoreResult.away}`}
+							<b>{`${scoreResult.home}:${scoreResult.away} `}</b>
+							{`(${points} b.)`}
 						</Typography>
 					)
 				)}
-
-				{tipResult === TipResult.CORRECTED && <DoneOutline />}
-				{tipResult === TipResult.PARTIALLY_CORRECTED && <Done />}
-				{tipResult === TipResult.WRONG && <Close />}
 			</Box>
 
 			<Box sx={{ display: 'flex', gap: '20px' }}>
