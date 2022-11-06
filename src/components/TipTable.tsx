@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AppPageWrapper } from './common/AppPageWrapper'
-import { useQuery } from 'react-query'
-import { TipRow, TipResult } from '../types/tips'
+import { useMutation, useQuery } from 'react-query'
+import { TipRow, TipResult, AuthorizeTipBody } from '../types/tips'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
 import { colors, FormControlLabel, FormGroup, Switch } from '@mui/material'
@@ -9,6 +9,8 @@ import { useAuth } from '../hooks/useAuth'
 import { getTipResult, getTipResultPoints } from '../utils/tipUtils'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
+import { TipsApi } from '../api/TipsApi'
+import { Check, Close } from '@mui/icons-material'
 
 const ONE_HOUR = 1000 * 60 * 60
 const ONE_DAY = 24 * ONE_HOUR
@@ -44,9 +46,15 @@ function getStyleByTipResult(tipResult: TipResult) {
 
 interface TipTableProps {
 	tipRows: TipRow[]
+	isAdminTable?: boolean
+	onAuthorizeTip?: (body: AuthorizeTipBody) => void
 }
 
-export function TipTable({ tipRows }: TipTableProps) {
+export function TipTable({
+	tipRows,
+	isAdminTable,
+	onAuthorizeTip,
+}: TipTableProps) {
 	const { user } = useAuth()
 	const [results, setResults] = useState<Result[]>([])
 	const [oldTipsVisible, setOldTipsHidden] = useState(false)
@@ -54,6 +62,40 @@ export function TipTable({ tipRows }: TipTableProps) {
 	useQuery(['api/results'], ResultsApi.getResults, {
 		onSuccess: ({ data }) => setResults(data.results),
 	})
+
+	const adminColumns: GridColDef[] = isAdminTable
+		? [
+				{
+					field: 'authorized',
+					headerName: '',
+					hideSortIcons: true,
+					align: 'center',
+					flex: 1,
+					renderCell({ value }) {
+						const { authorized, userId } = value
+						return authorized ? (
+							<Check
+								onClick={() =>
+									window.confirm('Autorizovat?') &&
+									onAuthorizeTip?.({ authorized: false, userId })
+								}
+								sx={{ cursor: 'pointer' }}
+								fontSize="small"
+							/>
+						) : (
+							<Close
+								onClick={() =>
+									window.confirm('Autorizovat?') &&
+									onAuthorizeTip?.({ authorized: true, userId })
+								}
+								sx={{ cursor: 'pointer' }}
+								fontSize="small"
+							/>
+						)
+					},
+				},
+		  ]
+		: []
 
 	const fixtureColumns: GridColDef[] = fixtures.response.map(
 		({ fixture, teams }) => ({
@@ -80,6 +122,7 @@ export function TipTable({ tipRows }: TipTableProps) {
 	)
 
 	const columns: GridColDef[] = [
+		...adminColumns,
 		{
 			field: 'id',
 			headerName: '',
@@ -121,6 +164,7 @@ export function TipTable({ tipRows }: TipTableProps) {
 		)
 		const data = {
 			id: tipRow.username,
+			authorized: { authorized: tipRow.authorized, userId: tipRow.userId },
 			points,
 			...fixtureRowsObject,
 		}

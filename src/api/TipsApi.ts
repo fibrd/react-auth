@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Tip, TipRow, UpsertTipBody } from '../types/tips'
+import { AuthorizeTipBody, Tip, TipRow, UpsertTipBody } from '../types/tips'
 
 const instance = axios.create({
 	withCredentials: true,
@@ -21,5 +21,9 @@ export const TipsApi = {
 
 	upsertTip(body: UpsertTipBody) {
 		return instance.post('/tips', body)
+	},
+
+	authorizeTip(body: AuthorizeTipBody) {
+		return instance.put('/authorized-tips', body)
 	},
 }
