@@ -22,10 +22,7 @@ interface ScoreSelectProps {
 	awayValue: number
 	results?: boolean
 	onSubmitTip?: (score: Pick<Tip, 'home' | 'away'>) => void
-	onSubmitResult?: (
-		score: Pick<Result, 'home' | 'away'>,
-		toDelete?: boolean
-	) => void
+	onSubmitResult?: (score: Pick<Result, 'home' | 'away'> | null) => void
 }
 
 const TEAM_SCORE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -105,8 +102,10 @@ export function ScoreSelect({
 					{results ? (
 						<Button
 							onClick={() => {
-								setOpen(false)
-								onSubmitResult?.({ home, away }, true)
+								if (window.confirm('Opravdu to chcete smazat?')) {
+									setOpen(false)
+									onSubmitResult?.(null)
+								}
 							}}
 						>
 							Smazat

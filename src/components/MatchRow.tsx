@@ -72,8 +72,8 @@ export function MatchRow({
 		}
 	)
 
-	function handleSubmitResult(scoreSubmitted: ScoreResult, toDelete?: boolean) {
-		if (toDelete) {
+	function handleSubmitResult(scoreSubmitted: ScoreResult | null) {
+		if (scoreSubmitted === null) {
 			result && deleteResult(result._id)
 			setScoreResult(null)
 		} else {
