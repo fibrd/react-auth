@@ -26,8 +26,8 @@ export function RegisterationForm() {
 		password: yup.string().required().min(6),
 	})
 	const defaultValues = {
-		email: '',
-		username: '',
+		email: localStorage.getItem('tipEmail') ?? '',
+		username: localStorage.getItem('tipUsername') ?? '',
 		password: '',
 	}
 

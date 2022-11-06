@@ -28,7 +28,7 @@ export function LoginForm() {
 		password: yup.string().required().min(6),
 	})
 	const defaultValues = {
-		email: '',
+		email: localStorage.getItem('tipEmail') ?? '',
 		password: '',
 	}
 

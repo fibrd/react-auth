@@ -24,7 +24,7 @@ export function PasswordForgottenForm() {
 		email: yup.string().required().email(),
 	})
 	const defaultValues = {
-		email: '',
+		email: localStorage.getItem('tipEmail') ?? '',
 	}
 
 	const methods = useForm({
