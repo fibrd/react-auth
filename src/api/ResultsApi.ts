@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Result } from '../types/results'
+import { Result, UpsertResultBody } from '../types/results'
 
 const instance = axios.create({
 	withCredentials: true,
@@ -10,7 +10,7 @@ export const ResultsApi = {
 	getResults() {
 		return instance.get<{ results: Result[] }>('/results')
 	},
-	upsertResult(body: Omit<Result, '_id'>) {
+	upsertResult(body: UpsertResultBody) {
 		return instance.post('/results', body)
 	},
 	deleteResult(_id: string) {
