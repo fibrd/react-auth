@@ -51,11 +51,13 @@ export function TipTable() {
 				if (!value) {
 					return null
 				}
+				const [home, away]: string[] = value.split(':')
+				const tip = { home: parseInt(home), away: parseInt(away) }
 				const result = results.find(({ fixtureId }) => fixture.id === fixtureId)
-				const tipResult = result && getTipResult(value, result)
+				const tipResult = tip && result && getTipResult(tip, result)
 				return (
 					<>
-						<span>{`${value.home}:${value.away}`}</span>
+						<span>{value}</span>
 						{tipResult === TipResult.CORRECTED && (
 							<DoneOutline sx={{ marginLeft: '5px', fontSize: '0.8rem' }} />
 						)}
@@ -103,7 +105,9 @@ export function TipTable() {
 
 		const fixtureRowsArray = fixtures.response.map(({ fixture }) => {
 			const tip = tipRow.tips.find(({ fixtureId }) => fixtureId === fixture.id)
-			return { [`fixture-${fixture.id}`]: tip ?? null }
+			return {
+				[`fixture-${fixture.id}`]: tip ? `${tip.home}:${tip.away}` : null,
+			}
 		})
 		const fixtureRowsObject = fixtureRowsArray.reduce(
 			(acc, curr) => ({ ...acc, ...curr }),
