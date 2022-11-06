@@ -3,19 +3,23 @@ import fixtures from '../data/fixtures.json'
 import { Divider, List } from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
 import { MatchRow } from '../components/MatchRow'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
 import { TipsApi } from '../api/TipsApi'
 import { useAuth } from '../hooks/useAuth'
-import { Tip } from '../types/tips'
+import { Tip, UpsertTipBody } from '../types/tips'
+import { AxiosError } from 'axios'
+import { useSnackbar } from '../hooks/useSnackbar'
 
 export function Schedule() {
+	const { showSnackbar } = useSnackbar()
 	const { user } = useAuth()
+	const userId = user?.userId ?? ''
 	const [tips, setTips] = useState<Tip[]>()
 	const [results, setResults] = useState<Result[]>([])
 
-	useQuery(
+	const { refetch: refetchTips } = useQuery(
 		['api/tips/:userId'],
 		() => TipsApi.getTipsByUserId(user?.userId ?? ''),
 		{
@@ -27,6 +31,21 @@ export function Schedule() {
 	useQuery(['api/results'], ResultsApi.getResults, {
 		onSuccess: ({ data }) => setResults(data.results),
 	})
+
+	const { mutate: upsertTip } = useMutation(
+		(body: UpsertTipBody) => TipsApi.upsertTip(body),
+		{
+			onSuccess() {
+				refetchTips()
+			},
+			onError: (err: AxiosError<{ message: string }>) => {
+				const message = err.response?.data.message
+				if (message) {
+					showSnackbar(message, 'error')
+				}
+			},
+		}
+	)
 
 	return (
 		<AppPageWrapper>
@@ -46,6 +65,9 @@ export function Schedule() {
 								({ fixtureId }) => fixture.id === fixtureId
 							)}
 							tip={tips?.find(({ fixtureId }) => fixture.id === fixtureId)}
+							onSubmitTip={score =>
+								upsertTip({ userId, fixtureId: fixture.id, ...score })
+							}
 						/>
 						<Divider component="li" />
 					</Fragment>

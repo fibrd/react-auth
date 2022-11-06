@@ -9,10 +9,8 @@ import { useSnackbar } from '../hooks/useSnackbar'
 import { Result } from '../types/results'
 import { useAuth } from '../hooks/useAuth'
 import { Tip } from '../types/tips'
-import { TipsApi } from '../api/TipsApi'
 import { getTipResultPoints } from '../utils/tipUtils'
 
-type ScoreTip = Pick<Tip, 'home' | 'away'>
 type ScoreResult = Pick<Result, 'home' | 'away'>
 
 interface MatchRowProps {
@@ -20,26 +18,24 @@ interface MatchRowProps {
 	fixture: Fixture
 	tip?: Tip
 	result?: Result
+	onSubmitTip?: (score: Pick<Tip, 'home' | 'away'>) => void
 }
 
-export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
+export function MatchRow({
+	teams,
+	fixture,
+	tip,
+	result,
+	onSubmitTip,
+}: MatchRowProps) {
 	const { user } = useAuth()
-	const userId = user?.userId ?? ''
 
-	const [scoreTip, setScoreTip] = useState<ScoreTip | null>(null)
 	const [scoreResult, setScoreResult] = useState<ScoreResult | null>(null)
 
 	const points = useMemo(
-		() => scoreTip && scoreResult && getTipResultPoints(scoreTip, scoreResult),
-		[scoreTip, scoreResult]
+		() => tip && scoreResult && getTipResultPoints(tip, scoreResult),
+		[tip, scoreResult]
 	)
-
-	useEffect(() => {
-		if (tip) {
-			const { home, away } = tip
-			setScoreTip({ home, away })
-		}
-	}, [tip])
 
 	useEffect(() => {
 		if (result) {
@@ -49,23 +45,6 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 	}, [result])
 
 	const { showSnackbar } = useSnackbar()
-
-	const { mutate: upsertTip } = useMutation(
-		(score: ScoreTip) =>
-			TipsApi.upsertTip({
-				userId,
-				fixtureId: fixture.id,
-				...score,
-			}),
-		{
-			onError: (err: AxiosError<{ message: string }>) => {
-				const message = err.response?.data.message
-				if (message) {
-					showSnackbar(message, 'error')
-				}
-			},
-		}
-	)
 
 	const { mutate: upsertResult } = useMutation(
 		(score: ScoreResult) =>
@@ -93,11 +72,6 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 		}
 	)
 
-	function handleSubmitTip(scoreSubmitted: ScoreTip) {
-		setScoreTip(scoreSubmitted)
-		upsertTip(scoreSubmitted)
-	}
-
 	function handleSubmitResult(scoreSubmitted: ScoreResult, toDelete?: boolean) {
 		if (toDelete) {
 			result && deleteResult(result._id)
@@ -120,14 +94,12 @@ export function MatchRow({ teams, fixture, tip, result }: MatchRowProps) {
 			>
 				{/* Tip */}
 				<ScoreSelect
-					buttonLabel={
-						scoreTip ? `${scoreTip.home}:${scoreTip.away}` : 'Zadat tip'
-					}
+					buttonLabel={tip ? `${tip.home}:${tip.away}` : 'Zadat tip'}
 					homeLabel={teams.home.name}
 					awayLabel={teams.away.name}
-					homeValue={scoreTip?.home ?? 0}
-					awayValue={scoreTip?.away ?? 0}
-					onSubmitTip={handleSubmitTip}
+					homeValue={tip?.home ?? 0}
+					awayValue={tip?.away ?? 0}
+					onSubmitTip={onSubmitTip}
 				/>
 
 				{/* Vysledek */}

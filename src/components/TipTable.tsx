@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AppPageWrapper } from './common/AppPageWrapper'
-import { useMutation, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
 import { TipRow, TipResult, AuthorizeTipBody } from '../types/tips'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
@@ -9,7 +9,6 @@ import { useAuth } from '../hooks/useAuth'
 import { getTipResult, getTipResultPoints } from '../utils/tipUtils'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
-import { TipsApi } from '../api/TipsApi'
 import { Check, Close } from '@mui/icons-material'
 
 const ONE_HOUR = 1000 * 60 * 60
