@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { AppPageWrapper } from '../components/common/AppPageWrapper'
+import { AppPageWrapper } from './common/AppPageWrapper'
 import { useQuery } from 'react-query'
-import { TipsApi } from '../api/TipsApi'
 import { TipRow, TipResult } from '../types/tips'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
@@ -43,15 +42,14 @@ function getStyleByTipResult(tipResult: TipResult) {
 	}
 }
 
-export function TipTable() {
+interface TipTableProps {
+	tipRows: TipRow[]
+}
+
+export function TipTable({ tipRows }: TipTableProps) {
 	const { user } = useAuth()
-	const [tipRows, setTipRows] = useState<TipRow[]>([])
 	const [results, setResults] = useState<Result[]>([])
 	const [oldTipsVisible, setOldTipsHidden] = useState(false)
-
-	useQuery(['api/tips'], TipsApi.getTips, {
-		onSuccess: ({ data }) => setTipRows(data),
-	})
 
 	useQuery(['api/results'], ResultsApi.getResults, {
 		onSuccess: ({ data }) => setResults(data.results),

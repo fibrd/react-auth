@@ -7,6 +7,10 @@ const instance = axios.create({
 })
 
 export const TipsApi = {
+	getAuthorizedTips() {
+		return instance.get<TipRow[]>('/authorized-tips')
+	},
+
 	getTips() {
 		return instance.get<TipRow[]>('/tips')
 	},

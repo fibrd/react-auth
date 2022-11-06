@@ -19,9 +19,8 @@ export function AppDialog() {
 			return <LogoutForm />
 		case DialogType.PASSWORD_FORGOTTEN:
 			return <PasswordForgottenForm />
-		case DialogType.PASSWORD_RESET: {
+		case DialogType.PASSWORD_RESET:
 			return <PasswordResetForm />
-		}
 		default:
 			return null
 	}

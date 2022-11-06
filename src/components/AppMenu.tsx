@@ -16,6 +16,7 @@ import {
 	Groups,
 	TableView,
 	TipsAndUpdates,
+	AdminPanelSettings,
 } from '@mui/icons-material'
 import * as React from 'react'
 import { AccountMenu } from './AccountMenu'
@@ -27,6 +28,11 @@ const PAGES = [
 		title: 'Tipy',
 		path: '/tipy',
 		icon: <TipsAndUpdates fontSize="small" />,
+	},
+	{
+		title: 'Admin',
+		path: '/admin',
+		icon: <AdminPanelSettings fontSize="small" />,
 	},
 	{
 		title: 'Tabulka',
@@ -43,6 +49,10 @@ const PAGES = [
 export function AppMenu() {
 	const navigate = useNavigate()
 	const { user } = useAuth()
+	const pages =
+		user?.role === 'admin'
+			? PAGES
+			: PAGES.filter(({ path }) => path !== '/admin')
 
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 
@@ -101,7 +111,7 @@ export function AppMenu() {
 									display: { xs: 'block', md: 'none' },
 								}}
 							>
-								{PAGES.map(({ title, path, icon }) => (
+								{pages.map(({ title, path, icon }) => (
 									<MenuItem
 										key={title}
 										onClick={() => {
@@ -139,7 +149,7 @@ export function AppMenu() {
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 						{user &&
-							PAGES.map(({ title, path }) => (
+							pages.map(({ title, path }) => (
 								<Button
 									key={title}
 									onClick={() => navigate(path)}
