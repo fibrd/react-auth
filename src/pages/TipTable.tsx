@@ -7,6 +7,9 @@ import { GridColDef, DataGrid, GridAlignment } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
 import { FormControlLabel, FormGroup, Switch } from '@mui/material'
 import { useAuth } from '../hooks/useAuth'
+import { getTipResultPoints } from '../utils/tipUtils'
+import { ResultsApi } from '../api/ResultsApi'
+import { Result } from '../types/results'
 
 const ONE_HOUR = 1000 * 60 * 60
 const ONE_DAY = 24 * ONE_HOUR
@@ -22,10 +25,17 @@ function isOldTip(tipDate: number) {
 export function TipTable() {
 	const { user } = useAuth()
 	const [tipRows, setTipRows] = useState<TipRow[]>([])
+	const [results, setResults] = useState<Result[]>([])
 	const [oldTipsVisible, setOldTipsHidden] = useState(false)
+
 	useQuery(['api/tips'], TipsApi.getTips, {
 		onSuccess: ({ data }) => setTipRows(data),
 	})
+
+	useQuery(['api/results'], ResultsApi.getResults, {
+		onSuccess: ({ data }) => setResults(data.results),
+	})
+
 	const fixtureColumns = fixtures.response.map(({ fixture, teams }) => ({
 		field: `fixture-${fixture.id}`,
 		headerName: `${getShortName(teams.home.name)}-${getShortName(
@@ -49,10 +59,23 @@ export function TipTable() {
 				return <span style={style}>{value}</span>
 			},
 		},
+		{
+			field: 'points',
+			headerName: 'Body',
+			width: 55,
+			hideable: false,
+			hideSortIcons: true,
+		},
 		...fixtureColumns,
 	]
 
 	function createData(tipRows: TipRow) {
+		const points = fixtures.response.reduce((acc, { fixture }) => {
+			const tip = tipRows.tips.find(({ fixtureId }) => fixtureId === fixture.id)
+			const result = results.find(({ fixtureId }) => fixtureId === fixture.id)
+			return acc + (tip && result ? getTipResultPoints(tip, result) : 0)
+		}, 0)
+
 		const fixtureRowsArray = fixtures.response.map(({ fixture }) => {
 			const tip = tipRows.tips.find(({ fixtureId }) => fixtureId === fixture.id)
 			const key = `fixture-${fixture.id}`
@@ -64,6 +87,7 @@ export function TipTable() {
 		)
 		const data = {
 			id: tipRows.username,
+			points,
 			...fixtureRowsObject,
 		}
 		return data
@@ -85,6 +109,7 @@ export function TipTable() {
 					autoHeight={true}
 					rows={rows}
 					columns={columns}
+					sortModel={[{ field: 'points', sort: 'desc' }]}
 					pageSize={10}
 					rowsPerPageOptions={[10]}
 				/>
