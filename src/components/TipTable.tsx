@@ -24,13 +24,19 @@ function isOldTip(tipDate: number) {
 
 function getStyleByTipResult(tipResult: TipResult) {
 	switch (tipResult) {
-		case TipResult.CORRECTED:
+		case TipResult.CORRECT:
 			return {
 				padding: '4px 8px',
 				borderRadius: '50%',
 				border: `2px solid ${colors.green.A700}`,
 			}
-		case TipResult.PARTIALLY_CORRECTED:
+		case TipResult.SCORE_DIFF_CORRECT:
+			return {
+				padding: '4px 8px',
+				borderRadius: '50%',
+				border: `2px dashed ${colors.green.A700}`,
+			}
+		case TipResult.WINNER_CORRECT:
 			return {
 				padding: '4px 8px',
 				borderRadius: '50%',

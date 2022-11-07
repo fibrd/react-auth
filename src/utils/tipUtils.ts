@@ -9,19 +9,18 @@ export function getTipResult(
 	const { home: homeResult, away: awayResult } = scoreResult
 
 	if (homeTip === homeResult && awayTip === awayResult) {
-		return TipResult.CORRECTED
+		return TipResult.CORRECT
 	}
 
-	if (homeTip - awayTip === 0 && homeResult - awayResult === 0) {
-		return TipResult.PARTIALLY_CORRECTED
+	if (homeTip - awayTip === homeResult - awayResult) {
+		return TipResult.SCORE_DIFF_CORRECT
 	}
 
-	if (homeTip - awayTip > 0 && homeResult - awayResult > 0) {
-		return TipResult.PARTIALLY_CORRECTED
-	}
-
-	if (homeTip - awayTip < 0 && homeResult - awayResult < 0) {
-		return TipResult.PARTIALLY_CORRECTED
+	if (
+		(homeTip > awayTip && homeResult > awayResult) ||
+		(homeTip < awayTip && homeResult < awayResult)
+	) {
+		return TipResult.WINNER_CORRECT
 	}
 
 	return TipResult.WRONG
@@ -34,9 +33,11 @@ export function getTipResultPoints(
 	const tipResult = getTipResult(scoreTip, scoreResult)
 
 	switch (tipResult) {
-		case TipResult.CORRECTED:
-			return 4
-		case TipResult.PARTIALLY_CORRECTED:
+		case TipResult.CORRECT:
+			return 5
+		case TipResult.SCORE_DIFF_CORRECT:
+			return 2
+		case TipResult.WINNER_CORRECT:
 			return 1
 		case TipResult.WRONG:
 		default:

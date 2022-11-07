@@ -21,7 +21,8 @@ export interface TipRow {
 }
 
 export enum TipResult {
-	CORRECTED = 'corrected',
-	PARTIALLY_CORRECTED = 'partially_corrected',
+	CORRECT = 'correct',
+	SCORE_DIFF_CORRECT = 'scoreDiffCorrect',
+	WINNER_CORRECT = 'winnerCorrect',
 	WRONG = 'wrong',
 }
