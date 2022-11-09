@@ -1,10 +1,8 @@
 import React, { PropsWithChildren } from 'react'
-import { QueryCache, QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { AuthContext, useAuthContext } from './context/authContext'
 import { SnackbarContext, useSnackbarContext } from './context/snackbarContext'
 import { DialogContext, useDialogContext } from './context/dialogContext'
-import { AxiosError } from 'axios'
-import { AuthApi } from './api/AuthApi'
 
 export function AppProviders({ children }: PropsWithChildren) {
 	// Create a client provider
@@ -12,20 +10,6 @@ export function AppProviders({ children }: PropsWithChildren) {
 		defaultOptions: {
 			queries: { retry: 1, refetchOnWindowFocus: false },
 		},
-		// queryCache: new QueryCache({
-		// 	onError: async error => {
-		// 		const err = error as AxiosError
-		// 		if (err.response?.status === 403) {
-		// 			try {
-		// 				await AuthApi.logout()
-		// 				localStorage.removeItem('user')
-		// 				window.location.href = '/'
-		// 			} catch (error) {
-		// 				console.error(error)
-		// 			}
-		// 		}
-		// 	},
-		// }),
 	})
 
 	// Context
