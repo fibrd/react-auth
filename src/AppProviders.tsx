@@ -12,20 +12,20 @@ export function AppProviders({ children }: PropsWithChildren) {
 		defaultOptions: {
 			queries: { retry: 1, refetchOnWindowFocus: false },
 		},
-		queryCache: new QueryCache({
-			onError: async error => {
-				const err = error as AxiosError
-				if (err.response?.status === 403) {
-					try {
-						await AuthApi.logout()
-						localStorage.removeItem('user')
-						window.location.href = '/'
-					} catch (error) {
-						console.error(error)
-					}
-				}
-			},
-		}),
+		// queryCache: new QueryCache({
+		// 	onError: async error => {
+		// 		const err = error as AxiosError
+		// 		if (err.response?.status === 403) {
+		// 			try {
+		// 				await AuthApi.logout()
+		// 				localStorage.removeItem('user')
+		// 				window.location.href = '/'
+		// 			} catch (error) {
+		// 				console.error(error)
+		// 			}
+		// 		}
+		// 	},
+		// }),
 	})
 
 	// Context
