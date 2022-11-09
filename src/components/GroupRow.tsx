@@ -50,8 +50,14 @@ export function GroupRow({ standings }: GroupRowProps) {
 						{teamName}
 					</Typography>
 					<Avatar
-						sx={{ width: '70px', height: '70px', margin: '5px' }}
+						sx={{
+							width: '60px',
+							height: '40px',
+							margin: '5px',
+							outline: '1px solid grey',
+						}}
 						src={logo}
+						variant="square"
 					/>
 				</Paper>
 			))}

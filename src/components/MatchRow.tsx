@@ -74,8 +74,24 @@ export function MatchRow({
 				)}
 			</Box>
 
-			<Box sx={{ display: 'flex', gap: '20px' }}>
-				<Avatar src={teams.home.logo} />
+			<Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					width: '100%',
+					maxWidth: '480px',
+				}}
+			>
+				<Avatar
+					src={teams.home.logo}
+					sx={{
+						width: '60px',
+						height: '40px',
+						margin: '5px',
+						outline: '1px solid grey',
+					}}
+					variant="square"
+				/>
 				<ListItemText
 					primary={`${teams.home.name} vs. ${teams.away.name}`}
 					secondary={new Date(fixture.timestamp * 1000).toLocaleString([], {
@@ -87,7 +103,16 @@ export function MatchRow({
 					})}
 					sx={{ textAlign: 'center' }}
 				/>
-				<Avatar src={teams.away.logo} />
+				<Avatar
+					src={teams.away.logo}
+					sx={{
+						width: '60px',
+						height: '40px',
+						margin: '5px',
+						outline: '1px solid grey',
+					}}
+					variant="square"
+				/>
 			</Box>
 		</ListItem>
 	)
