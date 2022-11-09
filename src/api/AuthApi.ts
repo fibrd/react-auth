@@ -8,15 +8,16 @@ const instance = axios.create({
 })
 
 export const AuthApi = {
+	initUser() {
+		return instance.post<{ user: User | null }>('/init')
+	},
+
 	register(body: RegisterBody) {
 		return instance.post<{ message: string }>('/register', body)
 	},
 
 	login(body: LoginBody) {
-		return instance.post<{ message: string; user: User; token: string }>(
-			'/login',
-			body
-		)
+		return instance.post<{ message: string; user: User }>('/login', body)
 	},
 
 	logout() {

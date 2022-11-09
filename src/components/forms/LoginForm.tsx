@@ -48,7 +48,6 @@ export function LoginForm() {
 		(formData: LoginBody) => AuthApi.login(formData),
 		{
 			onSuccess: ({ data }) => {
-				localStorage.setItem('user', JSON.stringify(data.user))
 				login(data.user)
 				showSnackbar('Byl jste úspěšně přihlášen.', 'success')
 				handleClose()

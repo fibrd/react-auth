@@ -14,7 +14,6 @@ export function LogoutForm() {
 
 	const { mutate: submitLogout, isLoading } = useMutation(AuthApi.logout, {
 		onSuccess: () => {
-			localStorage.removeItem('user')
 			logout()
 			hideDialog()
 			showSnackbar('Byl jste odhlášen.', 'info')

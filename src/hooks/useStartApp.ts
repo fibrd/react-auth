@@ -1,16 +1,15 @@
-import { useEffect } from 'react'
-import { User } from '../types/auth'
+import { useQuery } from 'react-query'
+import { AuthApi } from '../api/AuthApi'
 import { useAuth } from './useAuth'
 
 export function useStartApp() {
 	const { login } = useAuth()
 
-	useEffect(() => {
-		const userItem = localStorage.getItem('user')
-		const user = userItem ? (JSON.parse(userItem) as User) : null
-		if (user) {
-			login(user)
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	useQuery(['api/init'], AuthApi.initUser, {
+		onSuccess: ({ data }) => {
+			if (data.user) {
+				login(data.user)
+			}
+		},
+	})
 }

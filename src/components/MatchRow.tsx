@@ -68,7 +68,7 @@ export function MatchRow({
 					result && (
 						<Typography>
 							<b>{`${result.home}:${result.away} `}</b>
-							{`(${points} b.)`}
+							{points !== undefined && <span>{`(${points} b.)`}</span>}
 						</Typography>
 					)
 				)}
