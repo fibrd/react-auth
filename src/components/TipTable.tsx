@@ -4,7 +4,13 @@ import { useQuery } from 'react-query'
 import { TipRow, TipResult, AuthorizeTipBody } from '../types/tips'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
-import { colors, FormControlLabel, FormGroup, Switch } from '@mui/material'
+import {
+	colors,
+	FormControlLabel,
+	FormGroup,
+	Switch,
+	Typography,
+} from '@mui/material'
 import { useAuth } from '../hooks/useAuth'
 import { getTipResult, getTipResultPoints } from '../utils/tipUtils'
 import { ResultsApi } from '../api/ResultsApi'
@@ -64,6 +70,7 @@ export function TipTable({
 					field: 'authorized',
 					headerName: '',
 					hideSortIcons: true,
+					hideable: false,
 					align: 'center',
 					flex: 1,
 					renderCell({ value }) {
@@ -93,27 +100,59 @@ export function TipTable({
 		: []
 
 	const fixtureColumns: GridColDef[] = fixtures.response.map(
-		({ fixture, teams }) => ({
-			field: `fixture-${fixture.id}`,
-			headerName: `${getShortName(teams.home.name)}-${getShortName(
-				teams.away.name
-			)}`,
-			align: 'center',
-			width: 85,
-			hideSortIcons: true,
-			hide: !oldTipsVisible && isOldTip(fixture.timestamp),
-			renderCell({ value }) {
-				if (!value) {
-					return null
-				}
-				const [home, away]: string[] = value.split(':')
-				const tip = { home: parseInt(home), away: parseInt(away) }
-				const result = results.find(({ fixtureId }) => fixture.id === fixtureId)
-				const tipResult = tip && result && getTipResult(tip, result)
-				const style = tipResult ? getStyleByTipResult(tipResult) : {}
-				return <span style={style}>{value}</span>
-			},
-		})
+		({ fixture, teams }) => {
+			const result = results.find(({ fixtureId }) => fixture.id === fixtureId)
+			return {
+				field: `fixture-${fixture.id}`,
+				headerName: `${getShortName(teams.home.name)}-${getShortName(
+					teams.away.name
+				)}`,
+				headerClassName: 'fixtureHeader',
+				align: 'center',
+				width: 80,
+				hideSortIcons: true,
+				hide: !oldTipsVisible && isOldTip(fixture.timestamp),
+				renderCell({ value }) {
+					if (!value) {
+						return null
+					}
+					const [home, away]: string[] = value.split(':')
+					const tip = { home: parseInt(home), away: parseInt(away) }
+					const tipResult = tip && result && getTipResult(tip, result)
+					const style = tipResult ? getStyleByTipResult(tipResult) : {}
+					return <span style={style}>{value}</span>
+				},
+				renderHeader({ colDef }) {
+					if (!result) {
+						return <Typography fontSize="small">{colDef.headerName}</Typography>
+					}
+					return (
+						<>
+							<Typography
+								fontSize="small"
+								sx={{ position: 'relative', bottom: '4px' }}
+							>
+								{colDef.headerName}
+							</Typography>
+							<Typography
+								fontSize="small"
+								sx={{
+									position: 'absolute',
+									bottom: '6px',
+									left: 0,
+									right: 0,
+									marginLeft: 'auto',
+									marginRight: 'auto',
+									textAlign: 'center',
+								}}
+							>
+								{`(${result.home}:${result.away})`}
+							</Typography>
+						</>
+					)
+				},
+			}
+		}
 	)
 
 	const columns: GridColDef[] = [
@@ -182,7 +221,9 @@ export function TipTable({
 					autoHeight={true}
 					rows={rows}
 					columns={columns}
-					sortModel={[{ field: 'points', sort: 'desc' }]}
+					initialState={{
+						sorting: { sortModel: [{ field: 'points', sort: 'desc' }] },
+					}}
 					pageSize={10}
 					rowsPerPageOptions={[10]}
 				/>
