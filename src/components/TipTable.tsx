@@ -5,9 +5,11 @@ import { TipRow, TipResult, AuthorizeTipBody } from '../types/tips'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
 import {
+	Alert,
 	colors,
 	FormControlLabel,
 	FormGroup,
+	Stack,
 	Switch,
 	Typography,
 } from '@mui/material'
@@ -48,12 +50,14 @@ function getStyleByTipResult(tipResult: TipResult) {
 interface TipTableProps {
 	tipRows: TipRow[]
 	isAdminTable?: boolean
+	isAlert?: boolean
 	onAuthorizeTip?: (body: AuthorizeTipBody) => void
 }
 
 export function TipTable({
 	tipRows,
 	isAdminTable,
+	isAlert,
 	onAuthorizeTip,
 }: TipTableProps) {
 	const { user } = useAuth()
@@ -209,14 +213,20 @@ export function TipTable({
 
 	return (
 		<AppPageWrapper>
-			<div
-				style={{
+			<Stack
+				sx={{
 					maxHeight: 800,
 					width: '100%',
 					maxWidth: 1536,
 					backgroundColor: 'white',
 				}}
 			>
+				{isAlert && (
+					<Alert severity="error">
+						Vaše tipy ještě nebyly neautorizovány. Pro potvrzení účasti prosím
+						kontaktujte správce soutěže.
+					</Alert>
+				)}
 				<DataGrid
 					autoHeight={true}
 					rows={rows}
@@ -227,7 +237,7 @@ export function TipTable({
 					pageSize={10}
 					rowsPerPageOptions={[10]}
 				/>
-			</div>
+			</Stack>
 			<FormGroup>
 				<FormControlLabel
 					sx={{ padding: '10px 5px' }}

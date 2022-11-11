@@ -16,7 +16,7 @@ export const TipsApi = {
 	},
 
 	getTipsByUserId(userId: string) {
-		return instance.get<{ tips: Tip[] }>(`/tips/${userId}`)
+		return instance.get<{ tips: Tip[]; authorized: boolean }>(`/tips/${userId}`)
 	},
 
 	upsertTip(body: UpsertTipBody) {

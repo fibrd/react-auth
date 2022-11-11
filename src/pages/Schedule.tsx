@@ -23,8 +23,8 @@ export function Schedule() {
 	const [results, setResults] = useState<Result[]>([])
 
 	const { refetch: refetchTips } = useQuery(
-		['api/tips/:userId'],
-		() => TipsApi.getTipsByUserId(user?.userId ?? ''),
+		['api/tips/:userId', userId],
+		() => TipsApi.getTipsByUserId(userId),
 		{
 			enabled: user !== null,
 			onSuccess: ({ data }) => setTips(data.tips),
