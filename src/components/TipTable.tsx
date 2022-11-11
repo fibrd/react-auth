@@ -10,17 +10,7 @@ import { getTipResult, getTipResultPoints } from '../utils/tipUtils'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
 import { Check, Close } from '@mui/icons-material'
-
-const ONE_HOUR = 1000 * 60 * 60
-const ONE_DAY = 24 * ONE_HOUR
-
-function getShortName(name: string) {
-	return name.substring(0, 3).toUpperCase()
-}
-
-function isOldTip(tipDate: number) {
-	return tipDate < new Date().getTime() - ONE_DAY
-}
+import { getShortName, isOldTip } from '../utils/fixtureUtils'
 
 function getStyleByTipResult(tipResult: TipResult) {
 	switch (tipResult) {
@@ -111,7 +101,7 @@ export function TipTable({
 			align: 'center',
 			width: 85,
 			hideSortIcons: true,
-			hide: !oldTipsVisible && isOldTip(fixture.timestamp * 1000),
+			hide: !oldTipsVisible && isOldTip(fixture.timestamp),
 			renderCell({ value }) {
 				if (!value) {
 					return null

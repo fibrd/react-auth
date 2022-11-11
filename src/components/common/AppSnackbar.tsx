@@ -7,7 +7,7 @@ export function AppSnackbar() {
 	return (
 		<Snackbar
 			open={snackbarText !== null}
-			autoHideDuration={6000}
+			autoHideDuration={4000}
 			anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
 			onClose={(_e, reason) => {
 				if (reason !== 'clickaway') {

@@ -21,6 +21,7 @@ interface ScoreSelectProps {
 	homeValue: number
 	awayValue: number
 	results?: boolean
+	disabled?: boolean
 	onSubmitTip?: (score: Pick<Tip, 'home' | 'away'>) => void
 	onSubmitResult?: (score: Pick<Result, 'home' | 'away'> | null) => void
 }
@@ -34,6 +35,7 @@ export function ScoreSelect({
 	homeValue,
 	awayValue,
 	results,
+	disabled,
 	onSubmitTip,
 	onSubmitResult,
 }: ScoreSelectProps) {
@@ -52,7 +54,9 @@ export function ScoreSelect({
 	return (
 		<div>
 			<Button
-				variant={results ? 'outlined' : 'text'}
+				disabled={disabled}
+				variant="outlined"
+				size="small"
 				sx={{ fontSize: '1rem' }}
 				onClick={() => setOpen(true)}
 			>

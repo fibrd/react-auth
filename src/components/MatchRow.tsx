@@ -6,6 +6,7 @@ import { Result } from '../types/results'
 import { useAuth } from '../hooks/useAuth'
 import { Tip } from '../types/tips'
 import { getTipResultPoints } from '../utils/tipUtils'
+import { getLocalString, isBettingDisabled } from '../utils/fixtureUtils'
 
 interface MatchRowProps {
 	teams: Teams
@@ -27,7 +28,7 @@ export function MatchRow({
 	const { user } = useAuth()
 
 	const points = useMemo(
-		() => tip && result && getTipResultPoints(tip, result),
+		() => (tip && result ? getTipResultPoints(tip, result) : 0),
 		[tip, result]
 	)
 
@@ -36,7 +37,7 @@ export function MatchRow({
 			<Box
 				sx={{
 					display: 'flex',
-					gap: '5px',
+					gap: '10px',
 					marginBottom: '5px',
 					alignItems: 'center',
 				}}
@@ -49,8 +50,8 @@ export function MatchRow({
 					homeValue={tip?.home ?? 0}
 					awayValue={tip?.away ?? 0}
 					onSubmitTip={onSubmitTip}
+					disabled={isBettingDisabled(fixture.timestamp)}
 				/>
-
 				{/* Vysledek */}
 				{user?.role === 'admin' ? (
 					<ScoreSelect
@@ -68,10 +69,12 @@ export function MatchRow({
 					result && (
 						<Typography>
 							<b>{`${result.home}:${result.away} `}</b>
-							{points !== undefined && <span>{`(${points} b.)`}</span>}
 						</Typography>
 					)
 				)}
+
+				{/* Body zobrazovat pouze kdyz existuje vysledek*/}
+				{result && <Typography>{`(${points} b.)`}</Typography>}
 			</Box>
 
 			<Box
@@ -94,13 +97,7 @@ export function MatchRow({
 				/>
 				<ListItemText
 					primary={`${teams.home.name} vs. ${teams.away.name}`}
-					secondary={new Date(fixture.timestamp * 1000).toLocaleString([], {
-						year: 'numeric',
-						month: 'numeric',
-						day: 'numeric',
-						hour: '2-digit',
-						minute: '2-digit',
-					})}
+					secondary={getLocalString(fixture.timestamp)}
 					sx={{ textAlign: 'center' }}
 				/>
 				<Avatar

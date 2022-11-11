@@ -11,6 +11,7 @@ import { useAuth } from '../hooks/useAuth'
 import { Tip, UpsertTipBody } from '../types/tips'
 import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
+import { isBettingDisabled } from '../utils/fixtureUtils'
 
 type ScoreResult = Pick<Result, 'home' | 'away'>
 
@@ -115,9 +116,11 @@ export function Schedule() {
 								fixture={fixture}
 								result={result}
 								tip={tip}
-								onSubmitTip={score =>
-									upsertTip({ userId, fixtureId: fixture.id, ...score })
-								}
+								onSubmitTip={score => {
+									if (!isBettingDisabled(fixture.timestamp)) {
+										upsertTip({ userId, fixtureId: fixture.id, ...score })
+									}
+								}}
 								onSubmitResult={scoreSubmitted =>
 									handleSubmitResult(scoreSubmitted, fixture.id, result)
 								}
