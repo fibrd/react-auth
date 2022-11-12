@@ -15,6 +15,8 @@ interface MatchRowProps {
 	timestamp: number
 	tip?: Tip
 	result?: Result
+	notKnownTeams?: boolean
+	matchType?: string
 	onSubmitTip: (score: Pick<Tip, 'home' | 'away'>) => void
 	onSubmitResult: (score: Pick<Result, 'home' | 'away'> | null) => void
 }
@@ -27,6 +29,8 @@ export function MatchRow({
 	timestamp,
 	tip,
 	result,
+	notKnownTeams,
+	matchType,
 	onSubmitTip,
 	onSubmitResult,
 }: MatchRowProps) {
@@ -55,7 +59,7 @@ export function MatchRow({
 					homeValue={tip?.home ?? 0}
 					awayValue={tip?.away ?? 0}
 					onSubmitTip={onSubmitTip}
-					disabled={isBettingDisabled(timestamp)}
+					disabled={isBettingDisabled(timestamp) || notKnownTeams}
 				/>
 				{/* Vysledek */}
 				{user?.role === 'admin' ? (
@@ -69,6 +73,7 @@ export function MatchRow({
 						awayValue={result?.away ?? 0}
 						onSubmitResult={onSubmitResult}
 						results={true}
+						disabled={notKnownTeams}
 					/>
 				) : (
 					result && (
@@ -104,7 +109,9 @@ export function MatchRow({
 				)}
 				<ListItemText
 					primary={`${homeLabel} vs. ${awayLabel}`}
-					secondary={getLocalString(timestamp)}
+					secondary={
+						getLocalString(timestamp) + (matchType ? ` (${matchType})` : '')
+					}
 					sx={{ textAlign: 'center' }}
 				/>
 				{awayLogo && (
