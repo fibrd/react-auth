@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { AppPageWrapper } from './common/AppPageWrapper'
 import { useQuery } from 'react-query'
-import { TipRow, TipResult, AuthorizeTipBody } from '../types/tips'
+import { TipRow, AuthorizeTipBody } from '../types/tips'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
 import playoff from '../data/playoff.json'
 import {
 	Alert,
-	colors,
 	FormControlLabel,
 	FormGroup,
 	Stack,
@@ -15,40 +14,17 @@ import {
 	Typography,
 } from '@mui/material'
 import { useAuth } from '../hooks/useAuth'
-import { getTipResult, getTipResultPoints } from '../utils/tipUtils'
+import {
+	getStyleByTipResult,
+	getTipResult,
+	getTipResultPoints,
+} from '../utils/tipUtils'
 import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
 import { Check, Close } from '@mui/icons-material'
 import { getShortName, isOldTip } from '../utils/fixtureUtils'
 import { PlayoffApi } from '../api/PlayoffApi'
 import { Fixture, FixtureType } from '../types/playoff'
-
-function getStyleByTipResult(tipResult: TipResult) {
-	switch (tipResult) {
-		case TipResult.CORRECT:
-			return {
-				padding: '4px 8px',
-				borderRadius: '50%',
-				border: `2px solid ${colors.green.A700}`,
-			}
-		case TipResult.SCORE_DIFF_CORRECT:
-			return {
-				padding: '4px 8px',
-				borderRadius: '50%',
-				border: `2px dashed ${colors.green.A700}`,
-			}
-		case TipResult.WINNER_CORRECT:
-			return {
-				padding: '4px 8px',
-				borderRadius: '50%',
-				border: `2px dotted ${colors.green.A700}`,
-			}
-		case TipResult.WRONG:
-			return {
-				textDecoration: 'line-through',
-			}
-	}
-}
 
 interface TipTableProps {
 	tipRows: TipRow[]

@@ -1,3 +1,4 @@
+import { colors } from '@mui/material'
 import { FixtureType } from '../types/playoff'
 import { Result } from '../types/results'
 import { Tip, TipResult } from '../types/tips'
@@ -52,4 +53,31 @@ export function getTipResultPoints(
 	}
 
 	return matchType === FixtureType.FINAL ? points * 2 : points
+}
+
+export function getStyleByTipResult(tipResult: TipResult) {
+	switch (tipResult) {
+		case TipResult.CORRECT:
+			return {
+				padding: '4px 8px',
+				borderRadius: '50%',
+				border: `2px solid ${colors.green.A700}`,
+			}
+		case TipResult.SCORE_DIFF_CORRECT:
+			return {
+				padding: '4px 8px',
+				borderRadius: '50%',
+				border: `2px dashed ${colors.green.A700}`,
+			}
+		case TipResult.WINNER_CORRECT:
+			return {
+				padding: '4px 8px',
+				borderRadius: '50%',
+				border: `2px dotted ${colors.green.A700}`,
+			}
+		case TipResult.WRONG:
+			return {
+				textDecoration: 'line-through',
+			}
+	}
 }

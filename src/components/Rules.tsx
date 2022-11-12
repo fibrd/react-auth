@@ -1,5 +1,7 @@
 import React from 'react'
-import { List, ListItem, Typography } from '@mui/material'
+import { Link, List, ListItem, Typography } from '@mui/material'
+import { getStyleByTipResult } from '../utils/tipUtils'
+import { TipResult } from '../types/tips'
 
 export function Rules() {
 	return (
@@ -11,59 +13,108 @@ export function Rules() {
 			}}
 		>
 			<ListItem>
-				Tipují se výsledky zápasů skupinové fáze a postupující týmy v rámci
-				vyřazovací fáze Mistrovství světa ve fotbale 2022.
+				<Typography fontSize="small">
+					Tipují se výsledky všech zápasů Mistrovství světa ve fotbale 2022.
+				</Typography>
 			</ListItem>
 			<ListItem>
-				Pro účast v tipovačce je potřeba schválení organizátora, příp. správce
-				soutěže.
+				<Typography fontSize="small">
+					Pro účast v tipovačce je potřeba schválení správcem soutěže.
+					Kontaktovat ho můžete osobně, případně na emailové adrese:{' '}
+					<Link href="mailto:tip.jednoduse@email.cz">
+						tip.jednoduse@email.cz
+					</Link>
+					.
+				</Typography>
 			</ListItem>
 			<ListItem>
-				Tipy na neodehrané zápasy mohou být libovolně editovány i do zahájení
-				šampionátu.
+				<Typography fontSize="small">
+					Zápisné ve výši 200 Kč je nutné organizátorovi tipovačky uhradit ještě
+					před zahájením turnaje.
+				</Typography>
 			</ListItem>
 			<ListItem>
-				Každý tipující se může soutěže účastnit pouze jednou. Zakládaní více
-				účtů je zakázáno a může vést k diskvalifikaci soutěžícího.
+				<Typography fontSize="small">
+					Každý tipující se může soutěže účastnit pouze jednou. Zakládaní více
+					účtů je zakázáno a může vést k diskvalifikaci soutěžícího.
+				</Typography>
 			</ListItem>
 			<ListItem>
-				Zápisné ve výši 200 Kč je nutné organizátorovi tipovačky uhradit ještě
-				před zahájením turnaje.
+				<Typography fontSize="small">
+					Tipy na neodehrané zápasy mohou být libovolně editovány i do zahájení
+					šampionátu.
+				</Typography>
 			</ListItem>
 			<ListItem>
-				Peněžní výhru si rozdělí první tři tipující s nejvyšším dosaženým skóre
-				v poměru 50 % první, 30% druhý a 20 % třetí tipující (Přesné částky
-				budou včas upřesněny podle počtu všech soutěžících).
+				<Typography fontSize="small">
+					Tipovaní na zápasy vyřazovací fáze bude umožněno až po určení
+					postupujících týmů.
+				</Typography>
 			</ListItem>
 			<ListItem>
-				Pokud dva nebo více hráčů dosáhnou shodného konečného skóre, rozdělí si
-				umístění i případnou výhru rovnoměrně.
+				<Typography fontSize="small">
+					Každý soutěžící je zodpovědný za včasné zadání svých tipů, a to vždy
+					před začátkem každého zápasu. V opačném případě ztrácí nárok na bodový
+					zisk.
+				</Typography>
+			</ListItem>
+			<ListItem>
+				<Typography fontSize="small">
+					Peněžní výhru si rozdělí první tři tipující s nejvyšším dosaženým
+					skóre v poměru 50 % první, 30% druhý a 20 % třetí tipující (Přesné
+					částky budou včas upřesněny podle počtu všech soutěžících).
+				</Typography>
+			</ListItem>
+			<ListItem>
+				<Typography fontSize="small">
+					Pokud dva nebo více hráčů dosáhnou shodného konečného skóre, rozdělí
+					si umístění i případnou výhru rovnoměrně.
+				</Typography>
 			</ListItem>
 			<ListItem sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-				<Typography>
+				<Typography fontSize="small">
 					Skóre se bude vypočítávat následujícím způsobem:
 				</Typography>
 				<List>
 					<ListItem>
-						5 bodů - za zcela přesný výsledek zápasu s celkovým součtem
-						maximálně čtyř vstřelených gólů (Např. Tip 3:1 a zápas dopadne 3:1).
+						<Typography fontSize="small">
+							<span style={getStyleByTipResult(TipResult.CORRECT)}>5 bodů</span>{' '}
+							- za zcela přesný výsledek zápasu (Např. Tip 3:1 a zápas dopadne
+							3:1).
+						</Typography>
 					</ListItem>
 					<ListItem>
-						2 body - za správné určení vítěze se správně tipnutým rozdílem
-						skóre, resp. určení remízy zápasu (Např. Tip 3:1 a zápas dopadne
-						4:2).
+						<Typography fontSize="small">
+							<span style={getStyleByTipResult(TipResult.SCORE_DIFF_CORRECT)}>
+								2 body
+							</span>{' '}
+							- za správné určení vítěze se správně tipnutým rozdílem skóre
+							(Např. Tip 3:1 a zápas dopadne 4:2).
+						</Typography>
 					</ListItem>
 					<ListItem>
-						1 body - za správné určení vítěze (Např. Tip 3:1 a zápas dopadne
-						6:0).
+						<Typography fontSize="small">
+							<span style={getStyleByTipResult(TipResult.WINNER_CORRECT)}>
+								1 body
+							</span>{' '}
+							- za správné určení vítěze (Např. Tip 3:1 a zápas dopadne 6:0).
+						</Typography>
 					</ListItem>
 					<ListItem>
-						0 bodů - za nesprávný tip (Např. Tip is 3:1 a zápas dopadne 1:1).
+						<Typography fontSize="small">
+							0 bodů - za nesprávný tip (Např. Tip is 3:1 a zápas dopadne 1:1).
+						</Typography>
+					</ListItem>
+					<ListItem>
+						<Typography fontSize="small">
+							Speciální tip - Finalový zápas bude ohodnocen dvojnásobným počtem
+							bodů!
+						</Typography>
 					</ListItem>
 				</List>
 			</ListItem>
 			<ListItem>
-				<small>Změna pravidel vyhrazena.</small>
+				<Typography fontSize="small">Změna pravidel vyhrazena.</Typography>
 			</ListItem>
 		</List>
 	)
