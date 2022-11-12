@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth'
 import { Tip } from '../types/tips'
 import { getTipResultPoints } from '../utils/tipUtils'
 import { getLocalString, isBettingDisabled } from '../utils/fixtureUtils'
+import { FixtureType } from '../types/playoff'
 
 interface MatchRowProps {
 	homeLabel: string
@@ -16,7 +17,7 @@ interface MatchRowProps {
 	tip?: Tip
 	result?: Result
 	notKnownTeams?: boolean
-	matchType?: string
+	matchType?: FixtureType
 	onSubmitTip: (score: Pick<Tip, 'home' | 'away'>) => void
 	onSubmitResult: (score: Pick<Result, 'home' | 'away'> | null) => void
 }
@@ -37,8 +38,8 @@ export function MatchRow({
 	const { user } = useAuth()
 
 	const points = useMemo(
-		() => (tip && result ? getTipResultPoints(tip, result) : 0),
-		[tip, result]
+		() => (tip && result ? getTipResultPoints(tip, result, matchType) : 0),
+		[tip, result, matchType]
 	)
 
 	return (

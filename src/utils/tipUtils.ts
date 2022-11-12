@@ -1,3 +1,4 @@
+import { FixtureType } from '../types/playoff'
 import { Result } from '../types/results'
 import { Tip, TipResult } from '../types/tips'
 
@@ -28,19 +29,27 @@ export function getTipResult(
 
 export function getTipResultPoints(
 	scoreTip: Pick<Tip, 'home' | 'away'>,
-	scoreResult: Pick<Result, 'home' | 'away'>
+	scoreResult: Pick<Result, 'home' | 'away'>,
+	matchType?: FixtureType
 ): number {
 	const tipResult = getTipResult(scoreTip, scoreResult)
+	let points = 0
 
 	switch (tipResult) {
 		case TipResult.CORRECT:
-			return 5
+			points = 5
+			break
 		case TipResult.SCORE_DIFF_CORRECT:
-			return 2
+			points = 2
+			break
 		case TipResult.WINNER_CORRECT:
-			return 1
+			points = 1
+			break
 		case TipResult.WRONG:
 		default:
-			return 0
+			points = 0
+			break
 	}
+
+	return matchType === FixtureType.FINAL ? points * 2 : points
 }

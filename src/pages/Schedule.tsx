@@ -13,7 +13,7 @@ import { Tip, UpsertTipBody } from '../types/tips'
 import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
 import { isBettingDisabled } from '../utils/fixtureUtils'
-import { Fixture } from '../types/playoff'
+import { Fixture, FixtureType } from '../types/playoff'
 import { PlayoffApi } from '../api/PlayoffApi'
 
 type ScoreResult = Pick<Result, 'home' | 'away'>
@@ -181,7 +181,7 @@ export function Schedule() {
 								result={result}
 								tip={tip}
 								notKnownTeams={!homeTeam && !awayTeam}
-								matchType={fixture.type}
+								matchType={fixture.type as FixtureType}
 								onSubmitTip={score => {
 									if (!isBettingDisabled(fixture.timestamp)) {
 										upsertTip({ userId, fixtureId: fixture.id, ...score })

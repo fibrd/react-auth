@@ -21,7 +21,7 @@ import { Result } from '../types/results'
 import { Check, Close } from '@mui/icons-material'
 import { getShortName, isOldTip } from '../utils/fixtureUtils'
 import { PlayoffApi } from '../api/PlayoffApi'
-import { Fixture } from '../types/playoff'
+import { Fixture, FixtureType } from '../types/playoff'
 
 function getStyleByTipResult(tipResult: TipResult) {
 	switch (tipResult) {
@@ -264,7 +264,8 @@ export function TipTable({
 		const pointsPlayoff = playoff.response.reduce((acc, { fixture }) => {
 			const tip = tipRow.tips.find(({ fixtureId }) => fixtureId === fixture.id)
 			const result = results.find(({ fixtureId }) => fixtureId === fixture.id)
-			return acc + (tip && result ? getTipResultPoints(tip, result) : 0)
+			const type = fixture.type as FixtureType
+			return acc + (tip && result ? getTipResultPoints(tip, result, type) : 0)
 		}, 0)
 
 		const fixtureRowsArray = fixtures.response.map(({ fixture }) => {
