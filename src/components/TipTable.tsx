@@ -4,6 +4,7 @@ import { useQuery } from 'react-query'
 import { TipRow, TipResult, AuthorizeTipBody } from '../types/tips'
 import { GridColDef, DataGrid } from '@mui/x-data-grid'
 import fixtures from '../data/fixtures.json'
+import playoff from '../data/playoff.json'
 import {
 	Alert,
 	colors,
@@ -19,6 +20,8 @@ import { ResultsApi } from '../api/ResultsApi'
 import { Result } from '../types/results'
 import { Check, Close } from '@mui/icons-material'
 import { getShortName, isOldTip } from '../utils/fixtureUtils'
+import { PlayoffApi } from '../api/PlayoffApi'
+import { Fixture } from '../types/playoff'
 
 function getStyleByTipResult(tipResult: TipResult) {
 	switch (tipResult) {
@@ -63,9 +66,14 @@ export function TipTable({
 	const { user } = useAuth()
 	const [results, setResults] = useState<Result[]>([])
 	const [oldTipsVisible, setOldTipsHidden] = useState(false)
+	const [playoffFixtures, setPlayoffFixtures] = useState<Fixture[]>([])
 
 	useQuery(['api/results'], ResultsApi.getResults, {
 		onSuccess: ({ data }) => setResults(data.results),
+	})
+
+	useQuery(['api/fixtures'], PlayoffApi.getFixtures, {
+		onSuccess: ({ data }) => setPlayoffFixtures(data.fixtures),
 	})
 
 	const adminColumns: GridColDef[] = isAdminTable
@@ -159,6 +167,68 @@ export function TipTable({
 		}
 	)
 
+	const playoffColumns: GridColDef[] = playoff.response.map(
+		({ fixture, teams }) => {
+			const result = results.find(({ fixtureId }) => fixture.id === fixtureId)
+			const storedFixture = playoffFixtures.find(
+				({ fixtureId }) => fixtureId === fixture.id
+			)
+			const homeTeam = storedFixture?.homeTeam
+			const awayTeam = storedFixture?.awayTeam
+
+			return {
+				field: `fixture-${fixture.id}`,
+				headerName: `${getShortName(
+					homeTeam || teams.home.placeholder
+				)}-${getShortName(awayTeam || teams.away.placeholder)}`,
+				headerClassName: 'fixtureHeader',
+				align: 'center',
+				headerAlign: 'center',
+				hideSortIcons: true,
+				hide: !oldTipsVisible && isOldTip(fixture.timestamp),
+				renderCell({ value }) {
+					if (!value) {
+						return null
+					}
+					const [home, away]: string[] = value.split(':')
+					const tip = { home: parseInt(home), away: parseInt(away) }
+					const tipResult = tip && result && getTipResult(tip, result)
+					const style = tipResult ? getStyleByTipResult(tipResult) : {}
+					return <span style={style}>{value}</span>
+				},
+				renderHeader({ colDef }) {
+					if (!result) {
+						return <Typography fontSize="small">{colDef.headerName}</Typography>
+					}
+					return (
+						<>
+							<Typography
+								fontSize="small"
+								sx={{ position: 'relative', bottom: '4px' }}
+							>
+								{colDef.headerName}
+							</Typography>
+							<Typography
+								fontSize="small"
+								sx={{
+									position: 'absolute',
+									bottom: '6px',
+									left: 0,
+									right: 0,
+									marginLeft: 'auto',
+									marginRight: 'auto',
+									textAlign: 'center',
+								}}
+							>
+								{`(${result.home}:${result.away})`}
+							</Typography>
+						</>
+					)
+				},
+			}
+		}
+	)
+
 	const columns: GridColDef[] = [
 		...adminColumns,
 		{
@@ -181,10 +251,17 @@ export function TipTable({
 			hideSortIcons: true,
 		},
 		...fixtureColumns,
+		...playoffColumns,
 	]
 
 	function createData(tipRow: TipRow) {
-		const points = fixtures.response.reduce((acc, { fixture }) => {
+		const pointsMain = fixtures.response.reduce((acc, { fixture }) => {
+			const tip = tipRow.tips.find(({ fixtureId }) => fixtureId === fixture.id)
+			const result = results.find(({ fixtureId }) => fixtureId === fixture.id)
+			return acc + (tip && result ? getTipResultPoints(tip, result) : 0)
+		}, 0)
+
+		const pointsPlayoff = playoff.response.reduce((acc, { fixture }) => {
 			const tip = tipRow.tips.find(({ fixtureId }) => fixtureId === fixture.id)
 			const result = results.find(({ fixtureId }) => fixtureId === fixture.id)
 			return acc + (tip && result ? getTipResultPoints(tip, result) : 0)
@@ -200,11 +277,22 @@ export function TipTable({
 			(acc, curr) => ({ ...acc, ...curr }),
 			{}
 		)
+		const playoffRowsArray = playoff.response.map(({ fixture }) => {
+			const tip = tipRow.tips.find(({ fixtureId }) => fixtureId === fixture.id)
+			return {
+				[`fixture-${fixture.id}`]: tip ? `${tip.home}:${tip.away}` : null,
+			}
+		})
+		const playoffRowsObject = playoffRowsArray.reduce(
+			(acc, curr) => ({ ...acc, ...curr }),
+			{}
+		)
 		const data = {
 			id: tipRow.username,
 			authorized: { authorized: tipRow.authorized, userId: tipRow.userId },
-			points,
+			points: pointsMain + pointsPlayoff,
 			...fixtureRowsObject,
+			...playoffRowsObject,
 		}
 		return data
 	}
