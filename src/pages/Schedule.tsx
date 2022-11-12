@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import fixtures from '../data/fixtures.json'
-import { Divider, List } from '@mui/material'
+import playoff from '../data/playoff.json'
+import { colors, Divider, List } from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
 import { MatchRow } from '../components/MatchRow'
 import { useMutation, useQuery } from 'react-query'
@@ -112,8 +113,47 @@ export function Schedule() {
 					return (
 						<Fragment key={fixture.id}>
 							<MatchRow
-								teams={teams}
-								fixture={fixture}
+								homeLabel={teams.home.name}
+								awayLabel={teams.away.name}
+								homeLogo={teams.home.logo}
+								awayLogo={teams.away.logo}
+								timestamp={fixture.timestamp}
+								result={result}
+								tip={tip}
+								onSubmitTip={score => {
+									if (!isBettingDisabled(fixture.timestamp)) {
+										upsertTip({ userId, fixtureId: fixture.id, ...score })
+									}
+								}}
+								onSubmitResult={scoreSubmitted =>
+									handleSubmitResult(scoreSubmitted, fixture.id, result)
+								}
+							/>
+							<Divider component="li" />
+						</Fragment>
+					)
+				})}
+			</List>
+
+			{/* PLAYOFF */}
+			<List
+				sx={{
+					width: '100%',
+					maxWidth: 860,
+					bgcolor: colors.orange[50],
+				}}
+			>
+				{playoff.response.map(({ fixture, teams }) => {
+					const result = results?.find(
+						({ fixtureId }) => fixture.id === fixtureId
+					)
+					const tip = tips?.find(({ fixtureId }) => fixture.id === fixtureId)
+					return (
+						<Fragment key={fixture.id}>
+							<MatchRow
+								homeLabel={teams.home.placeholder}
+								awayLabel={teams.away.placeholder}
+								timestamp={fixture.timestamp}
 								result={result}
 								tip={tip}
 								onSubmitTip={score => {

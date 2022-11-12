@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { ListItem, Box, Avatar, ListItemText, Typography } from '@mui/material'
 import { ScoreSelect } from './ScoreSelect'
-import { Fixture, Teams } from '../types/fixtures'
 import { Result } from '../types/results'
 import { useAuth } from '../hooks/useAuth'
 import { Tip } from '../types/tips'
@@ -9,8 +8,11 @@ import { getTipResultPoints } from '../utils/tipUtils'
 import { getLocalString, isBettingDisabled } from '../utils/fixtureUtils'
 
 interface MatchRowProps {
-	teams: Teams
-	fixture: Fixture
+	homeLabel: string
+	awayLabel: string
+	homeLogo?: string
+	awayLogo?: string
+	timestamp: number
 	tip?: Tip
 	result?: Result
 	onSubmitTip: (score: Pick<Tip, 'home' | 'away'>) => void
@@ -18,8 +20,11 @@ interface MatchRowProps {
 }
 
 export function MatchRow({
-	teams,
-	fixture,
+	homeLabel,
+	awayLabel,
+	homeLogo,
+	awayLogo,
+	timestamp,
 	tip,
 	result,
 	onSubmitTip,
@@ -45,12 +50,12 @@ export function MatchRow({
 				{/* Tip */}
 				<ScoreSelect
 					buttonLabel={tip ? `${tip.home}:${tip.away}` : 'Zadat tip'}
-					homeLabel={teams.home.name}
-					awayLabel={teams.away.name}
+					homeLabel={homeLabel}
+					awayLabel={awayLabel}
 					homeValue={tip?.home ?? 0}
 					awayValue={tip?.away ?? 0}
 					onSubmitTip={onSubmitTip}
-					disabled={isBettingDisabled(fixture.timestamp)}
+					disabled={isBettingDisabled(timestamp)}
 				/>
 				{/* Vysledek */}
 				{user?.role === 'admin' ? (
@@ -58,8 +63,8 @@ export function MatchRow({
 						buttonLabel={
 							result ? `${result.home}:${result.away}` : 'Zadat výsledek'
 						}
-						homeLabel={teams.home.name}
-						awayLabel={teams.away.name}
+						homeLabel={homeLabel}
+						awayLabel={awayLabel}
 						homeValue={result?.home ?? 0}
 						awayValue={result?.away ?? 0}
 						onSubmitResult={onSubmitResult}
@@ -85,31 +90,35 @@ export function MatchRow({
 					maxWidth: '480px',
 				}}
 			>
-				<Avatar
-					src={teams.home.logo}
-					sx={{
-						width: '60px',
-						height: '40px',
-						margin: '5px',
-						outline: '1px solid grey',
-					}}
-					variant="square"
-				/>
+				{homeLogo && (
+					<Avatar
+						src={homeLogo}
+						sx={{
+							width: '60px',
+							height: '40px',
+							margin: '5px',
+							outline: '1px solid grey',
+						}}
+						variant="square"
+					/>
+				)}
 				<ListItemText
-					primary={`${teams.home.name} vs. ${teams.away.name}`}
-					secondary={getLocalString(fixture.timestamp)}
+					primary={`${homeLabel} vs. ${awayLabel}`}
+					secondary={getLocalString(timestamp)}
 					sx={{ textAlign: 'center' }}
 				/>
-				<Avatar
-					src={teams.away.logo}
-					sx={{
-						width: '60px',
-						height: '40px',
-						margin: '5px',
-						outline: '1px solid grey',
-					}}
-					variant="square"
-				/>
+				{awayLogo && (
+					<Avatar
+						src={awayLogo}
+						sx={{
+							width: '60px',
+							height: '40px',
+							margin: '5px',
+							outline: '1px solid grey',
+						}}
+						variant="square"
+					/>
+				)}
 			</Box>
 		</ListItem>
 	)
