@@ -17,6 +17,7 @@ import {
 	TableView,
 	TipsAndUpdates,
 	AdminPanelSettings,
+	Scoreboard,
 } from '@mui/icons-material'
 import * as React from 'react'
 import { AccountMenu } from './AccountMenu'
@@ -28,6 +29,11 @@ const PAGES = [
 		title: 'Tipy',
 		path: '/tipy',
 		icon: <TipsAndUpdates fontSize="small" />,
+	},
+	{
+		title: 'Playoff',
+		path: '/playoff',
+		icon: <Scoreboard fontSize="small" />,
 	},
 	{
 		title: 'Admin',
@@ -52,7 +58,7 @@ export function AppMenu() {
 	const pages =
 		user?.role === 'admin'
 			? PAGES
-			: PAGES.filter(({ path }) => path !== '/admin')
+			: PAGES.filter(({ path }) => !['/admin', '/playoff'].includes(path))
 
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
 

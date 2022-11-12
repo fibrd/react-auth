@@ -9,6 +9,7 @@ import { useAuth } from './hooks/useAuth'
 import { Schedule } from './pages/Schedule'
 import { Table } from './pages/Table'
 import { AdminTable } from './pages/AdminTable'
+import { Playoff } from './pages/Playoff'
 
 export function AppRouter() {
 	useYupLocale()
@@ -19,7 +20,10 @@ export function AppRouter() {
 	return (
 		<Routes>
 			{user?.role === 'admin' && (
-				<Route path="/admin" element={<AdminTable />} />
+				<>
+					<Route path="/admin" element={<AdminTable />} />
+					<Route path="/playoff" element={<Playoff />} />
+				</>
 			)}
 			{user && (
 				<>
