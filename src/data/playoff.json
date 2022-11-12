@@ -1,0 +1,276 @@
+{
+	"response": [
+		{
+			"fixture": {
+				"id": 400128136,
+				"type": "Round of 16",
+				"date": "2022-12-03T16:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "1A"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "2B"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128131,
+				"type": "Round of 16",
+				"date": "2022-12-03T20:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "1C"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "2D"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128135,
+				"type": "Round of 16",
+				"date": "2022-12-04T16:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "1D"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "2C"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128134,
+				"type": "Round of 16",
+				"date": "2022-12-04T20:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "1B"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "2A"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128132,
+				"type": "Round of 16",
+				"date": "2022-12-05T16:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "1E"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "2F"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128133,
+				"type": "Round of 16",
+				"date": "2022-12-05T20:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "1G"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "2H"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128137,
+				"type": "Round of 16",
+				"date": "2022-12-06T16:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "1F"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "2E"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128130,
+				"type": "Round of 16",
+				"date": "2022-12-06T20:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "1H"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "2G"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128141,
+				"type": "Quarter-final",
+				"date": "2022-12-09T16:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "W53"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "W54"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128139,
+				"type": "Quarter-final",
+				"date": "2022-12-09T20:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "W49"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "W50"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128140,
+				"type": "Quarter-final",
+				"date": "2022-12-10T16:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "W55"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "W56"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128138,
+				"type": "Quarter-final",
+				"date": "2022-12-10T20:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "W51"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "W52"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128143,
+				"type": "Semi-final",
+				"date": "2022-12-13T20:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "W57"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "W58"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128142,
+				"type": "Semi-final",
+				"date": "2022-12-14T20:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "W59"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "W60"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128144,
+				"type": "Play-off for third place",
+				"date": "2022-12-17T16:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "RU61"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "RU62"
+				}
+			}
+		},
+		{
+			"fixture": {
+				"id": 400128145,
+				"type": "Final",
+				"date": "2022-12-18T16:00:00+00:00"
+			},
+			"teams": {
+				"home": {
+					"name": null,
+					"placeholder": "W61"
+				},
+				"away": {
+					"name": null,
+					"placeholder": "W62"
+				}
+			}
+		}
+	]
+}
