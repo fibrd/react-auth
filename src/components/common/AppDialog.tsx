@@ -6,6 +6,7 @@ import { LoginForm } from '../forms/LoginForm'
 import { PasswordResetForm } from '../forms/PasswordResetForm'
 import { RegisterationForm } from '../forms/RegisterationForm'
 import { LogoutForm } from '../forms/LogoutForm'
+import { AccountModal } from '../AccountModal'
 
 export function AppDialog() {
 	const { dialogType } = useDialog()
@@ -21,6 +22,8 @@ export function AppDialog() {
 			return <PasswordForgottenForm />
 		case DialogType.PASSWORD_RESET:
 			return <PasswordResetForm />
+		case DialogType.ACCOUNT:
+			return <AccountModal />
 		default:
 			return null
 	}

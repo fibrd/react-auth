@@ -9,6 +9,7 @@ import {
 	Alert,
 	FormControlLabel,
 	FormGroup,
+	Link,
 	Stack,
 	Switch,
 	Typography,
@@ -289,7 +290,10 @@ export function TipTable({
 				{isAlert && (
 					<Alert severity="error">
 						Vaše tipy ještě nebyly neautorizovány. Pro potvrzení účasti prosím
-						kontaktujte správce soutěže.
+						kontaktujte správce soutěže na emailu:{' '}
+						<Link href="mailto:tip.jednoduse@email.cz">
+							tip.jednoduse@email.cz
+						</Link>
 					</Alert>
 				)}
 				<DataGrid

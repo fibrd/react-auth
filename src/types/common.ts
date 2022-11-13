@@ -6,6 +6,7 @@ export enum DialogType {
 	LOGOUT = 'logout',
 	PASSWORD_FORGOTTEN = 'passwordForgotten',
 	PASSWORD_RESET = 'passwordReset',
+	ACCOUNT = 'account',
 }
 
 export interface Dialog {
