@@ -102,8 +102,8 @@ export function Rules() {
 					</ListItem>
 					<ListItem>
 						<Typography fontSize="small">
-							Speciální tip - Finalový zápas bude ohodnocen dvojnásobným počtem
-							bodů!
+							<span style={{ textDecoration: 'underline' }}>Speciální tip</span>{' '}
+							- Finalový zápas bude ohodnocen dvojnásobným počtem bodů!
 						</Typography>
 					</ListItem>
 				</List>
