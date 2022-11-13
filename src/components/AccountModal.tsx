@@ -21,7 +21,7 @@ export function AccountModal() {
 			>
 				<Typography>Uživatelské jméno: {user?.username}</Typography>
 				<Typography fontSize="small">
-					Pro změnu údajů nás kontaktujte na emailu:{' '}
+					Pro změnu údajů kontaktujte správce na emailu:{' '}
 					<Link href="mailto:tip.jednoduse@email.cz">
 						tip.jednoduse@email.cz
 					</Link>
