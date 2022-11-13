@@ -17,7 +17,7 @@ export function Home() {
 				/>
 			</Box>
 			<Typography variant="h4" gutterBottom>
-				Tipovací soutěž
+				{user ? 'Pravidla' : 'Tipovačka'}
 			</Typography>
 			{user ? <Rules /> : <AnonymousInfo />}
 			<Typography sx={{ textAlign: 'center', padding: '10px' }}>

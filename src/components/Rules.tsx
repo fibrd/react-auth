@@ -29,7 +29,7 @@ export function Rules() {
 			</ListItem>
 			<ListItem>
 				<Typography fontSize="small">
-					Zápisné ve výši 200 Kč je nutné organizátorovi tipovačky uhradit ještě
+					Zápisné ve výši 200 Kč je nutné uhradit organizátorovi tipovačky ještě
 					před zahájením turnaje.
 				</Typography>
 			</ListItem>
@@ -41,14 +41,9 @@ export function Rules() {
 			</ListItem>
 			<ListItem>
 				<Typography fontSize="small">
-					Tipy na neodehrané zápasy mohou být libovolně editovány i do zahájení
-					šampionátu.
-				</Typography>
-			</ListItem>
-			<ListItem>
-				<Typography fontSize="small">
-					Tipovaní na zápasy vyřazovací fáze bude umožněno až po určení
-					postupujících týmů.
+					Tipy na neodehrané zápasy mohou být libovolně editovány i po zahájení
+					šampionátu. Tipovaní na zápasy vyřazovací fáze bude umožněno až po
+					určení postupujících týmů.
 				</Typography>
 			</ListItem>
 			<ListItem>
