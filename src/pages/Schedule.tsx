@@ -1,7 +1,15 @@
 import React, { Fragment, useState } from 'react'
 import fixtures from '../data/fixtures.json'
 import playoff from '../data/playoff.json'
-import { Alert, Divider, List, Stack } from '@mui/material'
+import {
+	Alert,
+	Divider,
+	FormControlLabel,
+	FormGroup,
+	List,
+	Stack,
+	Switch,
+} from '@mui/material'
 import { AppPageWrapper } from '../components/common/AppPageWrapper'
 import { MatchRow } from '../components/MatchRow'
 import { useMutation, useQuery } from 'react-query'
@@ -12,7 +20,7 @@ import { useAuth } from '../hooks/useAuth'
 import { Tip, UpsertTipBody } from '../types/tips'
 import { AxiosError } from 'axios'
 import { useSnackbar } from '../hooks/useSnackbar'
-import { isBettingDisabled } from '../utils/fixtureUtils'
+import { isBettingDisabled, isOldTip } from '../utils/fixtureUtils'
 import { Fixture, FixtureType } from '../types/playoff'
 import { PlayoffApi } from '../api/PlayoffApi'
 
@@ -25,6 +33,7 @@ export function Schedule() {
 	const [tips, setTips] = useState<Tip[]>()
 	const [results, setResults] = useState<Result[]>([])
 	const [playoffFixtures, setPlayoffFixtures] = useState<Fixture[]>([])
+	const [oldTipsVisible, setOldTipsVisible] = useState(false)
 
 	const { refetch: refetchTips } = useQuery(
 		['api/tips/:userId', userId],
@@ -105,6 +114,19 @@ export function Schedule() {
 
 	return (
 		<AppPageWrapper>
+			<FormGroup>
+				<FormControlLabel
+					sx={{ padding: '10px 5px' }}
+					control={
+						<Switch
+							size="small"
+							value={oldTipsVisible}
+							onChange={() => setOldTipsVisible(prev => !prev)}
+						/>
+					}
+					label="Zobrazit všechny odehrané zápasy"
+				/>
+			</FormGroup>
 			<List
 				sx={{
 					width: '100%',
@@ -117,6 +139,9 @@ export function Schedule() {
 						({ fixtureId }) => fixture.id === fixtureId
 					)
 					const tip = tips?.find(({ fixtureId }) => fixture.id === fixtureId)
+					if (!oldTipsVisible && isOldTip(fixture.timestamp)) {
+						return null
+					}
 					return (
 						<Fragment key={fixture.id}>
 							<MatchRow

@@ -42,7 +42,7 @@ export function TipTable({
 }: TipTableProps) {
 	const { user } = useAuth()
 	const [results, setResults] = useState<Result[]>([])
-	const [oldTipsVisible, setOldTipsHidden] = useState(false)
+	const [oldTipsVisible, setOldTipsVisible] = useState(false)
 	const [playoffFixtures, setPlayoffFixtures] = useState<Fixture[]>([])
 
 	useQuery(['api/results'], ResultsApi.getResults, {
@@ -314,10 +314,10 @@ export function TipTable({
 						<Switch
 							size="small"
 							value={oldTipsVisible}
-							onChange={() => setOldTipsHidden(prev => !prev)}
+							onChange={() => setOldTipsVisible(prev => !prev)}
 						/>
 					}
-					label="Zobrazit odehrané zápasy (před více než 24h)"
+					label="Zobrazit všechny odehrané zápasy"
 				/>
 			</FormGroup>
 		</AppPageWrapper>
