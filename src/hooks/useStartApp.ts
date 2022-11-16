@@ -7,9 +7,7 @@ export function useStartApp() {
 
 	useQuery(['api/init'], AuthApi.initUser, {
 		onSuccess: ({ data }) => {
-			if (data.user) {
-				login(data.user)
-			}
+			login(data.user)
 		},
 	})
 }

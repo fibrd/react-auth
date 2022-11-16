@@ -6,8 +6,9 @@ export interface User {
 }
 
 export interface Auth {
+	isInitialized: boolean
 	user: User | null
-	login: (user: User) => void
+	login: (user: User | null) => void
 	logout: () => void
 }
 

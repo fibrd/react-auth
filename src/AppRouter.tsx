@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate, Outlet } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { useStartApp } from './hooks/useStartApp'
 import { PasswordReset } from './pages/PasswordReset'
@@ -15,26 +15,44 @@ export function AppRouter() {
 	useYupLocale()
 	useStartApp()
 
-	const { user } = useAuth()
-
 	return (
 		<Routes>
-			{user?.role === 'admin' && (
-				<>
-					<Route path="/admin" element={<AdminTable />} />
-					<Route path="/playoff" element={<Playoff />} />
-				</>
-			)}
-			{user && (
-				<>
-					<Route path="/tipy" element={<Schedule />} />
-					<Route path="/tabulka" element={<Table />} />
-					<Route path="/skupiny" element={<Groups />} />
-				</>
-			)}
+			<Route element={<RequireAdmin />}>
+				<Route path="/admin" element={<AdminTable />} />
+				<Route path="/playoff" element={<Playoff />} />
+			</Route>
+			<Route element={<RequireAuth />}>
+				<Route path="/tipy" element={<Schedule />} />
+				<Route path="/tabulka" element={<Table />} />
+				<Route path="/skupiny" element={<Groups />} />
+			</Route>
 			<Route path="/" element={<Home />} />
 			<Route path="/reset/:id/:token" element={<PasswordReset />} />
 			<Route path="*" element={<Navigate to="/" />} />
 		</Routes>
 	)
+}
+
+function RequireAuth() {
+	const { user, isInitialized } = useAuth()
+
+	if (!isInitialized) {
+		return null
+	}
+	if (!user) {
+		return <Navigate to="/" />
+	}
+	return <Outlet />
+}
+
+function RequireAdmin() {
+	const { user, isInitialized } = useAuth()
+
+	if (!isInitialized) {
+		return null
+	}
+	if (user?.role !== 'admin') {
+		return <Navigate to="/" />
+	}
+	return <Outlet />
 }
