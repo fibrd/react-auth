@@ -39,8 +39,8 @@ export function Rules() {
 			</ListItem>
 			<ListItem>
 				<Typography fontSize="small">
-					Zápisné ve výši 200 Kč je nutné uhradit organizátorovi tipovačky ještě
-					před zahájením turnaje.
+					Zápisné ve výši <b>200 Kč</b> je nutné uhradit organizátorovi
+					tipovačky ještě před zahájením turnaje.
 				</Typography>
 			</ListItem>
 			<ListItem>
@@ -51,23 +51,25 @@ export function Rules() {
 			</ListItem>
 			<ListItem>
 				<Typography fontSize="small">
-					Tipy na neodehrané zápasy mohou být libovolně editovány i po zahájení
-					šampionátu. Tipovaní na zápasy vyřazovací fáze bude umožněno až po
-					určení postupujících týmů.
+					Tipy na neodehrané zápasy mohou uživatelé libovolně editovat i po
+					zahájení šampionátu. Tipovaní na zápasy vyřazovací fáze bude umožněno
+					až po určení postupujících týmů.
 				</Typography>
 			</ListItem>
 			<ListItem>
 				<Typography fontSize="small">
-					Každý soutěžící je zodpovědný za včasné zadání svých tipů, a to vždy
-					před začátkem každého zápasu. V opačném případě ztrácí nárok na bodový
-					zisk.
+					Každý soutěžící je{' '}
+					<b>zodpovědný za včasné zadání a průběžné doplňování svých tipů</b>, a
+					to vždy před začátkem každého zápasu. V případě nevyplnění tipu ztrácí
+					nárok na bodový zisk k danému zápasu.
 				</Typography>
 			</ListItem>
 			<ListItem>
 				<Typography fontSize="small">
 					Peněžní výhru si rozdělí první tři tipující s nejvyšším dosaženým
-					skóre v poměru 50 % první, 30% druhý a 20 % třetí tipující (Přesné
-					částky budou včas upřesněny podle počtu všech soutěžících).
+					skóre v poměru <b>50 %</b> první, <b>30 %</b> druhý a <b>20 %</b>{' '}
+					třetí tipující (Přesné částky budou včas upřesněny podle počtu všech
+					soutěžících).
 				</Typography>
 			</ListItem>
 			<ListItem>
@@ -83,7 +85,9 @@ export function Rules() {
 				<List>
 					<ListItem>
 						<Typography fontSize="small">
-							<span style={getStyleByTipResult(TipResult.CORRECT)}>5 bodů</span>{' '}
+							<span style={getStyleByTipResult(TipResult.CORRECT)}>
+								<b>5 bodů</b>
+							</span>{' '}
 							- za zcela přesný výsledek zápasu (Např. Tip 3:1 a zápas dopadne
 							3:1).
 						</Typography>
@@ -91,7 +95,7 @@ export function Rules() {
 					<ListItem>
 						<Typography fontSize="small">
 							<span style={getStyleByTipResult(TipResult.SCORE_DIFF_CORRECT)}>
-								2 body
+								<b>2 body</b>
 							</span>{' '}
 							- za správné určení vítěze se správně tipnutým rozdílem skóre
 							(Např. Tip 3:1 a zápas dopadne 4:2).
@@ -100,19 +104,22 @@ export function Rules() {
 					<ListItem>
 						<Typography fontSize="small">
 							<span style={getStyleByTipResult(TipResult.WINNER_CORRECT)}>
-								1 bod
+								<b>1 bod</b>
 							</span>{' '}
 							- za správné určení vítěze (Např. Tip 3:1 a zápas dopadne 6:0).
 						</Typography>
 					</ListItem>
 					<ListItem>
 						<Typography fontSize="small">
-							0 bodů - za nesprávný tip (Např. Tip is 3:1 a zápas dopadne 1:1).
+							<b>0 bodů</b> - za nesprávný tip (Např. Tip is 3:1 a zápas dopadne
+							1:1).
 						</Typography>
 					</ListItem>
 					<ListItem>
 						<Typography fontSize="small">
-							<span style={{ textDecoration: 'underline' }}>Speciální tip</span>{' '}
+							<span style={{ textDecoration: 'underline' }}>
+								<b>Speciální tip</b>
+							</span>{' '}
 							- Finalový zápas bude ohodnocen dvojnásobným počtem bodů!
 						</Typography>
 					</ListItem>
