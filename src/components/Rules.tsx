@@ -2,8 +2,11 @@ import React from 'react'
 import { Link, List, ListItem, Typography } from '@mui/material'
 import { getStyleByTipResult } from '../utils/tipUtils'
 import { TipResult } from '../types/tips'
+import { useNavigate } from 'react-router-dom'
 
 export function Rules() {
+	const navigate = useNavigate()
+
 	return (
 		<List
 			sx={{
@@ -14,7 +17,14 @@ export function Rules() {
 		>
 			<ListItem>
 				<Typography fontSize="small">
-					Tipují se výsledky všech zápasů Mistrovství světa ve fotbale 2022.
+					Tipují se výsledky všech zápasů Mistrovství světa ve fotbale 2022 (
+					<Link
+						sx={{ cursor: 'pointer', textDecoration: 'none' }}
+						onClick={() => navigate('/tipy')}
+					>
+						podstránka TIPY
+					</Link>
+					).
 				</Typography>
 			</ListItem>
 			<ListItem>
@@ -90,7 +100,7 @@ export function Rules() {
 					<ListItem>
 						<Typography fontSize="small">
 							<span style={getStyleByTipResult(TipResult.WINNER_CORRECT)}>
-								1 body
+								1 bod
 							</span>{' '}
 							- za správné určení vítěze (Např. Tip 3:1 a zápas dopadne 6:0).
 						</Typography>

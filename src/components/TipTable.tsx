@@ -289,7 +289,7 @@ export function TipTable({
 			>
 				{isAlert && (
 					<Alert severity="error">
-						Vaše tipy ještě nebyly neautorizovány. Pro potvrzení účasti prosím
+						Vaše tipy zatím nebyly schváleny. Pro potvrzení účasti prosím
 						kontaktujte správce soutěže na emailu:{' '}
 						<Link href="mailto:tip.jednoduse@email.cz">
 							tip.jednoduse@email.cz
